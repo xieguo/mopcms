@@ -1,0 +1,690 @@
+DROP TABLE IF EXISTS `#@#admin`; 
+CREATE TABLE `#@#admin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `groupid` int(8) unsigned DEFAULT '0' COMMENT '分组ID',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `pwd` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `nickname` varchar(30) NOT NULL DEFAULT '' COMMENT '昵称',
+  `realname` varchar(30) NOT NULL DEFAULT '' COMMENT '真实姓名',
+  `columnids` text COMMENT '可管理栏目',
+  `logintime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最新一次登陆时间',
+  `loginip` varchar(20) NOT NULL DEFAULT '' COMMENT '最新一次登陆IP',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='后台管理员表'; 
+
+DROP TABLE IF EXISTS `#@#admin_group`; 
+CREATE TABLE `#@#admin_group` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(30) NOT NULL DEFAULT '',
+  `purviews` text,
+  `mpurviews` text COMMENT '文档模型权限',
+  `cpurviews` text COMMENT '自定义表单权限',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='后台管理员分组表'; 
+
+INSERT INTO `#@#admin_group` VALUES ('1', '超级管理员', '', '', ''); 
+
+DROP TABLE IF EXISTS `#@#admin_log`; 
+CREATE TABLE `#@#admin_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `adminid` int(10) unsigned NOT NULL DEFAULT '0',
+  `method` varchar(10) NOT NULL DEFAULT '' COMMENT '提交方式',
+  `mod` varchar(30) DEFAULT '',
+  `ac` varchar(30) DEFAULT '',
+  `do` varchar(30) DEFAULT '',
+  `op` varchar(30) DEFAULT '',
+  `query` text NOT NULL COMMENT '提交信息',
+  `prompt_code` mediumint(8) DEFAULT '0' COMMENT '提示代码',
+  `prompt_msg` varchar(100) DEFAULT '' COMMENT '提示信息',
+  `ip` char(15) NOT NULL DEFAULT '',
+  `dateline` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作时间',
+  PRIMARY KEY (`id`),
+  KEY `mod` (`mod`,`ac`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='后台操作日志表'; 
+
+DROP TABLE IF EXISTS `#@#admin_menu`; 
+CREATE TABLE `#@#admin_menu` (
+  `id` int(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '',
+  `parentid` int(8) NOT NULL DEFAULT '0' COMMENT '上级ID',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '栏目名称',
+  `mod` varchar(50) NOT NULL DEFAULT '' COMMENT '一级模块',
+  `ac` varchar(50) NOT NULL DEFAULT '' COMMENT '二级模块',
+  `do` varchar(50) NOT NULL DEFAULT '' COMMENT '三级模块',
+  `op` varchar(50) NOT NULL DEFAULT '' COMMENT '四级模块',
+  `icon` varchar(30) NOT NULL DEFAULT '' COMMENT '前面的小图标',
+  `redirecturl` varchar(300) DEFAULT '' COMMENT '跳转URL',
+  `pluginid` varchar(50) DEFAULT '' COMMENT '应用标识符',
+  `displayorder` int(8) NOT NULL DEFAULT '0' COMMENT '排序（越大越靠前）',
+  `islist` tinyint(1) DEFAULT '0' COMMENT '是否是列表（0否，1是）',
+  `isshow` tinyint(1) DEFAULT '1' COMMENT '1显示，0不显示',
+  `description` text COMMENT '描述',
+  PRIMARY KEY (`id`),
+  KEY `parentid` (`parentid`),
+  KEY `mod` (`mod`,`ac`)
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='后台栏目设置'; 
+
+INSERT INTO `#@#admin_menu` VALUES ('1', '0', '首页', '', '', '', '', 'fontello-icon-home', '', '', '10', '0', '1', ''),
+('2', '0', '内容', '', '', '', '', 'fontello-icon-book-open-1', '', '', '9', '0', '1', ''),
+('79', '17', '级联数据删除', 'multilevel', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('27', '9', '定位信息管理', 'archives', 'point', '', '', '', '', '', '0', '0', '1', ''),
+('76', '24', '栏目预览', 'column', 'view', '', '', '', '', '', '0', '0', '1', ''),
+('7', '0', '系统', '', '', '', '', 'fontello-icon-cog', '', '', '4', '0', '1', ''),
+('33', '9', '文档删除', 'archives', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('9', '2', '内容管理', 'archives', 'list', '', '', 'fontello-icon-list', '', '', '9', '0', '1', ''),
+('39', '26', '回收站', 'recyclebin', 'list', '', '', '', '', '', '0', '1', '1', ''),
+('11', '2', '定位信息管理', 'location', '', '', '', 'fontello-icon-location-inv', '', '', '7', '0', '1', ''),
+('12', '2', 'HTML更新', 'buildhtml', '', '', '', 'fontello-icon-arrows-ccw', '', '', '8', '0', '1', ''),
+('78', '17', '级联数据修改', 'multilevel', 'edit', '', '', '', '', '', '0', '0', '1', ''),
+('17', '7', '数据模型', 'models', '', '', '', 'fontello-icon-th-2', '', '', '1', '0', '1', ''),
+('20', '7', '系统管理', 'setting', '', '', '', 'fontello-icon-cog', '', '', '0', '0', '1', ''),
+('22', '7', '缓存管理', 'cache', '', '', '', 'fontello-icon-magic', '', '', '0', '0', '1', ''),
+('24', '2', '栏目管理', 'column', '', '', '', 'fontello-icon-list-add', '', '', '10', '0', '1', ''),
+('77', '17', '级联数据添加', 'multilevel', 'add', '', '', '', '', '', '0', '0', '1', ''),
+('26', '2', '回收站', 'recyclebin', '', '', '', 'fontello-icon-trash-6', '', '', '0', '0', '1', ''),
+('28', '24', '栏目列表', 'column', 'list', '', '', '', '', '', '0', '1', '1', ''),
+('29', '24', '添加栏目', 'column', 'add', '', '', '', '', '', '0', '0', '1', ''),
+('30', '24', '更改栏目', 'column', 'edit', '', '', '', '', '', '0', '0', '1', ''),
+('31', '24', '移动栏目', 'column', 'move', '', '', '', '', '', '0', '0', '1', ''),
+('32', '24', '删除栏目', 'column', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('34', '9', '图片裁剪', 'archives', 'imagecut', '', '', '', '', '', '0', '0', '1', ''),
+('35', '9', '文档审核', 'archives', 'check', '', '', '', '', '', '0', '0', '1', ''),
+('36', '9', '文档推荐', 'archives', 'recommend', '', '', '', '', '', '0', '0', '1', ''),
+('37', '11', '定位点管理', 'location', 'point', '', '', '', '', '', '0', '0', '1', ''),
+('38', '9', '文档列表', 'archives', 'list', '', '', '', '', '', '0', '1', '1', ''),
+('40', '12', '栏目生成', 'buildhtml', 'column', '', '', '', '', '', '0', '1', '1', ''),
+('41', '12', '文档生成', 'buildhtml', 'archives', '', '', '', '', '', '0', '1', '1', ''),
+('42', '24', '合并栏目', 'column', 'merge', '', '', '', '', '', '0', '0', '1', ''),
+('43', '17', '模型管理', 'models', 'list', '', '', '', '', '', '3', '1', '1', ''),
+('44', '17', '模型修改', 'models', 'edit', '', '', '', '', '', '0', '0', '1', ''),
+('45', '17', '模型添加', 'models', 'add', '', '', '', '', '', '0', '0', '1', ''),
+('46', '17', '模型删除', 'models', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('47', '17', '模型字段管理', 'models', 'fields', '', '', '', '', '', '0', '0', '1', ''),
+('48', '9', '文档添加', 'archives', 'add', '', '', '', '', '', '0', '0', '1', ''),
+('49', '9', '文档修改', 'archives', 'edit', '', '', '', '', '', '0', '0', '1', ''),
+('50', '20', '参数设置', 'setting', 'parameter', '', '', '', '', '', '4', '1', '1', ''),
+('51', '20', '管理员分组', 'setting', 'admingroups', '', '', '', '', '', '3', '1', '1', ''),
+('53', '20', '水印设置', 'setting', 'watermark', '', '', '', '', '', '1', '1', '1', '图片水印设置'),
+('54', '20', '管理员列表', 'setting', 'admins', '', '', '', '', '', '3', '1', '1', ''),
+('61', '11', '定位页面管理', 'location', 'page', '', '', '', '', '', '0', '1', '1', ''),
+('62', '9', '文档预览', 'archives', 'view', '', '', '', '', '', '0', '0', '1', ''),
+('64', '17', '级联数据', 'multilevel', 'list', '', '', '', '', '', '2', '1', '1', ''),
+('63', '17', '自定义表单列表', 'customform', 'list', '', '', '', '', '', '1', '1', '1', ''),
+('70', '17', '自定义表单添加', 'customform', 'add', '', '', '', '', '', '0', '0', '1', ''),
+('65', '9', '专题报名字段', 'archives', 'fields', '', '', '', '', '', '0', '0', '1', ''),
+('66', '9', '专题报名数据', 'archives', 'entry', '', '', '', '', '', '0', '0', '1', ''),
+('67', '26', '数据还原', 'recyclebin', 'restore', '', '', '', '', '', '0', '0', '1', ''),
+('68', '26', '数据删除', 'recyclebin', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('69', '26', '清空回收站', 'recyclebin', 'delall', '', '', '', '', '', '0', '0', '1', ''),
+('71', '17', '自定义表单修改', 'customform', 'edit', '', '', '', '', '', '0', '0', '1', ''),
+('72', '17', '自定义表单删除', 'customform', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('73', '17', '表单字段管理', 'customform', 'fields', 'list', '', '', '', '', '0', '0', '1', ''),
+('74', '17', '表单数据管理', 'customform', 'data', '', '', '', '', '', '0', '0', '1', ''),
+('25', '9', '文档更新', 'archives', 'makehtml', '', '', '', '', '', '0', '0', '1', ''),
+('75', '9', '单页文档', 'singlepage', 'list', '', '', '', '', '', '0', '1', '1', ''),
+('80', '9', '单页文档添加修改', 'singlepage', 'save', '', '', '', '', '', '0', '0', '1', ''),
+('81', '9', '单页文档更新', 'singlepage', 'refresh', '', '', '', '', '', '0', '0', '1', ''),
+('82', '9', '单页文档删除', 'singlepage', 'del', '', '', '', '', '', '0', '0', '1', ''),
+('83', '22', '清除缓存', 'cache', 'clear', '', '', '', '', '', '0', '1', '1', ''),
+('84', '20', '日志管理', 'setting', 'logs', '', '', '', '', '', '0', '1', '1', ''),
+('18', '2', '评论管理', 'archives', 'comments', '', '', ' fontello-icon-comment-empty', '', '', '8', '0', '1', ''),
+('19', '18', '评论列表', 'archives', 'comments', '', '', '', '', '', '0', '1', '1', ''),
+('15', '12', '首页生成', 'buildhtml', 'index', '', '', '', '', '', '0', '1', '1', ''),
+('8', '0', '应用中心', '', '', '', '', 'fontello-icon-lifebuoy', '', '', '3', '0', '1', ''),
+('10', '8', '应用中心', 'plugin', '', '', '', 'fontello-icon-lifebuoy', '', '', '0', '1', '1', ''),
+('85', '10', '应用中心', 'plugin', 'appcenter', '', '', '', '', '', '1', '1', '1', ''),
+('86', '10', '应用列表', 'plugin', 'list', '', '', '', '', '', '0', '1', '1', ''),
+('90', '10', '插件安装', 'plugin', 'install', '', '', '', '', '', '0', '0', '1', ''),
+('91', '10', '插件卸载', 'plugin', 'uninstall', '', '', '', '', '', '0', '0', '1', ''),
+('92', '10', '插件更新', 'pugin', 'update', '', '', '', '', '', '0', '0', '1', ''),
+('93', '10', '插件开启关闭', 'pugin', 'setstatus', '', '', '', '', '', '0', '0', '1', ''),
+('94', '20', '系统升级', 'setting', 'upgrade', '', '', '', '', '', '0', '0', '1', ''); 
+
+DROP TABLE IF EXISTS `#@#albums`; 
+CREATE TABLE `#@#albums` (
+  `id` int(10) unsigned NOT NULL DEFAULT '0',
+  `columnid` int(10) DEFAULT '0',
+  `pics` text NOT NULL COMMENT '图片上传',
+  `content` text NOT NULL COMMENT '图库描述',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
+
+DROP TABLE IF EXISTS `#@#archives`; 
+CREATE TABLE `#@#archives` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
+  `columnid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '栏目ID',
+  `modelid` smallint(6) NOT NULL DEFAULT '1' COMMENT '模型ID',
+  `flag` varchar(30) DEFAULT '',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态(-1回收站，0未审核，1已审核)',
+  `ishtml` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否生成静态文件(0否，1是)',
+  `views` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
+  `color` char(7) NOT NULL DEFAULT '' COMMENT '标题颜色',
+  `writer` char(120) NOT NULL DEFAULT '' COMMENT '作者',
+  `source` char(30) NOT NULL DEFAULT '' COMMENT '来源',
+  `thumb` varchar(200) NOT NULL DEFAULT '' COMMENT '缩略图',
+  `mid` int(10) unsigned NOT NULL DEFAULT '0',
+  `keywords` varchar(100) NOT NULL DEFAULT '' COMMENT '关键词',
+  `description` text NOT NULL COMMENT '描述',
+  `ding` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '顶',
+  `cai` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '踩',
+  `filename` varchar(40) NOT NULL DEFAULT '' COMMENT '自定义文件名',
+  `adminid` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '操作人员ID',
+  `diysort` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '自定义分类',
+  `displayorder` int(10) NOT NULL DEFAULT '10' COMMENT '排序（越大越靠前）',
+  `nocomment` tinyint(1) DEFAULT '0' COMMENT '是否禁止评论0否，1是',
+  `htmllink` varchar(300) DEFAULT '' COMMENT '成生的HTML地址',
+  `redirecturl` varchar(300) DEFAULT '' COMMENT '转跳URL',
+  `updatehtmltime` int(10) DEFAULT '0' COMMENT '重新生成HTML时间',
+  `updatetime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更改时间',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `mid` (`mid`),
+  KEY `columnid` (`columnid`),
+  KEY `modelid` (`modelid`),
+  KEY `status` (`status`,`ishtml`,`redirecturl`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8; 
+
+DROP TABLE IF EXISTS `#@#archives_comment`; 
+CREATE TABLE `#@#archives_comment` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ischeck` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否审核 1未审核，2已审核',
+  `aid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
+  `columnid` int(10) NOT NULL DEFAULT '0' COMMENT '栏目ID',
+  `username` char(20) NOT NULL DEFAULT '' COMMENT '会员昵称',
+  `ip` char(15) NOT NULL DEFAULT '',
+  `createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `mid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '会员ID',
+  `cai` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '踩数量',
+  `ding` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '顶数量',
+  `content` text COMMENT '评论内容',
+  PRIMARY KEY (`id`),
+  KEY `aid` (`aid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='文档评论表'; 
+
+DROP TABLE IF EXISTS `#@#articles`; 
+CREATE TABLE `#@#articles` (
+  `id` int(10) unsigned NOT NULL DEFAULT '0',
+  `columnid` int(11) unsigned NOT NULL DEFAULT '0',
+  `content` text NOT NULL COMMENT '文章内容',
+  PRIMARY KEY (`id`),
+  KEY `columnid` (`columnid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
+
+DROP TABLE IF EXISTS `#@#column`; 
+CREATE TABLE `#@#column` (
+  `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+  `parentid` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '上级ID',
+  `topid` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '顶级ID',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '栏目名称',
+  `byname` varchar(100) NOT NULL DEFAULT '' COMMENT '别名',
+  `modelid` int(8) DEFAULT '1' COMMENT '模型ID',
+  `description` varchar(300) NOT NULL DEFAULT '' COMMENT '描述',
+  `displayorder` mediumint(8) unsigned NOT NULL DEFAULT '50' COMMENT '排列顺序',
+  `redirecturl` varchar(255) NOT NULL COMMENT '转跳网址',
+  `ishidden` tinyint(1) DEFAULT '0' COMMENT '是否隐藏:0否，1是',
+  `savedir` varchar(100) NOT NULL DEFAULT '' COMMENT '保存目录',
+  `accesstype` tinyint(1) NOT NULL DEFAULT '1' COMMENT '栏目列表选项(2使用动态页,1使用静态页)',
+  `filename` varchar(50) NOT NULL DEFAULT 'index.html' COMMENT '默认页的名称',
+  `allowpub` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否支持发布信息:0否，1是',
+  `tempindex` varchar(100) NOT NULL DEFAULT '',
+  `templist` varchar(100) NOT NULL DEFAULT '',
+  `tempview` varchar(100) NOT NULL DEFAULT '',
+  `ruleview` varchar(100) NOT NULL DEFAULT '' COMMENT '文档命名规则',
+  `rulelist` varchar(100) NOT NULL DEFAULT '' COMMENT '列表命名规则',
+  `keywords` varchar(200) NOT NULL DEFAULT '',
+  `sitepath` varchar(100) NOT NULL DEFAULT '' COMMENT '所在根目录文件夹名称',
+  `binddomain` varchar(100) NOT NULL DEFAULT '' COMMENT '绑定域名',
+  PRIMARY KEY (`id`),
+  KEY `parentid` (`parentid`),
+  KEY `displayorder` (`displayorder`),
+  KEY `modelid` (`modelid`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='文档栏目表'; 
+
+DROP TABLE IF EXISTS `#@#customform`; 
+CREATE TABLE `#@#customform` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `formname` varchar(50) NOT NULL DEFAULT '' COMMENT '自定义表单名称',
+  `tablename` varchar(50) NOT NULL DEFAULT '' COMMENT '表名',
+  `intro` text COMMENT '说明',
+  `frontpub` tinyint(1) DEFAULT '1' COMMENT '是否允许前台提交，0不允许，1允许',
+  `frontshow` tinyint(1) DEFAULT '1' COMMENT '是否允许前台展示，0不允许，1允许',
+  `enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用，0关闭，1启用',
+  `export` tinyint(1) DEFAULT '0' COMMENT '是否允许导出0=否,1=是',
+  `needcheck` tinyint(1) DEFAULT '1' COMMENT '提交的数据是否需要审核 0不需要，1需要',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='自定义表单'; 
+
+DROP TABLE IF EXISTS `#@#customform_fields`; 
+CREATE TABLE `#@#customform_fields` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段提示文字',
+  `fieldname` varchar(50) NOT NULL DEFAULT '' COMMENT '字段名',
+  `formid` int(8) NOT NULL DEFAULT '0' COMMENT '自定义表单ID',
+  `datatype` varchar(50) NOT NULL DEFAULT '' COMMENT '字段类型',
+  `displayorder` mediumint(8) NOT NULL DEFAULT '0' COMMENT '排序（越大越靠前）',
+  `available` tinyint(1) DEFAULT '1' COMMENT '是否可用',
+  `infront` tinyint(1) DEFAULT '1' COMMENT '是否在前端显示(有部分字段可能在后台可以看到，不想在前台看到)',
+  `required` tinyint(1) DEFAULT '0' COMMENT '是否必填',
+  `unique` tinyint(1) DEFAULT '0' COMMENT '是否唯一',
+  `search` tinyint(1) DEFAULT '0' COMMENT '是否参与搜索',
+  `joinsorting` tinyint(1) DEFAULT '0' COMMENT '参与排序',
+  `inlist` tinyint(1) DEFAULT '0' COMMENT '是否在列表中显示',
+  `default` varchar(250) DEFAULT '' COMMENT '默认值',
+  `maxlength` smallint(6) DEFAULT '0' COMMENT '字符最大长度',
+  `intro` varchar(250) DEFAULT '' COMMENT '验证为空提示',
+  `nullmsg` varchar(250) DEFAULT '' COMMENT '验证为空提示',
+  `errormsg` varchar(250) DEFAULT '' COMMENT '验证错误提示',
+  `tip` varchar(250) DEFAULT '' COMMENT '文本占位提示',
+  `rules` text,
+  `css` varchar(50) DEFAULT '' COMMENT '样式名称',
+  `units` varchar(50) DEFAULT '' COMMENT '单位',
+  `checkrule` varchar(100) DEFAULT '' COMMENT '验证规则',
+  PRIMARY KEY (`id`),
+  KEY `fieldname` (`fieldname`) USING BTREE,
+  KEY `formid` (`formid`,`fieldname`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='自定义表单对应字段表'; 
+
+DROP TABLE IF EXISTS `#@#goods`; 
+CREATE TABLE `#@#goods` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `columnid` int(11) NOT NULL DEFAULT '0',
+  `goodssort` int(11) NOT NULL DEFAULT '0' COMMENT '商品分类',
+  `price` decimal(15,2) NOT NULL COMMENT '市场价',
+  `trueprice` decimal(15,2) NOT NULL COMMENT '优惠价',
+  `brand` varchar(250) NOT NULL DEFAULT '' COMMENT '品牌',
+  `validity` int(11) NOT NULL DEFAULT '0' COMMENT '有效期至',
+  `content` text NOT NULL COMMENT '详细介绍',
+  `imgs` varchar(250) NOT NULL COMMENT '图片',
+  PRIMARY KEY (`id`),
+  KEY `columnid` (`columnid`),
+  KEY `goods` (`goodssort`),
+  KEY `price` (`price`),
+  KEY `brand` (`brand`),
+  KEY `trueprice` (`trueprice`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8; 
+
+DROP TABLE IF EXISTS `#@#location_infolist`; 
+CREATE TABLE `#@#location_infolist` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` int(10) DEFAULT '0' COMMENT '文档ID',
+  `title` varchar(200) NOT NULL DEFAULT '' COMMENT '标题',
+  `color` char(7) NOT NULL DEFAULT '' COMMENT '标题颜色',
+  `size` tinyint(3) NOT NULL DEFAULT '0' COMMENT '标题大小',
+  `isbold` tinyint(1) DEFAULT '0' COMMENT '是否加粗（0否，1是）',
+  `thumb` varchar(150) NOT NULL DEFAULT '' COMMENT '缩略图',
+  `summary` varchar(500) DEFAULT '' COMMENT '摘要',
+  `displayorder` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
+  `pointid` int(10) DEFAULT '0' COMMENT '定位点ID',
+  `createtime` int(11) DEFAULT '0' COMMENT '创建时间',
+  `adminid` int(11) DEFAULT '0' COMMENT '添加人员ID',
+  PRIMARY KEY (`id`),
+  KEY `aid` (`aid`),
+  KEY `pointid` (`pointid`,`aid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='定位点显示信息表'; 
+
+DROP TABLE IF EXISTS `#@#location_points`; 
+CREATE TABLE `#@#location_points` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pageid` smallint(5) DEFAULT '0' COMMENT '所属定位页面ID',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '定位点描述',
+  `imgwidth` int(11) NOT NULL DEFAULT '0' COMMENT '图片宽度',
+  `imgheight` int(11) NOT NULL DEFAULT '0' COMMENT '图片高度',
+  `coords` varchar(30) DEFAULT '' COMMENT '定位点坐标',
+  `titlelen` smallint(5) NOT NULL DEFAULT '0' COMMENT '标题长度',
+  `summarylen` smallint(5) NOT NULL DEFAULT '0' COMMENT '摘要长度',
+  `infonums` smallint(5) NOT NULL DEFAULT '1' COMMENT '显示信息数量',
+  PRIMARY KEY (`id`),
+  KEY `pageid` (`pageid`),
+  KEY `coords` (`coords`)
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='定位点管理表'; 
+
+INSERT INTO `#@#location_points` VALUES ('1', '5', '热门头条1', '0', '0', '34,17,591,284', '40', '60', '2'),
+('2', '5', '幻灯', '430', '270', '601,16,1032,286', '25', '0', '5'),
+('3', '5', '图文资讯', '80', '80', '40,350,737,562', '20', '34', '4'),
+('4', '5', '推荐商品', '0', '0', '758,352,1026,572', '20', '0', '7'),
+('5', '5', '行业新闻大图', '178', '230', '51,682,227,862', '0', '0', '1'),
+('6', '5', '行业新闻头条', '0', '0', '238,678,516,751', '25', '48', '1'),
+('7', '5', '行业新闻头条下方列表', '0', '0', '239,754,518,867', '25', '0', '4'),
+('8', '5', '徽商网店大图', '178', '230', '553,683,726,860', '0', '0', '1'),
+('9', '5', '微商网店头条', '0', '0', '742,678,1017,752', '25', '48', '1'),
+('10', '5', '微商网店头条下方列表', '0', '0', '744,758,1017,862', '25', '0', '4'),
+('11', '5', '互联网创业大图', '178', '230', '53,916,225,1092', '0', '0', '1'),
+('12', '5', '互联网创业头条', '0', '0', '241,914,517,981', '25', '49', '1'),
+('13', '5', '互联网创业头条下方列表', '0', '0', '242,986,517,1092', '25', '0', '4'),
+('14', '5', '产品运营大图', '178', '230', '554,913,730,1093', '0', '0', '1'),
+('15', '5', '产品运营头条', '0', '0', '743,910,1019,983', '25', '48', '1'),
+('16', '5', '产品运营头条下方列表', '0', '0', '746,987,1018,1094', '25', '0', '4'),
+('17', '5', '相册大图', '352', '352', '40,1179,388,1528', '25', '50', '1'),
+('18', '5', '相册小图', '200', '200', '405,1177,1023,1529', '15', '30', '6'),
+('19', '6', '顶部幻灯', '720', '450', '2,46,359,224', '22', '0', '5'),
+('20', '6', '首页中部按钮', '56', '56', '2,231,357,385', '4', '0', '10'),
+('21', '6', '底部按钮', '80', '80', '4,886,354,934', '4', '0', '5'); 
+
+DROP TABLE IF EXISTS `#@#models`; 
+CREATE TABLE `#@#models` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `modelname` varchar(50) NOT NULL DEFAULT '' COMMENT '模型名称',
+  `byname` varchar(50) DEFAULT '' COMMENT '模型别名',
+  `issystem` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是系统自带模型：0否，1是',
+  `enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用，0关闭，1启用',
+  `allowpub` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否允许会员发布：0不允许，1允许',
+  `docstatus` tinyint(1) NOT NULL DEFAULT '0' COMMENT '会员稿件默认状态：0未审核 1已审核（自动生成HTML） 2已审核（仅使用动态文档）',
+  `membertype` tinyint(1) NOT NULL DEFAULT '0' COMMENT '允许投稿会员组:0不限 1个人 2企业',
+  `memberrank` smallint(6) NOT NULL DEFAULT '0' COMMENT '会员允许投稿级别',
+  `need_thumb` tinyint(1) NOT NULL DEFAULT '1' COMMENT '投稿是否使用缩图 0否，1是',
+  `need_diysort` tinyint(1) NOT NULL DEFAULT '1' COMMENT '投稿是否显示我的分类:0不使用，1使用',
+  `titlename` varchar(50) NOT NULL DEFAULT '标题' COMMENT '投稿标题使用名称',
+  `unique` tinyint(1) NOT NULL DEFAULT '0' COMMENT '投稿信息是否唯一:0不唯一，1唯一',
+  `columnid` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '默认栏目ID',
+  `intro` text COMMENT '模型说明',
+  `tablename` varchar(50) NOT NULL DEFAULT '' COMMENT '表名',
+  PRIMARY KEY (`id`),
+  KEY `tablename` (`tablename`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='内容模型表'; 
+
+INSERT INTO `#@#models` VALUES ('1', '文章', '文章', '1', '1', '1', '0', '0', '1', '1', '1', '标题', '0', '0', '', 'articles'),
+('2', '图库', '图库', '1', '1', '1', '0', '0', '1', '1', '1', '标题', '0', '0', '', 'albums'),
+('-1', '专题', '', '1', '1', '0', '-1', '0', '10', '1', '1', '标题', '0', '0', '', 'specials'),
+('3', '商品展示', '商品', '0', '1', '1', '1', '0', '1', '0', '0', '标题', '0', '0', '', 'goods'); 
+
+DROP TABLE IF EXISTS `#@#models_fields`; 
+CREATE TABLE `#@#models_fields` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段提示文字',
+  `fieldname` varchar(50) NOT NULL DEFAULT '' COMMENT '字段名',
+  `modelid` int(8) NOT NULL DEFAULT '0' COMMENT '模型ID',
+  `datatype` varchar(50) NOT NULL DEFAULT '' COMMENT '字段类型',
+  `displayorder` mediumint(8) NOT NULL DEFAULT '0' COMMENT '排序（越大越靠前）',
+  `available` tinyint(1) DEFAULT '1' COMMENT '是否可用',
+  `infront` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否在前端显示(有部分字段可能在后台可以看到，不想在前台看到)',
+  `required` tinyint(1) DEFAULT '0' COMMENT '是否必填',
+  `unique` tinyint(1) DEFAULT '0' COMMENT '是否唯一',
+  `search` tinyint(1) DEFAULT '0' COMMENT '是否参与搜索',
+  `joinsorting` tinyint(1) DEFAULT '0' COMMENT '参与排序',
+  `inlist` tinyint(1) DEFAULT '0' COMMENT '是否在列表中显示',
+  `default` varchar(250) DEFAULT '' COMMENT '默认值',
+  `maxlength` smallint(6) DEFAULT '0' COMMENT '字符最大长度',
+  `intro` varchar(250) DEFAULT '' COMMENT '字段说明',
+  `nullmsg` varchar(250) DEFAULT '' COMMENT '验证为空提示',
+  `errormsg` varchar(250) DEFAULT '' COMMENT '验证错误提示',
+  `tip` varchar(250) NOT NULL DEFAULT '' COMMENT '文本占位提示',
+  `rules` text NOT NULL COMMENT '字段规则',
+  `css` varchar(50) DEFAULT '' COMMENT '样式名称',
+  `units` varchar(50) DEFAULT '' COMMENT '单位',
+  `checkrule` varchar(100) NOT NULL DEFAULT '' COMMENT '验证规则',
+  PRIMARY KEY (`id`),
+  KEY `fieldname` (`fieldname`),
+  KEY `modelid` (`modelid`,`fieldname`)
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='内容模型对应字段表'; 
+
+INSERT INTO `#@#models_fields` VALUES ('1', '文章内容', 'content', '1', 'htmltext', '0', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('2', '图库描述', 'content', '2', 'multitext', '0', '1', '1', '0', '0', '0', '0', '1', '', '0', '', '', '', '', '', '', '', ''),
+('3', '市场价', 'price', '3', 'price', '0', '1', '1', '0', '0', '1', '0', '1', '', '8', '', '请输入价格，允许2位小数！', '只限数字，不能为0，允许2位小数！', '', 'a:5:{i:0;s:6:\"不限\";s:7:\"0.01,50\";s:7:\"0-50元\";s:6:\"50,100\";s:9:\"50-100元\";s:7:\"100,300\";s:10:\"100-300元\";s:7:\"300,500\";s:10:\"300-500元\";}', 'w100', '元', '/^([1-9][0-9]*)+(.[0-9]{1,2})?$/i'),
+('4', '优惠价', 'trueprice', '3', 'price', '0', '1', '1', '0', '0', '1', '1', '1', '', '0', '', '请输入价格，允许2位小数！', '只限数字，不能为0，允许2位小数！', '', 'a:4:{i:0;s:6:\"不限\";s:7:\"0.01,50\";s:7:\"0-50元\";s:6:\"50,100\";s:9:\"50-100元\";s:7:\"100,300\";s:10:\"100-300元\";}', 'w100', '元', '/^([1-9][0-9]*)+(.[0-9]{1,2})?$/i'),
+('5', '品牌', 'brand', '3', 'select', '0', '1', '1', '1', '0', '1', '0', '1', '', '0', '', '', '', '', 'a:3:{i:1;s:6:\"三星\";i:2;s:6:\"华为\";i:3;s:6:\"小米\";}', 'w400', '', ''),
+('6', '有效期至', 'validity', '3', 'date', '0', '1', '1', '0', '0', '0', '1', '1', '30', '0', '', '', '', '', '', 'w200', '', ''),
+('26', '详细介绍', 'content', '3', 'htmltext', '0', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('10', '图片上传', 'pics', '2', 'imgs', '0', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('11', '报名开始时间', 'startdate', '-1', 'datetime', '9', '1', '1', '0', '0', '0', '0', '1', '', '0', '', '', '', '', '', 'w200', '', ''),
+('12', '报名截止时间', 'enddate', '-1', 'datetime', '8', '1', '1', '0', '0', '0', '0', '1', '', '0', '', '', '', '', '', 'w200', '', ''),
+('13', '活动地址', 'address', '-1', 'text', '4', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', 'w400', '', ''),
+('28', '报名名额上限', 'maxnum', '-1', 'int', '7', '1', '1', '0', '0', '0', '0', '0', '', '0', '允许最多报名的数量，不设上限，为空即可', '', '', '', '', '', '', ''),
+('15', '报名是否先审', 'auditstat', '-1', 'radio', '3', '1', '1', '0', '0', '0', '0', '0', '2', '0', '', '', '', '', 'a:2:{i:1;s:3:\"否\";i:2;s:3:\"是\";}', '', '', ''),
+('30', '联系电话', 'tel', '-1', 'tel', '6', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('17', '附加页面', 'extrapage', '-1', 'multitext', '2', '1', '1', '0', '0', '0', '0', '0', '', '0', '用于成生成其它静态页面，格式“模板文件名=生成的静态文件名”如：“1.htm=2.html”，一行一个', '', '', '', '', '', '', ''),
+('18', '活动简介', 'intro', '-1', 'htmltext', '1', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('20', '商品分类', 'goodssort', '3', 'multilevel', '11', '1', '1', '0', '0', '1', '0', '1', '', '0', '', '', '', '', '', '', '', ''),
+('29', '活动时间', 'activitydate', '-1', 'multidate', '5', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''),
+('32', '图片', 'imgs', '3', 'img', '10', '1', '1', '0', '0', '0', '0', '0', '', '0', '', '', '', '', '', '', '', ''); 
+
+DROP TABLE IF EXISTS `#@#multilevel`; 
+CREATE TABLE `#@#multilevel` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parentid` int(10) NOT NULL DEFAULT '0' COMMENT '上级分类ID',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '分类名称',
+  `identifier` varchar(50) DEFAULT '' COMMENT '标识符',
+  `displayorder` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  PRIMARY KEY (`id`),
+  KEY `identifier` (`identifier`,`parentid`) USING BTREE,
+  KEY `parentid` (`parentid`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='级联数据表'; 
+
+INSERT INTO `#@#multilevel` VALUES ('1', '0', '商品分类', 'goodssort', '0'),
+('2', '1', '家居建材', 'goodssort', '10'),
+('3', '1', '服装配饰', 'goodssort', '8'),
+('4', '3', '男装', 'goodssort', '0'),
+('5', '3', '女装', 'goodssort', '0'),
+('6', '2', '家用电器', 'goodssort', '0'),
+('7', '2', '家居用品', 'goodssort', '0'),
+('8', '2', '装修建材', 'goodssort', '0'),
+('9', '8', '五金工具', 'goodssort', '0'),
+('10', '8', '电线开关', 'goodssort', '0'),
+('11', '8', '油漆涂料', 'goodssort', '0'),
+('12', '7', '清洁用品', 'goodssort', '0'),
+('13', '7', '家饰摆件', 'goodssort', '0'),
+('14', '7', '地毯家纺', 'goodssort', '0'),
+('15', '6', '厨房电器', 'goodssort', '0'),
+('16', '6', '空调', 'goodssort', '0'),
+('17', '6', '热水器', 'goodssort', '0'); 
+
+DROP TABLE IF EXISTS `#@#plugins`; 
+CREATE TABLE `#@#plugins` (
+  `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+  `types` tinyint(2) DEFAULT '1' COMMENT '分类(1插件，2模板，3企业站/微网站，4垂直网站)',
+  `available` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可用0不可用，1可用',
+  `name` varchar(40) NOT NULL DEFAULT '' COMMENT '插件名称',
+  `identifier` varchar(40) NOT NULL DEFAULT '' COMMENT '标识符',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `links` text COMMENT '相关链接',
+  `version` varchar(20) NOT NULL DEFAULT '' COMMENT '版本',
+  `isinstall` tinyint(1) DEFAULT '0' COMMENT '是否安装，0未安装，1已安装',
+  `createtime` int(10) DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `identifier` (`identifier`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='插件模块表'; 
+
+DROP TABLE IF EXISTS `#@#singlepage`; 
+CREATE TABLE `#@#singlepage` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
+  `keywords` varchar(100) DEFAULT '' COMMENT '关键词',
+  `description` text COMMENT '描述',
+  `content` text COMMENT '内容',
+  `template` varchar(100) DEFAULT '' COMMENT '模板地址',
+  `link` varchar(100) DEFAULT '' COMMENT '生成文件地址',
+  `createtime` int(10) DEFAULT '0' COMMENT '创建时间',
+  `adminid` int(10) DEFAULT '0' COMMENT '创建者ID',
+  `updatehtmltime` int(10) DEFAULT '0' COMMENT '重新生成HTML时间',
+  PRIMARY KEY (`id`),
+  KEY `columnid` (`title`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='单页文档表'; 
+
+DROP TABLE IF EXISTS `#@#specials`; 
+CREATE TABLE `#@#specials` (
+  `id` int(10) unsigned NOT NULL DEFAULT '0',
+  `columnid` int(8) unsigned NOT NULL DEFAULT '0',
+  `template` varchar(80) NOT NULL,
+  `startdate` int(11) NOT NULL DEFAULT '0' COMMENT '报名开始时间',
+  `enddate` int(11) NOT NULL DEFAULT '0' COMMENT '报名截止时间',
+  `address` varchar(250) NOT NULL DEFAULT '',
+  `intro` text NOT NULL,
+  `auditstat` varchar(250) NOT NULL DEFAULT '' COMMENT '报名是否先审',
+  `extrapage` text NOT NULL,
+  `maxnum` int(11) NOT NULL DEFAULT '0' COMMENT '报名名额上限',
+  `activitydate` text NOT NULL COMMENT '活动时间',
+  `tel` varchar(250) NOT NULL COMMENT '联系电话',
+  `node` text COMMENT '节点',
+  PRIMARY KEY (`id`),
+  KEY `typeid` (`columnid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='专题表'; 
+
+DROP TABLE IF EXISTS `#@#specials_entry`; 
+CREATE TABLE `#@#specials_entry` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ischeck` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否审核,1未审核，2已审核',
+  `ext1` varchar(500) NOT NULL DEFAULT '',
+  `ext2` varchar(500) NOT NULL DEFAULT '',
+  `ext3` varchar(500) NOT NULL DEFAULT '',
+  `ext4` varchar(500) NOT NULL DEFAULT '',
+  `ext5` varchar(500) NOT NULL DEFAULT '',
+  `ext6` varchar(500) NOT NULL DEFAULT '',
+  `ext7` varchar(500) NOT NULL DEFAULT '',
+  `ext8` varchar(500) NOT NULL DEFAULT '',
+  `ext9` varchar(500) NOT NULL DEFAULT '',
+  `ext10` varchar(500) NOT NULL DEFAULT '',
+  `ext11` varchar(500) NOT NULL DEFAULT '',
+  `ext12` varchar(500) NOT NULL DEFAULT '',
+  `ext13` varchar(500) NOT NULL DEFAULT '',
+  `ext14` varchar(500) NOT NULL DEFAULT '',
+  `ext15` varchar(500) NOT NULL DEFAULT '',
+  `ext16` varchar(500) NOT NULL DEFAULT '',
+  `ext17` varchar(500) NOT NULL DEFAULT '',
+  `ext18` varchar(500) NOT NULL DEFAULT '',
+  `ext19` varchar(500) NOT NULL DEFAULT '',
+  `ext20` varchar(500) NOT NULL DEFAULT '',
+  `ext21` varchar(500) NOT NULL DEFAULT '',
+  `ext22` varchar(500) NOT NULL DEFAULT '',
+  `ext23` varchar(500) NOT NULL DEFAULT '',
+  `ext24` varchar(500) NOT NULL DEFAULT '',
+  `ext25` varchar(500) NOT NULL DEFAULT '',
+  `ext26` varchar(500) NOT NULL DEFAULT '',
+  `ext27` varchar(500) NOT NULL DEFAULT '',
+  `ext28` varchar(500) NOT NULL DEFAULT '',
+  `ext29` varchar(500) NOT NULL DEFAULT '',
+  `ext30` varchar(500) NOT NULL DEFAULT '',
+  `ext31` varchar(500) NOT NULL DEFAULT '',
+  `ext32` varchar(500) NOT NULL DEFAULT '',
+  `ext33` varchar(500) NOT NULL DEFAULT '',
+  `ext34` varchar(500) NOT NULL DEFAULT '',
+  `ext35` varchar(500) NOT NULL DEFAULT '',
+  `mid` int(11) NOT NULL COMMENT '会员ID',
+  `sid` int(11) NOT NULL DEFAULT '0' COMMENT '专题ID',
+  `ip` char(15) NOT NULL DEFAULT '',
+  `createtime` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `sid` (`sid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='专题报名表'; 
+
+DROP TABLE IF EXISTS `#@#specials_fields`; 
+CREATE TABLE `#@#specials_fields` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段提示文字',
+  `fieldname` varchar(50) NOT NULL DEFAULT '' COMMENT '字段名',
+  `sid` int(10) NOT NULL DEFAULT '0' COMMENT '专题ID',
+  `datatype` varchar(50) NOT NULL DEFAULT '' COMMENT '字段类型',
+  `displayorder` mediumint(8) NOT NULL DEFAULT '0' COMMENT '排序（越大越靠前）',
+  `available` tinyint(1) DEFAULT '1' COMMENT '是否可用',
+  `infront` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否在前端显示(有部分字段可能在后台可以看到，不想在前台看到)',
+  `required` tinyint(1) DEFAULT '0' COMMENT '是否必填',
+  `unique` tinyint(1) DEFAULT '0' COMMENT '是否唯一',
+  `default` varchar(250) DEFAULT '' COMMENT '默认值',
+  `maxlength` smallint(6) DEFAULT '0' COMMENT '字符最大长度',
+  `intro` varchar(250) DEFAULT '' COMMENT '字段说明',
+  `nullmsg` varchar(250) DEFAULT '' COMMENT '验证为空提示',
+  `errormsg` varchar(250) DEFAULT '' COMMENT '验证错误提示',
+  `tip` varchar(250) NOT NULL DEFAULT '' COMMENT '文本占位提示',
+  `rules` text NOT NULL COMMENT '字段规则',
+  `css` varchar(50) DEFAULT '' COMMENT '样式名称',
+  `units` varchar(50) DEFAULT '' COMMENT '单位',
+  `checkrule` varchar(100) NOT NULL DEFAULT '' COMMENT '验证规则',
+  PRIMARY KEY (`id`),
+  KEY `fieldname` (`fieldname`),
+  KEY `sid` (`sid`,`fieldname`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='专题报名对应字段表'; 
+
+DROP TABLE IF EXISTS `#@#sys_cache`; 
+CREATE TABLE `#@#sys_cache` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '缓存名称',
+  `data` mediumblob NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT=' 数据缓存存储表'; 
+
+INSERT INTO `#@#sys_cache` VALUES ('1', 'watermark', 0x613A31313A7B733A363A22656E61626C65223B693A313B733A353A227479706573223B693A313B733A353A227769647468223B693A3231303B733A363A22686569676874223B693A38313B733A373A226D61726B706F73223B693A393B733A383A226D61726B74657874223B733A31303A22E78CABE68991434D3153223B733A383A22666F6E7473697A65223B693A31383B733A393A22666F6E74636F6C6F72223B733A373A2223303030304646223B733A393A226D61726B7472616E73223B693A3130303B733A31313A226469617068616E65697479223B693A34383B733A373A226D61726B696D67223B733A32383A222F7374617469632F696D616765732F77617465726D61726B2E706E67223B7D),
+('2', 'locationpage', 0x613A363A7B693A313B613A303A7B7D693A323B613A303A7B7D693A333B613A303A7B7D693A343B613A303A7B7D693A353B613A323A7B733A343A226E616D65223B733A363A22E9A696E9A1B5223B733A333A22706963223B733A34313A222F75706C6F6164732F616C6C696D672F323031372F30322F31345539355436312D4142354A2E706E67223B7D693A363B613A323A7B733A343A226E616D65223B733A393A22574150E9A696E9A1B5223B733A333A22706963223B733A34353A222F75706C6F6164732F616C6C696D672F323031372F30342F31343931323834353835313733343239352E6A7067223B7D7D); 
+
+DROP TABLE IF EXISTS `#@#sys_setting`; 
+CREATE TABLE `#@#sys_setting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `intro` varchar(100) NOT NULL DEFAULT '',
+  `groupid` smallint(6) NOT NULL DEFAULT '1',
+  `types` varchar(10) NOT NULL DEFAULT 'string',
+  `value` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `varname` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8; 
+
+INSERT INTO `#@#sys_setting` VALUES ('1', 'basehost', '站点根网址', '1', 'text', ''),
+('3', 'webname', '网站名称', '1', 'text', '猫扑CMS'),
+('5', 'medias_dir', '图片/上传文件默认路径', '1', 'text', '/uploads'),
+('6', 'img_width', '缩略图默认宽度', '3', 'number', '1000'),
+('7', 'img_height', '缩略图默认高度', '3', 'number', '1000'),
+('9', 'imgtype', '图片浏览器文件类型', '3', 'text', 'jpg|gif|png'),
+('10', 'softtype', '允许上传的软件类型', '3', 'multitext', 'zip|gz|rar|iso|doc|xsl|ppt|wps|apk|xls|txt|mp3|apk|xml'),
+('11', 'mediatype', '允许的多媒体文件类型', '3', 'multitext', 'swf|mpg|mp3|rm|rmvb|wmv|wma|wav|mid|mov|flv|swf|mp4'),
+('12', 'maxnode', '专题的最大节点数', '2', 'number', '10'),
+('8', 'notallowstr', '禁用词语（系统将直接停止用户动作）<br/>用|分开，但不要在结尾加|', '5', 'multitext', '迷药|魂药|裸体|麻黄|羟亚|裸聊|赌博|避孕|猎枪|仿真枪|手枪|枪支|卖枪|买枪|毒品|麻将|催情|催眠|符咒|伟哥|六合彩|轮盘|情粉|迷昏|定情药|迷情药|定位仪|追踪仪|办证|赌场|解码器|地磅遥控|地磅调节器|按摸|居住证|暂住证|毕业证|西药|中药|魂药|乙醚|汽枪|监听器|追踪器|干扰器|迷幻药|拦截器|定位器|窃听|手机跟踪|手机定位|成人用品|文凭|羟亚胺|麻黄素|盐酸麻黄碱|氯胺酮|冰毒|盐酸羟亚胺|海洛因|黄冰糖|罂粟壳|麻古|甲基苯丙胺|摇头丸'),
+('14', 'feedbackcheck', '评论及留言(是/否)需审核', '5', 'bool', '0'),
+('46', 'watermark', '图片加水印', '6', 'bool', '1'),
+('19', 'rm_remote', '远程图片本地化', '6', 'bool', '0'),
+('15', 'admin_log', '开启后台管理日志', '4', 'bool', '1'),
+('16', 'powerby', '网站版权信息', '1', 'multitext', ''),
+('17', 'auto_description', '自动摘要长度（0-250，0表示不启用）', '6', 'number', '200'),
+('18', 'list_son', '上级列表是否包含子类内容', '6', 'bool', '1'),
+('24', 'fbchecktime', '在此时间内的评论自动进入待审核(格式如 0:00-12:00 )', '5', 'text', '23:00-07:00'),
+('13', 'replacestr', '替换词语（词语会被替换成***）<br/>用|分开，但不要在结尾加|', '5', 'multitext', '她妈|它妈|他妈|你妈|去死|贱人'),
+('20', 'arc_dellink', '删除非站内链接', '6', 'bool', '0'),
+('21', 'arc_autopic', '提取第一张图片作为缩略图', '6', 'bool', '0'),
+('22', 'title_maxlen', '文档标题最大长度<br>改此参数后需要手工修改数据表', '6', 'number', '60'),
+('23', 'feedback_time', '两次评论至少间隔时间(秒钟)', '5', 'number', '30'),
+('32', 'upload_switch', '删除文章文件同时删除相关附件文件', '2', 'bool', '1'),
+('34', 'delete', '文章回收站(是/否)开启', '6', 'bool', '1'),
+('35', 'keywords', '站点默认关键字', '1', 'text', 'mopcms,猫扑CMS,内容管理系统,php内容管理系统'),
+('36', 'description', '站点描述', '1', 'multitext', '猫扑CMS内容管理系统'),
+('37', 'beian', '网站备案号', '1', 'text', ''),
+('45', 'keys_link', '关键词加连接', '6', 'serialize', 'a:2:{s:12:\"猫扑论坛\";s:21:\"http://bbs.mopcms.com\";s:6:\"猫扑\";s:21:\"http://www.mopcms.com\";}'),
+('58', 'keyword_like', '开启相关文章', '6', 'bool', '1'),
+('57', 'deleteform', '删除模型或自定义表单时是否删除相应的表单', '2', 'bool', '0'),
+('47', 'special_dir', '专题保存地址', '1', 'text', '/s/'),
+('38', 'arc_views', '文档默认点击数(-1表示随机50-200)', '6', 'number', '-1'),
+('25', 'arcatt', '文档推荐类型', '6', 'serialize', 'a:8:{s:1:\"s\";s:6:\"滚动\";s:1:\"h\";s:6:\"头条\";s:1:\"f\";s:6:\"幻灯\";s:1:\"c\";s:6:\"推荐\";s:1:\"a\";s:6:\"特荐\";s:1:\"b\";s:6:\"加粗\";s:1:\"d\";s:6:\"焦点\";s:1:\"z\";s:6:\"置顶\";}'),
+('39', 'img_full', '缩略图是否使用强制大小(对背景填充)', '3', 'bool', '0'),
+('40', 'img_bgcolor', '缩略图空白背景填充颜色(0-白,1-黑)', '3', 'number', '0'),
+('44', 'datatype', '数据类型', '2', 'serialize', 'a:20:{s:4:\"text\";s:12:\"单行文本\";s:9:\"multitext\";s:12:\"多行文本\";s:8:\"htmltext\";s:10:\"HTML文本\";s:3:\"int\";s:12:\"整数类型\";s:5:\"float\";s:12:\"小数类型\";s:6:\"select\";s:15:\"select下拉框\";s:5:\"radio\";s:14:\"radio选项卡\";s:8:\"checkbox\";s:17:\"Checkbox多选框\";s:10:\"multilevel\";s:12:\"级联类型\";s:4:\"date\";s:12:\"日期类型\";s:9:\"multidate\";s:18:\"多选日期类型\";s:8:\"datetime\";s:18:\"日期时间类型\";s:4:\"imgs\";s:12:\"图片组件\";s:3:\"img\";s:6:\"图片\";s:5:\"media\";s:15:\"多媒体文件\";s:5:\"addon\";s:12:\"附件类型\";s:6:\"mobile\";s:6:\"手机\";s:3:\"tel\";s:6:\"固话\";s:6:\"hidden\";s:12:\"隐藏类型\";s:5:\"price\";s:12:\"价格类型\";}'),
+('41', 'contact', '联系方式', '1', 'text', ''),
+('42', 'static_url', '页面中css、js、图片保存地址：', '1', 'text', ''),
+('43', 'forbidip', '禁止访问的IP(每个IP用“,”格开)', '5', 'multitext', ''),
+('48', 'permit_area', '后台允许访问地区（为空则不限制,多个地区用“,”隔开，如“江苏,上海”）', '5', 'text', ''),
+('51', 'jpgquality', '上传的JPG图片画质', '3', 'number', '85'),
+('52', 'attachment_size', '附件上传大小上限(KB)', '3', 'number', '1024'),
+('53', 'webuploader_maxupload', 'webuploader一次最多上传图片数量', '3', 'number', '10'),
+('54', 'allow_comments', '文档是否允许评论', '6', 'bool', '1'),
+('55', 'pseudourl', '开启伪静态(0不开启，1加密伪静态，2非加密伪静态)', '2', 'number', '0'),
+('56', 'visitor_comment', '允许游客发表评论', '6', 'bool', '1'),
+('59', 'data_filecache', ' 开启数据文本形式缓存', '4', 'bool', '0'),
+('60', 'data_filecache_time', '数据文本形式缓存时长', '4', 'number', '86400'); 
+
+DROP TABLE IF EXISTS `#@#uploads`; 
+CREATE TABLE `#@#uploads` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `arcid` int(10) unsigned NOT NULL DEFAULT '0',
+  `title` char(60) NOT NULL DEFAULT '',
+  `url` char(80) NOT NULL DEFAULT '',
+  `mediatype` smallint(6) NOT NULL DEFAULT '1',
+  `width` int(8) NOT NULL DEFAULT '0',
+  `height` int(8) NOT NULL DEFAULT '0',
+  `filesize` int(8) unsigned NOT NULL DEFAULT '0',
+  `uptime` int(10) unsigned NOT NULL DEFAULT '0',
+  `isfirst` tinyint(1) DEFAULT '0' COMMENT '是否是默认大图',
+  `mid` int(10) unsigned NOT NULL DEFAULT '0',
+  `adminid` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `arcid` (`arcid`),
+  KEY `url` (`url`),
+  KEY `mediatype` (`mediatype`),
+  KEY `adminid` (`adminid`,`isfirst`),
+  KEY `mid` (`mid`,`isfirst`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='附件上传记录表'; 

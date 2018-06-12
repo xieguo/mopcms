@@ -1,0 +1,47 @@
+<style type="text/css">
+	.page-bd-15 {
+		padding: 0px;
+	}
+	
+	.weui-comment-item {
+		padding-left: 0px;
+	}
+</style>
+<link rel="stylesheet" href='$_M[sys][static_url]css/comment.css' />
+<div class="page-bd-15">
+	<ul class="weui-comment">
+		<!--{loop $result[list] $v}-->
+		<li class="weui-comment-item">
+			<div class="weui-comment-li"> <span class="check checked"> <i class="weui-weixin-zan comment-zan"  cmtid="$v[id]"></i> <span class="weui-comment-num">$v[ding]</span> </span>
+			</div>
+			<div class="userinfo"> <strong class="nickname">$v[username]</strong> </div>
+			<div class="weui-comment-msg"> <span class="status"></span> $v[_content] </div>
+			<p class="time">$v[_createtime] </p>
+		</li>
+		<!--{/loop}-->
+	</ul>
+
+</div>
+<script>
+	$(function() {
+		$('.comment-zan').click(function() {
+			if($(this).hasClass('zaned')) {
+				$(this).removeClass('zaned');
+				var val = $(this).next().html();
+				if(parseInt(val) == 0) {
+					var i = 1;
+				} else {
+					var i = parseInt(val) - 1;
+				}
+				$(this).next().html(i);
+
+			} else {
+				$(this).addClass('zaned');
+				var val = $(this).next().html();
+				$(this).next().html(parseInt(val) + 1);
+				id = $(this).attr('cmtid');
+				$.getJSON("$_M[sys][cmspath]main.php?mod=comments&ac=dingcai&id=" + id + "&type=ding");
+			}
+		});
+	});
+</script>

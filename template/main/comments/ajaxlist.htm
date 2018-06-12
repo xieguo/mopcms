@@ -1,0 +1,57 @@
+<form class="form-horizontal commentform" action="{echo pseudoUrl($_M[sys][cmspath].'main.php?mod=comments&aid='.$aid)}" method="post" >
+<input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+  <table class="table table-bordered boo-table mtop comments">
+    <thead>
+      <tr>
+        <th scope="col" class="row-fluid"> <div class="span9"> 网友评论 </div>
+          <div class="span3"> <a href="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=comments&aid='.$aid)}" title="查看全部" target="_blank">共有<b>$result[count]</b>条评论 查看更多</a> </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><textarea class="input-block-level" rows="3" placeholder="说点什么呢？" id="content" name="content"></textarea></td>
+      </tr>
+      <tr>
+        <td><div class="span6" style="color:#F00;" id="errmsg"></div>
+          <div class="span2"> <button class="btn btn-green pull-right" type="submit">马上发表</button></div></td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+<div>
+  <link rel="stylesheet" href='$_M[sys][static_url]css/comment.css' />
+  <ul class="am-comments-list">
+  <!--{loop $result[list] $v}-->
+    <li class="am-comment">
+      <div class="am-comment-main">
+        <header class="am-comment-hd">
+          <div class="am-comment-meta"> <a href="#" target="_blank" class="am-comment-author">$v[username]</a> 评论于
+            <time><span>$v[_createtime]</span></time>
+          </div>
+          <div class="am-fr">
+            <div class="am-comment-actions"> <a class="dingcai" type="ding" cmtid="$v[id]"><i class="fontello-icon-thumbs-up-1"></i>顶<span>$v[ding]</span></a> <a class="dingcai" type="cai" cmtid="$v[id]"><i class="fontello-icon-thumbs-down"></i>踩<span>$v[cai]</span></a> <a class="reply" author="$v[username]" cmtid="$v[id]"><i class="fontello-icon-reply"></i>回复</a> </div>
+          </div>
+        </header>
+        <div class="am-comment-bd">$v[_content]</div>
+      </div>
+    </li>
+  <!--{/loop}-->
+  </ul>
+</div>
+$replyform
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script>
+function pubShow(data){
+    html = loopHtml(data);
+    if($(".am-comments-list li").length>0){
+        $($(".am-comments-list li").get(0)).before(html);
+    }else{
+        $(".am-comments-list").html(html);
+    }
+}
+function loopHtml(data){
+    return '<li class="am-comment"><div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta"> <a href="#" target="_blank" class="am-comment-author">'+data.username+'</a> 评论于<time><span>'+data._createtime+'</span></time></div><div class="am-fr"><div class="am-comment-actions"> <a class="dingcai" type="ding" cmtid="'+data.id+'"><i class="fontello-icon-thumbs-up-1"></i>顶<span>'+data.ding+'</span></a> <a class="dingcai" type="cai" cmtid="'+data.id+'"><i class="fontello-icon-thumbs-down"></i>踩<span>'+data.cai+'</span></a> <a class="reply" author="'+data.username+'" cmtid="'+data.id+'"><i class="fontello-icon-reply"></i>回复</a> </div></div></header><div class="am-comment-bd"> '+data._content+' </div></div></li>';
+}
+</script> 

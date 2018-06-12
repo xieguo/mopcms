@@ -1,0 +1,62 @@
+<!--{template headhtml}-->
+</head>
+<style type="text/css">
+    .btn:hover,
+    .btn:active,
+    .btn.active,
+    .btn.disabled,
+    .btn[disabled] {
+        background: #3b9b28 none repeat scroll 0 0;
+        color: #ffffff;
+        text-shadow: 0 0px 0px;
+    }
+    
+    .form-actions {
+        background: none;
+    }
+    
+    .form-horizontal .controls {
+        margin-top: 5px;
+    }
+</style>
+
+<body class="sidebar-left ">
+    <div class="page-container">
+        <!--{template head}-->
+        <div id="main-container">
+            <div id="leftmenu">
+                <!--{template sidebar}-->
+            </div>
+            <div id="main-content" class="main-content container-fluid">
+                <!--{template location}-->
+                <div id="page-content" class="page-content tab-content">
+                    <div class="tab-pane active" id="TabPage1">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div class="tabbable tabbable-bordered tabs-top">
+                                    <ul class="nav nav-tabs">
+                                        <li>
+                                            <a href="?mod=buildhtml&ac=column&menuid=40">栏目生成</a>
+                                        </li>
+                                        <li>
+                                            <a href="?mod=buildhtml&ac=archives&menuid=41">文档生成</a>
+                                        </li>
+                                        <li class="active">
+                                            <a>首页生成</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" style="padding: 50px;">
+                                        <a href="main.php?mod=index&makehtml=1" target="_blank" class="btn btn-green">生成首页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--{template foot}-->
+    </div>
+</body>
+
+</html>

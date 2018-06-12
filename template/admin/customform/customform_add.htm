@@ -1,0 +1,183 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background:none;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tabbable tabbable-bordered tabs-top">
+          <ul class="nav nav-tabs">
+            <li><a href="$_M[cururl]&ac=list&do=">表单列表</a></li>
+            <li class="active"><a>添加表单</a></li>
+          </ul>
+          <div class="tab-content">
+            <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" >
+              <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+              <div class="tab-pane active fade in">
+                <fieldset>
+                <ul class="form-list list-bordered dotted">
+                  <li class="control-group">
+                    <label class="control-label"> <span class="required" style="color:red">*</span>自定义表单名称</label>
+                    <div class="controls">
+                      <input id="formname" class="span3" type="text" name="formname">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label class="control-label"> <span class="required" style="color:red">*</span>数据库表名</label>
+                    <div class="controls">
+                      <input id="tablename" class="span3" type="text" name="tablename">
+                      <span class="help-block">表名前缀不用填写，只能是以字母开头的字母、数字或下划线</span>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="frontpub" class="control-label">是否允许前台提交</label>
+                    <div class="controls">
+                      <input id="frontpub" type="hidden" name="frontpub" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="frontpub" value="1">允许</button>
+                        <button type="button" class="btn btn-radio" data-id="frontpub" value="0">不允许</button>
+                      </div>
+                      <span class="help-block">如需自定义前台发布页面，在/template/main/customform/文件夹中新建列表模板页为"pub_表单ID.htm",默认为pub.htm</span>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="needcheck" class="control-label">提交的数据是否需要审核</label>
+                    <div class="controls">
+                      <input id="needcheck" type="hidden" name="needcheck" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="needcheck" value="1">需要</button>
+                        <button type="button" class="btn btn-radio" data-id="needcheck" value="0">不需要</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="frontshow" class="control-label">是否允许前台展示</label>
+                    <div class="controls">
+                      <input id="frontshow" type="hidden" name="frontshow" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="frontshow" value="1">允许</button>
+                        <button type="button" class="btn btn-radio" data-id="frontshow" value="0">不允许</button>
+                      </div>
+                      <span class="help-block">如需自定义前台显示页面，在/template/main/customform/文件夹中新建列表模板页为"list_表单ID.htm",默认为list.htm,详细页模板名称为"view_表单ID.htm",默认为view.htm</span>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="export" class="control-label">是否允许后台导出</label>
+                    <div class="controls">
+                      <input id="export" type="hidden" name="export" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="export" value="1">允许</button>
+                        <button type="button" class="btn btn-radio" data-id="export" value="0">不允许</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label class="control-label" for="intro">表单说明</label>
+                    <div class="controls">
+                      <textarea name="intro" id="intro" class="input-block-level" rows="3"></textarea>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="enable" class="control-label">状态</label>
+                    <div class="controls">
+                      <input id="enable" type="hidden" name="enable" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="enable" value="1">开启</button>
+                        <button type="button" class="btn btn-radio" data-id="enable" value="0">关闭</button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                </fieldset>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-green"> 提 交 </button>
+                  <button class="btn cancel">取 消</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script>
+  <script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+$(function() {
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+	$(function (accForm) {
+		accForm('#$_M[mod]{$_M[ac]}').validate({
+			ignore: "",
+			rules: {
+				title: {
+					required: true,
+				},
+				tablename: {
+					required: true,
+				},
+			},
+			messages: {
+				title: {
+					required: "{echo promptMsg(10317)}",
+				},
+				tablename: {
+					required: "{echo promptMsg(10318)}",
+				}
+			},
+			highlight: function (label) {
+				$(label).removeClass('valid').closest('.control-group').addClass('error').removeClass('success');
+				$(label).next().removeClass('fontello-icon-ok');
+			},
+			success: function (label) {
+				$(label).addClass('valid fontello-icon-ok').closest('.control-group').addClass('success');
+			},
+			errorPlacement: function (error, label) {
+				$(label).closest('.controls').append(error);
+			}
+		})
+	});
+});
+</script>
+</div>
+</body>
+</html>

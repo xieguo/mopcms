@@ -1,0 +1,34 @@
+<footer id="footer-fix">
+  <div id="footer-content" class="footer-content">
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <ul class="nav pull-left">
+          <li class="divider-vertical hidden-phone"></li>
+          <li><a id="btnToggleSidebar" class="btn-glyph fontello-icon-resize-full-2 tip hidden-phone" href="javascript:void(0);" title="隐藏侧边菜单"></a></li>
+          <li class="divider-vertical hidden-phone"></li>
+          <li><a id="btnChangeSidebar" class="btn-glyph fontello-icon-login tip hidden-phone" href="javascript:void(0);" title="侧边菜单转移"></a></li>
+          <li class="divider-vertical"></li>
+          <li><a id="btnChangeSidebarColor" class="btn-glyph fontello-icon-art-gallery tip" href="javascript:void(0);" title="改变侧边菜单颜色"></a></li>
+          <li class="divider-vertical"></li>
+          <li><a class="btn-glyph fontello-icon-cw" href="#" title="刷新"></a></li>
+          <li class="divider-vertical"></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li><a id="btnLogout" class="btn-glyph fontello-icon-logout-1 tip" href="?mod=logining&ac=logout&referer={echo urlencode($_M[cururl])}" title="退出"></a></li>
+          <li class="divider-vertical"></li>
+          <li><a class="fontello-icon-home-3" href="{echo pseudoUrl('main.php?mod=index&makehtml='.mt_rand(1000,9999))}" target="_blank" title="网站首页"></a></li>
+          <li class="divider-vertical"></li>
+          <li><a id="btnScrollup" class="scrollup btn-glyph fontello-icon-up-open-1" href="javascript:void(0);"><span class="hidden-phone"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- // footer content -->
+</footer>
+<script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script>
+<script src="$_M[sys][static_url]assets/js/lib/jquery.cookie.js"></script>
+<script src="$_M[sys][static_url]assets/plugins/pl-system/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="$_M[sys][static_url]assets/js/core.js"></script>
+<script src="$_M[sys][static_url]assets/plugins/pl-system-info/notyfy/jquery.notyfy.js"></script>
+<!--{echo getPromptMsg()}-->

@@ -1,0 +1,238 @@
+<!--{template headhtml}-->
+<script src="$_M[sys][static_url]js/jquery.image-maps-points.js"></script>
+<script type="text/javascript" language="javascript">
+$(function(){
+    cururl = '$_M[cururl]';
+    $('#imgMap').imageMaps({aid:$aid});
+});
+</script>
+<style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+    background: #3b9b28 none repeat scroll 0 0;
+    color: #ffffff;
+    text-shadow: 0 0px 0px;
+}
+.form-horizontal .control-label {
+    width: 70px;
+}
+.form-horizontal .controls {
+    margin-left: 90px;
+}
+#DisColor, #HexColor {
+    width: auto;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+input[type="file"] {
+    cursor: pointer;
+    left: -100px;
+    opacity: 0;
+    position: relative;
+    width: 96px;
+    z-index: 1;
+}
+</style>
+<script>
+function SeePicNew(f){
+    if(f.value=='') return ;
+    nForm = f.form;
+    nForm.action = '$_M[cururl]&ac=add&do=uploadlitpic';
+    nForm.target = 'thumbfra';
+    nForm.submit();
+    $('#upload_text').html('图片上传中...');
+    $('#picname').val('');
+    nForm.action = '$_M[cururl]';
+    nForm.target = '';
+}
+</script>
+</head><body class="sidebar-left ">
+<div class="page-container">
+<!--{template head}-->
+<div id="main-container"> 
+  <div id="leftmenu"><!--{template sidebar}--></div>
+  <div id="main-content" class="main-content container-fluid">
+      <!--{template location}-->
+    <div id="page-content" class="page-content tab-content">
+      <div class="tab-pane active" id="TabPage1">
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="tabbable tabbable-bordered tabs-top">
+              <ul class="nav nav-tabs">
+                <li><a href="$_M[cururl]&ac=list&id=">文章列表</a></li>
+                <li><a href="$_M[cururl]&ac=edit">$menuname</a></li>
+                <li class="active"><a href="#">定位信息管理</a></li>
+              </ul>
+              <div id="imgMap"><br>
+                <img src="{echo imageResize($row[pic])}" name="test" border="0" usemap="#Map" ref='imageMaps' />
+                <map name="Map">
+                  <!--{loop $points $v}-->
+                  <area shape="rect" coords="$v[coords]" pointid="$v[id]"/>
+                  <!--{/loop}-->
+                </map>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}--> 
+</div>
+<div id="infoadd" class="modal hide fade" tabindex="-1" data-width="500">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fontello-icon-cancel-1"></i></button>
+    <h4></h4>
+  </div>
+  <form id="$_M[mod]{$_M[ac]}" class="form-horizontal validform" action="?mod=$_M[mod]&ac=point" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+    <input type="hidden" name="pointid" id="pointid"/>
+    <input type="hidden" name="id" id="infoid"/>
+    <input type="hidden" name="aid" value="$aid" />
+    <div class="modal-body">
+      <div class="help-block">本位置信息说明：<span id="pointinfo"></span></div>
+      <div class="row-fluid">
+        <ul class="form-list list-bordered">
+          <li class="control-group">
+            <label class="control-label">标题</label>
+            <div class="controls">
+              <input id="title" class="span9" type="text" name="title" value="$arc[title]">
+              <span class="help-block">当前字数<span id="titlelen">0</span></span> </div>
+          </li>
+          <li class="control-group">
+            <label class="control-label">标题颜色</label>
+            <div class="controls">
+              <input id="color" class="span3" type="text" name="color" value="$arc[color]">
+              字体大小
+              <input id="size" class="span3" type="text" name="size" value="">
+              px </div>
+          </li>
+          <li class="control-group">
+            <label class="control-label">是否加粗</label>
+            <div class="controls">
+              <input id="isbold" type="hidden" name="isbold" value=""/>
+              <div class="btn-group change" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-radio" data-id="isbold" value="0">否</button>
+                <button type="button" class="btn btn-radio" data-id="isbold" value="1">是</button>
+              </div>
+            </div>
+          </li>
+          <li class="control-group" id="thumbli" style="display:none;">
+            <label class="control-label">缩略图</label>
+            <div class="controls">
+              <div class="am-form-group">
+                <div class="am-input-group">
+                  <input name="picname" type="text" id="picname" class="span4 am-form-field txt" value="{aval arc thumb}"/>
+                  <span class="am-input-group-btn"> <a class="btn btn-green"><i class="fontello-icon-upload-1"></i> <span id="upload_text">上传图片</span></a>
+                  <input type="file" name="thumb" id="thumb" onChange="SeePicNew(this);" />
+                  </span></div>
+              </div>
+              <div class="am-form-group am-form-file">
+                <iframe name='thumbfra' id='thumbfra' src='' width='100' height='100' style='display:none'></iframe>
+              </div>
+              <div class="file_preview" id='divpicview'><img src="{echo imageResize(aval($arc,'thumb'),100,100)}" width="100" id="picview"></div>
+            </div>
+          </li>
+          <li class="control-group" id="summaryli" style="display:none;">
+            <label class="control-label">摘要</label>
+            <div class="controls">
+              <textarea name="summary" id="summary" class="input-block-level" rows="3">$arc[description]</textarea>
+              <span class="help-block">当前字数<span id="summarylen">0</span></span> </div>
+          </li>
+          <li class="control-group">
+            <label class="control-label">排序</label>
+            <div class="controls">
+              <input id="displayorder" class="span2" type="text" name="displayorder" value="10">
+              <span class="help-block">值越大越靠前</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" data-dismiss="modal" class="btn btn-boo">关闭</button>
+      <button type="submit" class="btn btn-green btn-save">保存</button>
+    </div>
+  </form>
+</div>
+<div id="infolist" class="modal hide fade" tabindex="-1" data-width="800">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fontello-icon-cancel-1"></i></button>
+    <h4></h4>
+  </div>
+  <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light" >
+    <thead>
+      <tr>
+        <th scope="col" width="50">ID</th>
+        <th scope="col">文档标题</th>
+          <th scope="col" width="40" class="hidden-tablet hidden-phone" width="130">
+        排序
+          </th>
+        <th scope="col" width="120" class="hidden-tablet hidden-phone">添加时间</th>
+        <th scope="col" width="170">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dataTables_empty" colspan="5"><i class="fontello-icon-spin5"></i>加载中。。。</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script> 
+<script src="$_M[sys][static_url]ColorPicker/jquery.colorpicker.js"></script> 
+<script>
+$(function(){
+    $('#titlelen').html($("#title").val().length);
+    $("#title").keydown(function(){
+        $('#titlelen').html($(this).val().length);
+    })
+    $("#title").keyup(function(){
+        $('#titlelen').html($(this).val().length);
+    })
+    $('#summarylen').html($("#summary").val().length);
+    $("#summary").keydown(function(){
+        $('#summarylen').html($(this).val().length);
+    })
+    $("#summary").keyup(function(){
+        $('#summarylen').html($(this).val().length);
+    })
+    $(".btn-radio").click(function(){
+        dataid = $(this).attr('data-id');
+        $('#'+dataid).val($(this).val());
+    })
+    $("#color").colorpicker({
+        fillcolor:true
+    });
+
+    $(".validform").Validform({
+        tiptype:function(msg,o,cssctl){},
+        showAllError:false,
+        ignoreHidden:true,
+        ajaxPost:true,
+        callback:function(data){
+            if(data.code==100){
+                $('#infoadd').modal('hide');
+                notyfy({
+                    text: data.msg,
+                    type: 'success',
+                    dismissQueue: true,
+                    layout:'topCenter',
+                    timeout: 3000,
+                });
+            }else{
+                notyfy({
+                    text: data.msg,
+                    type: 'error',
+                    dismissQueue: true,
+                    layout:'topCenter',
+                    timeout: 3000,
+                });
+            }
+        }
+    });    
+})
+</script> 
+<script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script> 
+<script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script> 
+<script src="$_M[sys][static_url]assets/plugins/bootstrap-bootbox/bootbox.min.js"></script>
+</body>
+</html>

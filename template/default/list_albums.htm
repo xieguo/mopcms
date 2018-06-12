@@ -1,0 +1,44 @@
+<!--{template headhtml}-->
+<title>$_data[name] - $_M[sys][webname]</title>
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href='$_M[sys][static_url]css/albums_list.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+<script>
+	var res = navigator.userAgent.toLowerCase().match(/android|iphone/);
+	if(res == 'android' || res == 'iphone') {
+		location = "{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=list&id='.$_data[id])}";
+	}
+</script>
+</head>
+
+<body>
+	<!--{template head}-->
+	<div class="am-cf wrap">
+		<ol class="am-breadcrumb am-margin-0">
+			<span class="am-icon-home fc_grey"> 当前位置：</span>
+			<!--{loop $_data[position] $v}-->
+			<li style='list-style:none; display:inline;'>
+				<a href='$v[link]'>$v[columnname]</a>
+			</li>
+			<span class="breadcrumb_arrow"> ></span>
+			<!--{/loop}-->
+		</ol>
+	</div>
+	<DIV class="am-cf wrap_list">
+		<ul id="thumb-square" class="thumbnails" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="li.thumbnail">
+			<!--{list func=infolist modelid=$_data[modelid] columnid=$_data[id] pagesize=20}-->
+			<li class="thumbnail square200">
+				<a class="nailthumb-container show-loading" href='$v[link]'><img src="{echo imageResize($v[thumb],400,400)}"></a>
+				<h6>$v[htmltitle]</h6>
+			</li>
+			<!--{/list}-->
+		</ul>
+		<div class="widget-footer">
+			<div class="btn-group paging_full_numbers">$_data[pagelist]</div>
+		</div>
+	</div>
+	<!--{template foot}-->
+	<script src="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=makehtml&type=t&id='.$_data[id].'&page='.$_M[page])}"></script>
+</body>
+
+</html>

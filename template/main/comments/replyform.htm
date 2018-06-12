@@ -1,0 +1,77 @@
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script>
+$(function(){
+    $(".commentform").Validform({
+        tiptype:'wap',
+        ajaxPost: true,
+        callback: function (result) {
+            if(result.code!=100){
+                $('#errmsg').html(result.msg);    
+            }else{
+                $('#errmsg').html('');    
+                $('#content').val('');
+                pubShow(result.data);
+            }
+        }
+    });
+    $(".dingcai").click(function(){
+        obj = $(this);
+        clicked = obj.attr('clicked');
+        if(typeof(clicked)=='undefined'){
+            type = obj.attr('type');
+            id = obj.attr('cmtid');
+            num = parseInt(obj.find('span').html());
+            $.getJSON("$_M[sys][cmspath]main.php?mod=comments&ac=dingcai&id="+id+"&type="+type,function(result){
+                if(result.code!=100){
+                    alert(result.msg);    
+                }else{
+                    obj.find('span').html(num+1);
+                    obj.attr('clicked',1);
+                }
+            });
+        }
+    });
+    $(".reply").click(function(){
+        obj = $(this);
+        author = obj.attr('author');
+        id = obj.attr('cmtid');
+        $('#cmtid').val(id);
+        $('#author').html(author);
+        $('#replybox').modal();
+    });
+    $(".comment-reply-form").Validform({
+        tiptype: 'wap',
+        showAllError: true,
+        ajaxPost:true,
+        callback:function(result){
+            if(result.code!=100){
+                $('#errInfo').html(result.msg);    
+            }else{
+                pubShow(result.data);
+                $('#cmtid').val('');
+                $('#replymsg').val('');
+                $('#replybox').modal('hide');
+            }
+        }
+    });
+});
+</script>
+<div id="replybox" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fontello-icon-cancel-1"></i></button>
+    <h4 id="myModalLabel"><i class="fontello-icon-reply"></i> 回复<span id="author"></span>的评论</h4>
+  </div>
+  <form method="post" name="feedback" action="{echo pseudoUrl($_M[sys][cmspath].'main.php?mod=comments&ac=reply')}" class="comment-reply-form">
+    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+    <input type="hidden" name="cmtid" id="cmtid"/>
+    <div class="modal-body">
+      <textarea class="input-block-level" rows="3" placeholder="说点什么呢？" name="replymsg" id="replymsg"></textarea>
+    </div>
+    <div class="modal-footer"> <span id="errInfo"></span>
+      <button class="btn btn-green" type="submit">回复</button>
+    </div>
+  </form>
+  <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script> 
+</div>

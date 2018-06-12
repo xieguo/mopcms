@@ -1,0 +1,67 @@
+<!--{if !$_M[iswx]}-->
+<script>
+    $(function() {
+        $('.headback').click(function() {
+            history.back(-1);
+        });
+        $('.headmore').click(function() {
+            $.actions({
+                actions: [
+                {text: "首页",onClick: function() {location='$_M[sys][basehost]';}},
+                <!--{if $_M[mod]=='archives' && $_M[ac]=='list' && !empty($_data[id])}-->
+                <!--{list func=column type=son columnid=$_data[id] id=$_data[id]}-->
+                {text: "$v[name]",onClick: function() {location='$v[link]';}},
+                <!--{/list}-->
+                <!--{/if}-->
+               <!--{if empty($_column)}-->
+               <!--{list func=column type=top}-->
+               {text: "$v[name]",onClick: function() {location='$v[link]';}},
+               <!--{/list}-->
+               <!--{/if}-->
+                ]
+            });
+        });
+    });
+</script>
+<style type="text/css">
+    .weui-header-right ul {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 13px;
+        left: -85px;
+        list-style-type: none;
+        display: none;
+        position: absolute;
+        top: 20px;
+        transition: all 0.3s ease 0s;
+        word-break: break-all;
+        z-index: 1;
+        width: 100px;
+        color: #000;
+        padding: 5px;
+    }
+    
+    .weui-header-right li {
+        clear: both;
+    }
+    .weui_actionsheet_cell {padding:5px 0;}
+</style>
+<div class="weui_btn_primary weui-header ">
+    <div class="weui-header-left">
+        <a class="icon icon-109 f-white headback">返回</a>
+    </div>
+    <h1 class="weui-header-title">
+		<!--{if !empty($_data[name])}-->
+		$_data[name]
+		<!--{elseif !empty($_data[title])}-->
+		$_data[title]
+        <!--{elseif !empty($title)}-->
+        $title
+		<!--{/if}-->
+		</h1>
+    <div class="weui-header-right">
+        <a class="icon icon-22 f-white headmore"></a>
+    </div>
+</div>
+<!--{/if}-->

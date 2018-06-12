@@ -1,0 +1,423 @@
+<!--{template headhtml}-->
+</head>
+<style type="text/css">
+.form-search .select2-container, .form-inline .select2-container, .form-horizontal .select2-container{
+    display: block;
+}
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background: none;
+}
+input[type="file"] {
+	cursor: pointer;
+	left: -100px;
+	opacity: 0;
+	position: relative;
+	width: 96px;
+	z-index: 1;
+}
+.btn1 {
+	left: -100px;
+	position: relative;
+}
+.btn2 {
+	left: -100px;
+	position: relative;
+}
+#DisColor, #HexColor {
+	width: auto;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+.form-horizontal .controls {
+margin-left: 160px;
+}
+.form-horizontal .control-label {
+width: 140px;
+}
+</style>
+<script>
+function SeePicNew(f){
+	if(f.value=='') return ;
+	nForm = f.form;
+	nForm.action = '$_M[cururl]&ac=add&do=uploadlitpic';
+	nForm.target = 'thumbfra';
+	nForm.submit();
+	$('#upload_text').html('图片上传中...');
+	$('#picname').val('');
+	nForm.action = '$_M[cururl]';
+	nForm.target = '';
+}
+</script>
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script>
+$(function(){
+	$(".validform").Validform({
+		tiptype:function(msg,o,cssctl){
+			if(!o.obj.is("form")){
+				var objtip=o.obj.parents(".control-group").find(".Validform_checktip");
+				cssctl(objtip,o.type);
+				objtip.text(msg);
+			}	
+		},
+		showAllError:true,
+	});
+});
+</script>
+<body class="sidebar-left ">
+<div class="page-container"> 
+  <!--{template head}-->
+  <div id="main-container"> 
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tab-pane active" id="TabPage1">
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="tabbable tabbable-bordered tabs-top">
+                <ul class="nav nav-tabs">
+                  <li><a href="$_M[cururl]&ac=list&id=">列表</a></li>
+                  <li class="active"><a href="#TabTop1" data-toggle="tab">$menuname</a></li>
+                  <li><a href="#TabTop2" data-toggle="tab">高级选项</a></li>
+                  <!--{if $modelid==-1}-->
+                  <li><a href="#TabTop3" data-toggle="tab">节点管理</a></li>
+                  <!--{/if}-->
+                </ul>
+                <form id="archives" name="archives" class="form-horizontal validform" enctype="multipart/form-data" action="$_M[cururl]" method="post" >
+                  <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                  <input type="hidden" name="columnid" id="columnid" value="$columnid" />
+                  <div class="tab-content">
+                    <div id="TabTop1" class="tab-pane active fade in">
+                      <div class="row-fluid">
+                        <div class="grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                                <ul class="form-list list-bordered dotted">
+                                  <li class="control-group">
+                                    <label for="title" class="control-label"> <span class="required" style="color:red">*</span>$titlename</label>
+                                    <div class="controls">
+                                      <input id="title" class="span6" type="text" name="title" errormsg="必填项，2-30 个字之间！" nullmsg="请输入标题名称" datatype="*2-30">
+                                      <span class="help-inline Validform_checktip"></span> </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="byname" class="control-label"> 自定义属性</label>
+                                    <div class="controls"> 
+                                      <!--{loop $_M[sys][arcatt] $k $v}-->
+                                      <label class="checkbox inline">
+                                      <div class="checker">
+                                        <input type="checkbox" value="$k" class="checkbox" name='flag[]' id="flag$k">
+                                      </div>
+                                      $v($k)
+                                      </label>
+                                      <!--{/loop}--> 
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="redirecturl" class="control-label"> 跳转网址</label>
+                                    <div class="controls">
+                                      <input id="redirecturl" class="span6" type="text" value="" name="redirecturl">
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="displayorder" class="control-label">排序</label>
+                                    <div class="controls">
+                                      <input id="displayorder" class="span2" type="text" name="displayorder" value="$displayorder">
+                                      <span class="help-block">值越大排序越靠前</span> </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="thumb" class="control-label">缩 略 图</label>
+                                    <div class="controls">
+                                      <div class="am-form-group">
+                                        <div class="am-input-group">
+                                          <input name="picname" type="text" id="picname" class="span4 am-form-field txt" value=""/>
+                                          <span class="am-input-group-btn"> <a class="btn btn-green"><i class="fontello-icon-upload-1"></i> <span id="upload_text">上传图片</span></a>
+                                          <input type="file" name="thumb" id="thumb" onChange="SeePicNew(this);" />
+                                          </span> <span class="am-input-group-btn"> <a href="#imageSelect"  class='btn btn-green btn1' data-toggle="modal">站内选择</a> </span> <span class="am-input-group-btn"> <a id="imagecut" class='btn btn-orange btn2'>裁剪</a> </span> </div>
+                                      </div>
+                                      <div class="am-form-group am-form-file">
+                                        <iframe name='thumbfra' id='thumbfra' src='' width='200' height='200' style='display:none'></iframe>
+                                      </div>
+                                      <div class="file_preview" id='divpicview'></div>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <div class="controls">
+                                      <label class="checkbox inline">
+                                        <input type="checkbox" value="1" id="watermark" name="watermark" class="checkbox check-row">
+                                        水印</label>
+                                      <label class="checkbox inline">
+                                        <input name="autothumb" type="checkbox" class="checkbox check-row" id="autothumb" value="1">
+                                        自动缩略图</label>
+                                      <label class="checkbox inline">
+                                        <input type="checkbox" value="1" id="dellink" name="dellink" class="checkbox check-row">
+                                        删除非站内链接</label>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="source" class="control-label"> 文档来源</label>
+                                    <div class="controls">
+                                      <input id="source" class="span3" type="text" value="" name="source">
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="writer" class="control-label"> 作　者</label>
+                                    <div class="controls">
+                                      <input id="writer" class="span3" type="text" value="" name="writer">
+                                    </div>
+                                  </li>
+                                  <!--{if $modelid!=-1}-->
+                                  <li class="control-group">
+                                    <label for="byname" class="control-label"> <span class="required" style="color:red">*</span>文档主栏目</label>
+                                    <div class="controls"> <span id="subcats"></span> </div>
+                                  </li>
+                                  <!--{else}-->
+                                  <li class="control-group">
+                                    <label for="byname" class="control-label"> 自定义文件夹名称</label>
+                                    <div class="controls">
+                                      <input name="template" type="text" id="template" class="span3">
+                                      <span class="help-block">只能为字母、数字或下划线，可以为空，默认为此专题对应的ID，如调用自定义模板，请将模板放于此文件自定义文件夹下"template/"中，专题首页模板名称为"index.htm"</span></div> 
+                                  </li>
+                                  <!--{/if}--> 
+                                  <!--{list func=modelFields modelid=$modelid}--> 
+                                  <!--{if $v[datatype]=='hidden'}--> 
+                                  $v[field] 
+                                  <!--{else}-->
+                                  <li class="control-group">
+                                    <label for="byname" class="control-label"> <!--{if $v[required]}--><span class="required" style="color:red">*</span><!--{/if}--> $v[title]</label>
+                                    <div class="controls"> $v[field] $v[units] <span class="help-inline Validform_checktip"></span> </div>
+                                  </li>
+                                  <!--{/if}--> 
+                                  <!--{/list}-->
+                                </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 提 交 </button>
+                                <button class="btn cancel">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="TabTop2" class="tab-pane fade">
+                      <div class="row-fluid">
+                        <div class="span8 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                                <ul class="form-list list-bordered dotted">
+                                  <li class="control-group">
+                                    <label for="nocomment" class="control-label">评论选项</label>
+                                    <div class="controls">
+                                      <input id="nocomment" type="hidden" name="nocomment" value="0" />
+                                      <div class="btn-group change" data-toggle="buttons-radio">
+                                        <button type="button" class="btn btn-radio active" data-id="nocomment" value="0">允许评论</button>
+                                        <button type="button" class="btn btn-radio" data-id="nocomment" value="1">禁止评论</button>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                  <label for="status" class="control-label">审核状态</label>
+                                  <div class="controls">
+                                    <input id="status" type="hidden" name="status" value="1" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio" data-id="status" value="0">未审核</button>
+                                      <button type="button" class="btn btn-radio active" data-id="status" value="1">已审核</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                  <li class="control-group">
+                                    <label for="views" class="control-label"> 浏览次数</label>
+                                    <div class="controls">
+                                      <input id="views" class="span6" type="text" value="" name="views">
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="color" class="control-label"> 标题颜色</label>
+                                    <div class="controls">
+                                      <div class="input-prepend"> <span class="add-on"><span class="fontello-icon-art-gallery"></span></span>
+                                        <input id="color" class="span6" type="text" value="" name="color">
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="ishtml" class="control-label">发布选项</label>
+                                    <div class="controls">
+                                      <input id="ishtml" type="hidden" name="ishtml" value="1" />
+                                      <div class="btn-group change" data-toggle="buttons-radio">
+                                        <button type="button" class="btn btn-radio active" data-id="ishtml" value="1">生成HTML</button>
+                                        <button type="button" class="btn btn-radio" data-id="ishtml" value="0">仅动态浏览</button>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label class="control-label" for="intro">关键字</label>
+                                    <div class="controls">
+                                      <textarea name="keywords" id="keywords" class="input-block-level" rows="3"></textarea>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label class="control-label" for="intro">摘要</label>
+                                    <div class="controls">
+                                      <textarea name="description" id="description" class="input-block-level" rows="3"></textarea>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="filename" class="control-label"> 自定义文件名</label>
+                                    <div class="controls">
+                                      <input id="filename" class="span6" type="text" value="" name="filename">
+                                      <span class="help-block">默认文件名为文档ID，如“22.html”,如果设置成abc.html，生成的文件名将是abc.html</span> 
+                                    </div>
+                                  </li>
+                                </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 提 交 </button>
+                                <button class="btn cancel">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--{if $modelid==-1}-->
+                    <div id="TabTop3" class="tab-pane fade">
+                      <div class="row-fluid">
+                        <div class="span8 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                            <span class="controls help-block" style="padding-bottom:10px;">节点在模板中调用方式:&lt;!--&#123;echo nodedata(节点ID,文档ID)}--&gt; (文档ID为空时默认为当前文档ID)</span>
+                              <fieldset>
+                              <!--{for i 1 $_M[sys][maxnode]}-->
+                                <ul class="form-list" style=" border-bottom:1px dashed #666666;">
+                                  <li class="control-group">
+                                    <label for="views" class="control-label"> 节点{$i}名称</label>
+                                    <div class="controls">
+                                      <input id="name$i" class="span6" type="text" value="" name="name$i">
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label for="groupid" class="control-label"> 文档模型</label>
+                                    <div class="controls controls-row">
+                                     <select id="model$i" class="span6 selecttwo" data-style="btn-info" name="model$i">
+                                    <!--{loop $models $v}-->
+                                      <option value="$v[id]" tablename="$v[tablename]">$v[modelname]</option>
+                                    <!--{/loop}-->
+                                    </select>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label class="control-label">文档ID</label>
+                                    <div class="controls">
+                                      <textarea name="ids$i" id="ids$i" class="input-block-level" rows="3"></textarea>
+                                      <span class="help-block">多条用","隔开</span>
+                                    </div>
+                                  </li>
+                                  <li class="control-group">
+                                    <label class="control-label">单条记录的模板</label>
+                                    <div class="controls">
+                                      <textarea name="tmp$i" id="tmp$i" class="input-block-level" rows="3"></textarea>
+                                      <span class="help-block">文档数据调用方式，主表调用示例 :&#036;v[title],副表调用示例:&#036;v[attach][aid]</span>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <!--{/for}-->
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 提 交 </button>
+                                <button class="btn cancel">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--{/if}--> 
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}--> 
+  <!--{template modal_image_select}--> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script> 
+  <script src="$_M[sys][static_url]ColorPicker/jquery.colorpicker.js"></script> 
+  <script>
+$(function(){
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+
+	})
+	$("#color").colorpicker({
+		fillcolor:true
+	});
+	$('#imagecut').click(function(){
+		pic = $('#picname').val();
+		if(pic == '') {
+			alert('请先选择网站内已上传的图片');
+		}else{
+			window.open("?mod=$_M[mod]&ac=imagecut&pic="+pic, "popUpImagesWin", "scrollbars=yes,resizable=yes,statebar=no,width=800,height=600,left=100, top=100");
+		}
+	})
+});
+<!--{if $modelid!=-1}-->
+function subColumns(id,level,columnid){
+	$.getJSON('?mod=ajax&ac=column&do=ajaxcolumn&id='+id+'&columnid='+columnid+'&modelid=$modelid&rand='+Math.random(),function(result){
+		if(id){
+			if(id!='')
+				$('#typeid').val(id);
+			$('#subcat'+level).html(result.data);
+		}
+		else if(level=='' && id==0){
+			$('#subcats').html(result.data);
+		}
+	});
+	if(parseInt(id)>0){
+		$('#columnid').val(id);
+	}
+}
+subColumns(0,'',$columnid);
+<!--{/if}-->
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+</script> 
+</div>
+</body>
+</html>

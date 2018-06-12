@@ -1,0 +1,88 @@
+<!--{template headhtml}-->
+<title>$row[formname]列表 - $_M[sys][webname]</title>
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+<link rel="stylesheet" href='$_M[sys][static_url]css/list_goods.css' />
+</head><body>
+<!--{template head}-->
+<div class="am-cf wrap">
+  <ol class="am-breadcrumb am-margin-0">
+    <span class="am-icon-home fc_grey"> 当前位置：</span>
+    <li style='list-style:none; display:inline;'><a href='{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}'>$row[formname]</a> > 列表</li>
+  </ol>
+</div>
+<DIV class="am-cf wrap">
+  <div class="navtab">
+    <ul>
+      <li class="active"><a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}">全部</a></li>
+    </ul>
+    <div class="orderamount"><a href="{echo pseudoUrl('main.php?mod=customform&ac=pub&formid='.$row[id])}" class="btn btn-green">发布</a></div>
+  </div>
+</div>
+<!--{if $search_fields[fields]}-->
+<DIV class="am-cf wrap">
+  <div class="filter">
+    <div class="selectnow">
+      <h6>当前筛选条件：</h6>
+      <!--{loop $search_fields[tags] $v}--> 
+      <a title="$v[1]" href="{echo pseudoUrl($_M[cururl].'&'.$v[0].'=')}">$v[1]<b></b></a> 
+      <!--{/loop}--> 
+    </div>
+    <!--{loop $search_fields[fields] $v}-->
+    <dl>
+      <dt><span>$v[title]：</span></dt>
+      <dd> <!--{loop $v[rules] $val}--> <a href="$val[link]" class="$val[active]">$val[name]</a> <!--{/loop}--> </dd>
+    </dl>
+    <!--{/loop}--> 
+  </div>
+</DIV>
+<!--{/if}--> 
+<!--{if $order_fields}-->
+<DIV class="am-cf wrap">
+  <div class="orderbar">
+    <div class="orderby">
+      <div class="orderby_txt">排序：</div>
+      <a href="{echo pseudoUrl($_M[cururl].'&order=&sc=desc')}" {if !_gp('order')} class="btns_start_on"{/if}><span>默认</span></a> 
+      <!--{loop $order_fields $v}--> 
+      <a href="$v[link]"{if $v[order]==$v[fieldname]} class="btns_$v[sc]"{/if}><span {if $v[order]==$v[fieldname]}class="fontello-icon-$v[sc]-4"{/if}>$v[title]</span></a> 
+      <!--{/loop}--> 
+    </div>
+  </DIV>
+</DIV>
+<!--{/if}-->
+<DIV class="am-cf wrap mtop15" style="border:1px solid #CCC">
+  <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light" >
+    <thead>
+      <tr>
+        <th scope="col" width="50">ID</th>
+        <!--{loop $fieldlist $v}-->
+        <th scope="col">$v[title]</th>
+        <!--{/loop}-->
+        <th scope="col" class="hidden-tablet hidden-phone" width="130">录入时间</th>
+        <th scope="col" width="50"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--{loop $result[list] $v}-->
+      <tr>
+        <td>$v[id]</td>
+        <!--{loop $fieldlist $val}-->
+        <td><!--{if $val[datatype]=='img'}--> 
+          <img src="{echo imageResize($v[$val[fieldname]],'80','80')}" width=80> 
+          <!--{else}--> 
+          {echo $v['_'.$val[fieldname]]} 
+          <!--{/if}--></td>
+        <!--{/loop}-->
+        <td class="hidden-tablet hidden-phone">$v[_createtime] </td>
+        <td class=" text-right"><a href="{echo pseudoUrl('main.php?mod=customform&ac=view&formid='.$row[id].'&id='.$v[id])}" class="btn btn-green btn-mini no-wrap data-view">详细</a></td>
+      </tr>
+      <!--{/loop}-->
+      <tr>
+        <td colspan="$colspan" align="center">$result[pagehtml]</td>
+      </tr>
+    </tbody>
+  </table>
+</div><br>
+<!--{template foot}-->
+</body>
+</html>

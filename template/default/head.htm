@@ -1,0 +1,26 @@
+<!--{template headbar}-->
+<style type="text/css">
+.form-search {
+	font-size: 0px;
+}
+</style>
+<div class="wrap">
+  <div class="logo"></div>
+      <div class="search input-append">
+      <form class="form-horizontal form-search" action="{echo pseudoUrl($_M['sys']['basehost'].'/main.php?mod=archives&ac=search')}" method="post" >
+        <input type="text" value="{echo !empty($words)?$words:''}" name="words" class="span6" id="words" placeholder="搜索关键词">
+        <button type="submit" class="btn fontello-icon-search-1"></button> </div>
+        </form>
+</div>
+<div class="clear"></div>
+<div class="head_menu">
+  <div class="wrap">
+    <ul>
+      <li><a href="$_M[sys][basehost]">首页</a></li>
+      <!--{list func=column type=top}-->
+      <LI><a href="$v[link]">$v[name]</a></LI>
+      <!--{/list}-->
+    </ul>
+  </div>
+</div>
+<div class="clear"></div>

@@ -1,0 +1,101 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+
+.form-actions {
+    background:none;
+}
+.form-horizontal .controls {
+    margin-top: 5px;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tab-pane active" id="TabPage1">
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="tabbable tabbable-bordered tabs-top">
+                <ul class="nav nav-tabs">
+                  <li><a href="$_M[cururl]&ac=list&id=">栏目管理</a></li>
+                  <li class="active"><a href="#TabTop1">删除栏目</a></li>
+                </ul>
+                <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" >
+                    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                <div class="tab-content">
+                    <div id="TabTop1" class="tab-pane active fade in">
+                      <div class="row-fluid">
+                        <div class="span8 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                              <legend>此栏目下的子栏目也将一同被删除，你确定删除栏目《$row[name]》？</legend>
+                              <ul class="form-list list-bordered dotted">
+                                <li class="control-group">
+                                  <label class="control-label"> 栏目文件保存目录</label>
+                                  <div class="controls">
+                                    $row[savedir]
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="accesstype" class="control-label">是否删除文件</label>
+                                  <div class="controls">
+                                    <input id="delfile" type="hidden" name="delfile" value="0" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio active" data-id="delfile" value="0">否</button>
+                                      <button type="button" class="btn btn-radio" data-id="delfile" value="1">是</button>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 删 除 </button>
+                                <button class="btn cancel" onClick="history.back(-1);return false;">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+<script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+$(function() {
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+});
+</script>
+</div>
+</body>
+</html>

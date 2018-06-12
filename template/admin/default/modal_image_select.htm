@@ -1,0 +1,106 @@
+<style type="text/css">
+.modal {
+	width:750px;
+	left: 40%;
+}
+.thumbnails li {
+    position: relative;
+}
+.thumbnails span {
+    border: 0 none;
+    cursor: pointer;
+    height: 105px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 105px;
+    z-index: 2;
+}
+.thumbnails .icon {
+    background-image: url("$_M[sys][static_url]images/success.png");
+    background-position: 58px 58px;
+    background-repeat: no-repeat;
+	border: 2px solid #61a83a;
+    height: 96px;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 96px;
+}
+.thumbnails span:hover {
+    background-position: 58px 58px;
+    border: 2px solid #61a83a;
+    height: 96px;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 96px;
+}
+#infscr-loading {
+    bottom: -50px;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+}
+.fc_grey {
+	cursor:pointer;
+    color: #999 !important;
+}
+</style>
+<div id="imageSelect" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fontello-icon-cancel-1"></i></button>
+    <h4 id="myModalLabel"><i class="fontello-icon-popup"></i> 站内选择</h4>
+  </div>
+  <div class="modal-body">
+    <div class="padding-left20" style="overflow-y:scroll; height:380px;">
+      <ul class="thumbnails thumbnails-inline"></ul>
+      <div id="infscr-loading" page="1"><span class="fc_grey">加载更多<span class="fontello-icon-down-open"></span></span></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+  	<span class="fc_grey">提示：同一图片多个文档调用，如果绑定此图片的文档删除，将会导致其它文档上此图片丢失 　</span>
+    <button class="btn btn-red" data-dismiss="modal">关闭</button>
+    <button class="btn btn-green" id="imageSelectSubmit">确定</button>
+  </div>
+</div>
+<script>
+function inside_image(page){
+	$.getJSON('?mod=ajax&ac=ueditor&do=imgs&page='+page+'&rand='+Math.random(),function(result){
+		if(result.data){
+			html = '';
+			$.each(result.data,function(i,v){
+				html += '<li class="thumbnail square100" imgsrc="'+v.url+'"><a class="nailthumb-container"><img src="'+v._url+'"></a><span></span></li>';
+			})
+			if($('.thumbnails').html()==''){
+				$('.thumbnails').html(html);
+			}else{
+				$('.thumbnails li:last').after(html);
+			}
+		}else{
+			$('.fc_grey').html('没有了');
+		}
+	});
+}
+$(function() {
+	$(document).on('click','.thumbnails li',function(){
+		$('.thumbnails li').removeClass('selected').find('span').removeClass('icon');
+		$(this).addClass('selected').find('span').addClass('icon');
+	})
+	$(document).on('click','#imageSelectSubmit',function(){
+		if($('.thumbnails .selected').length>0){
+			imgsrc = $('.thumbnails .selected').attr('imgsrc');
+			$('#picname').val(imgsrc);
+			if(!$('#picview').length>0){
+				$('#divpicview').html('<img width="150" id="picview" name="picview" class="img-thumbnail">');
+			}
+			$('#picview').prop('src','$_M[sys][basehost]'+imgsrc);
+		}
+		$('#imageSelect').modal('hide');
+	})
+	inside_image();
+	$('#infscr-loading').click(function(){
+		inside_image(parseInt($(this).attr('page'))+1);
+		$(this).attr('page',parseInt($(this).attr('page'))+1);
+	});
+});
+</script>

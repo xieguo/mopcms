@@ -1,0 +1,188 @@
+<!--{template headhtml}-->
+<title>{$_data[title]} - {$_M[sys][webname]}</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]css/specials_entry.css" />
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+</head><style>
+.contain {
+	font-size: 14px;
+	background: url($_M[sys][static_url]images/s_bg.jpg) no-repeat #f4f4f4 center top;
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+}
+.wrap {
+	width: 1000px;
+	height: auto;
+	margin: 0px auto;
+}
+.wrap_box {
+	margin: 0px auto 20px auto;
+	background: #FFF;
+	padding: 30px;
+}
+.title {
+	height: 274px;
+	margin: 0px auto;
+	color:#1b3905;
+	text-align:left;
+	font:bold 30px/274px "Microsoft YaHei";
+    text-shadow:2px 0 2px #ccc, 0 2px 2px #ccc, -2px 2px 0 #ccc, 0 -2px 0 #ccc;
+    -webkit-text-shadow:#ccc 2px 0 0,#ccc 0 2px 0,#ccc -2px 0 0,#ccc 0 -2px 0;
+    -moz-text-shadow:#ccc 2px 0 0,#ccc 0 2px 0,#ccc -2px 0 0,#ccc 0 -2px 0;
+}
+.wrap_box .explain {
+	height: auto;
+	text-indent: 2em;
+	line-height: 30px;
+	font-size: 16px;
+	text-align: justify;
+	margin-top: 20px;
+}
+.wrap_box .explain span {
+	font-size: 60px;
+}
+.wrap_box .project_bm {
+	height: auto;
+	margin-top: 50px;
+}
+.project_bm h1 {
+	height: 65px;
+	position: absolute;
+	left: -47px;
+	top: 0px;
+	font-size: 16px;
+	padding-left: 200px;
+	text-align: left;
+	line-height: 50px;
+	position: relative;
+}
+.project_bm h1 img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 175px;
+	height: 65px;
+	display: block;
+}
+.project_box {
+	overflow: hidden;
+}
+.intro_box {
+	height: auto;
+	font-size: 16px;
+}
+.intro_box h1 {
+	height: 65px;
+	position: relative;
+}
+.intro_box h1 img {
+	position: absolute;
+	left: -47px;
+	top: 0px;
+	width: 175px;
+	height: 65px;
+	display: block;
+}
+.rule_box {
+	height: auto;
+	text-align: left;
+}
+.am-btn-block {
+    width: 100px;
+}
+.submitbtn{
+	margin:0 auto;width:100px;
+}
+</style>
+<body>
+<!--{template headbar}-->
+  <div class="contain">
+    <div class="title wrap">$_data[title]</div>
+    <div class="wrap wrap_box">
+      <div class="explain">$_data[description]</div>
+      <div class="project_bm">
+        <h1><img src="$_M[sys][static_url]images/s_bm.png"/></h1>
+        <div class="project_box">
+          <div class="span5" style="font-size:16px;">
+          <!--{if $_data[attach][maxnum]}-->
+          名额上限：$_data[attach][maxnum]人 <br>
+          <!--{/if}-->
+          <span id="entryed" style="display:none;">已报名:<span style="color:red" id="entrycount">0</span>人<br></span>
+          
+          <!--{if $_data[attach][startdate]}-->
+          报名开始时间：$_data[attach][_startdate]<br>
+          <!--{/if}-->
+          <!--{if $_data[attach][enddate]}-->
+          报名结束时间：$_data[attach][_enddate]<br>
+          <!--{/if}-->
+          <!--{if $_data[attach][address]}-->
+          活动地址：$_data[attach][address]<br>
+          <!--{/if}-->
+          <!--{if $_data[attach][tel]}-->
+          联系电话：$_data[attach][tel]<br>
+          <!--{/if}-->
+          <!--{if $_data[attach][activitydate]}-->
+          活动时间：$_data[attach][activitydate]<br>
+          <!--{/if}-->
+          <!--{echo nodedata(1,$_data[id])}-->
+          </div>
+          <div class="span6">
+          <form action="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=entry&sid='.$_data[id])}" method="post" name='form1' enctype="multipart/form-data" class="am-form am-form-horizontal am-text-xs" >
+      		<input type="hidden" name="formsubmit" value="" />
+            <input type="hidden" name="referer" value="$_data[link]" />
+	 		<!--{list func=entryField sid=$_data[id]}-->
+            <!--{eval $fieldset = true;}-->
+            <div class="am-form-group dl_$v[datatype]">
+              <label class="am-u-sm-3 am-form-label"><!--{if $v[required]}--><span class="must">*</span><!--{/if}--> $v[title]</label>
+              <div class="am-u-sm-9 am-form-fields">
+                <!--{if $v[units]}-->
+              	<div class="am-input-group">
+                	$v[field]
+                    <span class="am-input-group-label">$v[units]</span>
+				</div>
+                <!--{else}-->
+                $v[field]
+                <!--{/if}-->
+                <!--{if $v[intro]}-->
+                <p class="am-form-help">$v[intro]</p>
+                <!--{/if}-->
+              </div>
+          </div>
+            <!--{/list}-->
+            <!--{if !empty($fieldset)}-->
+	 		<div class="am-form-group submitbtn">
+            	<button name="imageField" type="submit" class="am-btn am-btn-success am-radius am-btn-block">提　交</button>
+        	</div>
+            <!--{/if}-->
+    	</form>
+          </div>
+        </div>
+      </div>
+      <div class="intro_box">
+        <h1> <img src="$_M[sys][static_url]images/s_intro.png"/></h1>
+        <div class="rule_box"> $_data[attach][intro] </div>
+      </div>
+    </div>
+  </div>
+<script>
+$(function() {
+	$.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=ajax&ac=entrycount&sid='.$_data[id])}",function(result){
+		if(result.data>0){
+			$('#entryed').show();
+			$('#entrycount').html(result.data);
+		}
+	});	
+	$.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=formcode')}{echo $_M[sys][pseudourl]?'?':'&'}rand="+Math.random(),function(result){
+		$('input[name="formsubmit"]').val(result.data);
+	});	
+	$.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=dcviews&id='.$_data[id])}");
+});
+</script>
+<!--{template foot}-->
+<script src="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=makehtml&type=a&cycle=86400&id='.$_data[id])}"></script>
+</body>
+</html>

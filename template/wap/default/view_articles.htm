@@ -1,0 +1,81 @@
+<!--{template headhtml}-->
+<title>$_data[title] - $_M[sys][webname]</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<!--{template headstatic}-->
+</head>
+<style type="text/css">
+    .weui-weixin-read {
+        margin: 0px;
+    }
+    
+    .pagelist .pager-left,.pagelist .pager-right {
+        background-color: #04be02;
+    }
+    
+    .pagelist .pager-left a,.pagelist .pager-right a{ color: #fff;}
+</style>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <!--{template head}-->
+    <div class="weui-weixin">
+        <div class="weui-weixin-ui">
+            <!--页面开始-->
+            <div class="weui-weixin-page">
+                <h2 class="weui-weixin-title">$_data[title]</h2>
+                <div class="weui-weixin-info">
+                    <!--meta-->
+                    <em class="weui-weixin-em">$_data[_createtime]</em>
+                    <em class="weui-weixin-em"><span class="icon icon-49"></span>收藏</em>
+                    <a class="weui-weixin-a weui-weixin-nickname" href="javascript:void(0);">$_data[source]</a>
+                </div>
+                <!--meta结束-->
+
+                <div class="weui-weixin-content">
+                    $_data[attach][content]
+                </div>
+                <div class="pagelist">
+                    $_data[pagelist]
+                </div>
+                <!--内容结束-->
+
+                <div class="weui-weixin-tools">
+                    <!--工具条-->
+                    <div class="weui-weixin-read">阅读<span id="readnum">$_data[views]</span> <span class="weui-weixin-read"><i class="weui-weixin-zan article-zan"></i><span class="weui-weixin-num">$_data[ding]</span></span>
+                    </div>
+                    <a href="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=comments&aid='.$_data[id])}" class="right">评论</a>
+                </div>
+                <!--工具条结束-->
+
+                <script src="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=comments&ac=ajaxlist&aid='.$_data[id])}"></script>
+
+            </div>
+            <!--页面结束-->
+
+        </div>
+    </div>
+    <script>
+        $(function() {
+            $.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=dcviews&id='.$_data[id].'&mcallback=?')}");
+        });
+        $("img").addClass('weixin');
+        $('.article-zan').click(function() {
+            if($(this).hasClass('zaned')) {
+                $(this).removeClass('zaned');
+                var val = $(this).next().html();
+                if(parseInt(val) == 0) {
+                    var i = 1;
+                } else {
+                    var i = parseInt(val) - 1;
+                }
+                $(this).next().html(i);
+
+            } else {
+                $(this).addClass('zaned');
+                var val = $(this).next().html();
+                $(this).next().html(parseInt(val) + 1);
+                $.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=dcviews&id='.$_data[id].'&type=ding&mcallback=?')}");
+            }
+        });
+    </script>
+    <!--{template foot}-->

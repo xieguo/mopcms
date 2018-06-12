@@ -1,0 +1,267 @@
+<!--{template headhtml}-->
+</head><body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div class="main-contain">
+        <div class="widget widget-simple widget-table">
+          <div role="grid" class="datatable-wrapper form-inline">
+            <div class="row-fluid">
+              <div class="widget-header">
+                <div class="span4" style="margin-top:10px;">
+                  <ul class="btn-toolbar">
+                    <li><a class="btn btn-green " href="$_M[cururl]&ac=add&parentid=&menuid=29">增加顶级栏目</a></li>
+                  </ul>
+                </div>
+                <div class="span8" style="margin-top:10px;">
+                  <div class="table-tool-wrapper">
+                    <ul class="btn-toolbar pull-right">
+                      <li><a class="btn btn-blue" onClick="$('#form1').submit()">更新排序</a></li>
+                      <!--{loop $admin_menu[2][submenu][12][submenu] $v}-->
+                      <li><a class="btn btn-blue" href="?mod=$v[mod]&ac=$v[ac]&menuid=$v[id]">$v[name]</a></li>
+                      <!--{/loop}-->
+                    </ul>
+                  </div>
+                  <div class="table-tool-container"></div>
+                </div>
+              </div>
+            </div>
+            <form name="form1" id="form1" action="$_M[cururl]" method="post" >
+            <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+            <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light" >
+              <thead>
+                <tr>
+                  <th scope="col" width="20"></th>
+                  <th scope="col" width="50">栏目ID</th>
+                  <th scope="col">栏目名称</th>
+                  <th scope="col" width="50">排序</th>
+                  <th scope="col" width="70">操作</th>
+                </tr>
+              </thead>
+              <tbody role="alert" aria-live="polite" aria-relevant="all">
+                <!--{loop $columns $v}-->
+                <tr id="col$v[id]" class="tr$v[id]" subcol="false">
+                  <td><input name="columnid[]" type="checkbox" class="checkbox check-row" value="$v[id]"></td>
+                  <td>$v[id]</td>
+                  <td><span id="space$v[id]"></span> <span class="fontello-icon-plus-circle column" style="cursor:pointer;" onClick="loadsub($v[id])" id="loadsub$v[id]"></span>
+                    <!--{if $v[ishidden]==1}-->
+                    <font color='red'>[隐]</font>
+                    <!--{/if}-->
+                    <!--{if $v[redirecturl]}-->
+                    <font color='red'>[跳]</font>
+                    <!--{/if}-->
+                    <a href="$_M[cururl]&ac=edit&id=$v[id]&menuid=30" class="columnname" columnid="$v[id]">$v[name]</a>(文档：<!--{echo countByColumnid($v[id])}-->)
+                  </td>
+                  <td><input type="text" style="width:30px;height:22px" value="$v[displayorder]" name="displayorder$v[id]"></td>
+                  <td class=" text-right"><div class="btn-group">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">操作 <span class="fontello-icon-down-open"></span></button>
+                      <ul class="dropdown-menu pull-right">
+                        <li><a href="$_M[cururl]&ac=edit&id=$v[id]&menuid=30">更改栏目</a></li>
+                        <li><a href="$_M[cururl]&ac=add&parentid=$v[id]&menuid=29">增加子类</a></li>
+                        <li><a href="$_M[cururl]&ac=move&id=$v[id]&menuid=31">移动栏目</a></li>
+                        <li><a href="$_M[cururl]&ac=merge&id=$v[id]&menuid=42">合并栏目</a></li>
+                        <li><a href="?mod=buildhtml&ac=column&columnid=$v[id]&menuid=40">生成栏目</a></li>
+                        <li><a href="$_M[cururl]&ac=del&id=$v[id]&menuid=32">删除栏目</a></li>
+                        <li class="divider"></li>
+                        <li><a href="?mod=archives&ac=list&modelid=$v[modelid]&columnid=$v[id]&menuid=38">内容</a></li>
+                        <li><a href="$v[link]" target="_blank">预览</a></li>
+                      </ul>
+                    </div></td>
+                </tr>
+                <!--{/loop}-->
+              </tbody>
+            </table>
+            </form>
+          </div>
+        </div>
+        <!-- // Widget -->
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <style type="text/css">
+.scroll-bar {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 1px solid #c3c3c3;
+    display: block;
+    height: 60px;
+    left: 225px;
+    position: fixed;
+    top: -160px;
+    transition: all 0.15s ease 0s;
+	width:100%;
+    z-index: 1000;
+}
+.scroll-play {
+    top: 42px;
+}
+.btn {
+	font-weight:normal;
+}
+</style>
+  <div id="scrollBar" class="scroll-bar">
+    <div class="span4" style="margin-top:10px;">
+      <ul class="btn-toolbar">
+        <li><a class="btn btn-green " href="$_M[cururl]&ac=add&parentid=&menuid=29">增加顶级栏目</a></li>
+      </ul>
+    </div>
+    <div class="span7" style="margin-top:10px;">
+      <div class="table-tool-wrapper">
+        <ul class="btn-toolbar pull-right">
+          <li><a class="btn btn-blue" onClick="$('#form1').submit()">更新排序</a></li>
+          <!--{loop $admin_menu[2][submenu][12][submenu] $v}-->
+          <li><a class="btn btn-blue" href="?mod=$v[mod]&ac=$v[ac]&menuid=$v[id]">$v[name]</a></li>
+          <!--{/loop}-->
+        </ul>
+      </div>
+      <div class="table-tool-container"></div>
+    </div>
+  </div>
+  <script>
+$(function() {
+	w_width = $(window).width();
+	w_height = $(window).height();
+
+	//获取要定位元素距离浏览器顶部的距离  
+	var navH = $(".row-fluid").offset().top;
+	//滚动条事件  
+	$(window).scroll(function() {
+		//获取滚动条的滑动距离  
+		var scroH = $(this).scrollTop();
+		//滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定  
+		if(w_width>w_height){
+			if (scroH >= navH) {
+				$("#scrollBar").addClass("scroll-play");
+			}else{
+				$("#scrollBar").removeClass("scroll-play")
+			}
+		}else{
+			/*if (scroH >= navH) {
+				$(".row-fluid").css({
+					"position": "fixed",
+					"top": 0
+				});
+			} else if (scroH < navH) {
+				$(".row-fluid").css({
+					"position": "relative"
+				});
+			}
+*/		}
+	})
+});
+</script>
+  <link rel="stylesheet" href='$_M[sys][static_url]smartMenu/smartMenu.css'>
+  <script src="$_M[sys][static_url]smartMenu/jquery-smartMenu-min.js"></script>
+  <script>
+var imageMenuData = [
+    [{
+        text: "增加内容",
+        func: function() {
+            location='?mod=archives&ac=add&columnid='+$(this).attr('columnid')+'&menuid=38';
+        }
+    }, {
+        text: "管理内容",
+        func: function() {
+            location='?mod=archives&ac=list&columnid='+$(this).attr('columnid')+'&menuid=38';
+        }
+    }],
+	[{
+        text: "增加子类",
+        func: function() {
+            location='?mod=$_M[mod]&ac=add&parentid='+$(this).attr('columnid')+'&menuid=29';
+        }
+    }, {
+        text: "更改栏目",
+        func: function() {
+            location='?mod=$_M[mod]&ac=edit&id='+$(this).attr('columnid')+'&menuid=30';
+        }
+    }],
+	[{
+        text: "预览分类",
+        func: function() {
+			window.open('?mod=$_M[mod]&ac=view&id='+$(this).attr('columnid'),'_blank'); 
+        }
+    }, {
+        text: "更新HTML",
+        func: function() {
+            location='?mod=buildhtml&ac=column&columnid='+$(this).attr('columnid')+'&menuid=40';
+        }
+    }],
+	[{
+        text: "合并栏目",
+        func: function() {
+            location='?mod=$_M[mod]&ac=merge&id='+$(this).attr('columnid')+'&menuid=42';
+        }
+    }, {
+        text: "移动栏目",
+        func: function() {
+            location='?mod=$_M[mod]&ac=move&id='+$(this).attr('columnid')+'&menuid=31';
+        }
+    }, {
+        text: "删除栏目",
+        func: function() {
+            location='?mod=$_M[mod]&ac=del&id='+$(this).attr('columnid')+'&menuid=32';
+        }
+    }],
+    [{
+        text: "关闭菜单",
+        func: function() { 
+        }
+    }]
+];
+$(".columnname").smartMenu(imageMenuData);
+
+function loadsub(columnid){
+	subcol = $('#col'+columnid).attr('subcol');
+	if(subcol=='true'){
+		$('#col'+columnid).attr('subcol',false);
+		$('#loadsub'+columnid).removeClass('fontello-icon-minus-circle').addClass('fontello-icon-plus-circle');
+		first = $('.tr'+columnid+':first');
+		firstClass = first.attr('class');
+		first.attr('class','');
+		$('.tr'+columnid).remove();
+		first.attr('class',firstClass);
+	}else{
+		$('#col'+columnid).attr('subcol',true);
+		$('#loadsub'+columnid).removeClass('fontello-icon-plus-circle').addClass('fontello-icon-minus-circle');
+		space = $('#space'+columnid).html()+'&nbsp;&nbsp;&nbsp;&nbsp;';
+		tr = $('#col'+columnid).attr('class')+' ';
+		$.getJSON('?mod=column&ac=list&do=subcolumn&id='+columnid+'&rand='+Math.random(),function(result){
+			html = '';
+			if(result.data){
+				space = $('#space'+columnid).html()+'&nbsp;&nbsp;&nbsp;&nbsp;';
+				$.each(result.data,function(key,v){
+					ishidden = '';
+					if(v.ishidden==1){
+						ishidden = '<font color="red">[隐]</font>';
+					}
+					redirect = '';
+					if(v.redirecturl){
+						redirect = '<font color="red">[跳]</font>';
+					}
+					html += '<tr id="col'+v.id+'" class="'+tr+' tr'+v.id+'" subcol="false"><td><input name="columnid[]" type="checkbox" class="checkbox check-row" value="'+v.id+'"></td><td>'+v.id+'</td><td><span id="space'+v.id+'">'+space+'</span><span class="fontello-icon-plus-circle" style="cursor:pointer;" onClick="loadsub('+v.id+')" id="loadsub'+v.id+'"></span>'+ishidden+redirect+'<a href="$_M[cururl]&ac=edit&id='+v.id+'&menuid=30" class="columnname" columnid="'+v.id+'">'+v.name+'</a>(文档：'+v.arcnum+')</td><td><input type="text" style="width:30px;height:22px" value="'+v.displayorder+'" name="displayorder'+v.id+'"></td><td class=" text-right"><div class="btn-group"><button class="btn dropdown-toggle" data-toggle="dropdown">操作 <span class="fontello-icon-down-open"></span></button><ul class="dropdown-menu pull-right"><li><a href="$_M[cururl]&ac=edit&id='+v.id+'&menuid=30">更改栏目</a></li><li><a href="$_M[cururl]&ac=add&parentid='+v.id+'&menuid=29">增加子类</a></li><li><a href="$_M[cururl]&ac=move&id='+v.id+'&menuid=31">移动栏目</a></li><li><a href="$_M[cururl]&ac=merge&id='+v.id+'&menuid=42">合并栏目</a></li><li><a href="?mod=buildhtml&ac=column&columnid='+v.id+'&menuid=40">生成栏目</a></li><li><a href="$_M[cururl]&ac=del&id='+v.id+'&menuid=32">删除栏目</a></li><li class="divider"></li><li><a href="?mod=archives&ac=list&modelid='+v.modelid+'&columnid='+v.id+'&menuid=38">内容</a></li><li><a href="'+v.link+'" target="_blank">预览</a></li></ul></div></td></tr>';
+				})
+			}
+			$('#col'+columnid).after(html);
+			$(".columnname").smartMenu(imageMenuData);
+		});
+	}
+}
+</script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-system/xbreadcrumbs/xbreadcrumbs.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script>
+//复选框样式
+(function ($, window, document, undefined) {
+	$("input.checkbox").uniform({
+		radioClass: 'radios' 
+	});
+})(jQuery, this, document);
+</script>
+</div>
+</body>
+</html>

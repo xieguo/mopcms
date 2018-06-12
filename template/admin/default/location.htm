@@ -1,0 +1,15 @@
+<style>
+    .location,.location a{
+        color: #696952;
+    }
+</style>
+<div class="location">
+    <ul class="breadcrumb left">
+        <!--{loop $location $k $v}-->
+        <!--{if $k}-->
+        <li>
+            <a><i class="{echo $k==1?'fontello-icon-home':''} f12"></i> $v[name]</a> <span class="divider">/</span></li>
+        <!--{/if}-->
+        <!--{/loop}-->
+    </ul>
+</div>

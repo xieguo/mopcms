@@ -1,0 +1,50 @@
+<!--{template headhtml}-->
+<title>"$words"搜索结果 - $_M[sys][webname]</title>
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href='$_M[sys][static_url]css/list.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+</head>
+<style type="text/css">
+.news_list {
+	border-left: 0px;
+	margin-left: 0px;
+}
+</style>
+<body>
+<!--{template head}-->
+<div class="am-cf wrap">
+  <ol class="am-breadcrumb am-margin-0">
+    <span class="am-icon-home fc_grey"> 当前位置：</span>
+      <li style='list-style:none; display:inline;'><a href='$_M[sys][basehost]'>$_M[sys][webname]</a></li>
+      <span class="breadcrumb_arrow"> ></span>
+      <li style='list-style:none; display:inline;'><a href='#'>"$words"搜索结果</a></li>
+      <span class="breadcrumb_arrow"> ></span>
+  </ol>
+</div>
+<DIV class="am-cf wrap_list">
+  <DIV class="wrap_list_l">
+    <DIV class="news_list_box">
+      <DIV class="news_list">
+        <DIV class="newslist_name">"$words"搜索结果</DIV>
+        <ul>
+        <!--{loop $list $v}-->
+          <li>
+            <div class="list_title fontello-icon-dot"><a href='$v[link]' target="_blank">$v[htmltitle]</a></div>
+            <div class="pubdate">$v[_createtime]</div>
+          </li>
+          <!--{if ($v[i]+1)%5==0}-->
+           </ul><ul>
+          <!--{/if}-->
+        <!--{/list}-->
+        </ul>
+            <div class="widget-footer">
+                <div class="btn-group paging_full_numbers">$pagehtml</div>
+            </div>
+      </DIV>
+    </div>
+  </DIV>
+  <!--{template mod_right}-->
+</div>
+<!--{template foot}-->
+</body>
+</html>

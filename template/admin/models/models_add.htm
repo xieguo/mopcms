@@ -1,0 +1,220 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background:none;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tabbable tabbable-bordered tabs-top">
+          <ul class="nav nav-tabs">
+            <li><a href="$_M[cururl]&ac=list&do=">模型管理</a></li>
+            <li class="active"><a>添加模型</a></li>
+          </ul>
+          <div class="tab-content">
+            <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" >
+              <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+              <div class="tab-pane active fade in">
+              <span class="help-block">如需自定义后台列表页面，在/template/admin/archives/文件夹中新建列表模板页为"list_模型ID.htm"</span>
+                <fieldset>
+                <ul class="form-list list-bordered dotted">
+                  <li class="control-group">
+                    <label for="modelname" class="control-label"> <span class="required" style="color:red">*</span>模型名称</label>
+                    <div class="controls">
+                      <input id="modelname" class="span6" type="text" name="modelname">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="byname" class="control-label"> 模型别名</label>
+                    <div class="controls">
+                      <input id="byname" class="span6" type="text" name="byname">
+                      <span class="help-block">无特殊需求可忽略此项（此项暂无处调用，对于二次开发的根据实际情况自行使用）</span> 
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="tablename" class="control-label"> <span class="required" style="color:red">*</span>附加表表名</label>
+                    <div class="controls">
+                      <input id="tablename" class="span6" type="text" name="tablename">
+                      <span class="help-block">表名前缀不用填写，只能是以字母开头的字母、数字或下划线</span>
+                    </div>
+                  </li>
+                  <!--{if pluginIsAvailable('member')}-->
+                  <li class="control-group">
+                    <label for="allowpub" class="control-label">是否支持会员投稿</label>
+                    <div class="controls">
+                      <input id="allowpub" type="hidden" name="allowpub" value="0" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="allowpub" value="0">不支持</button>
+                        <button type="button" class="btn btn-radio" data-id="allowpub" value="1">支持</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="docstatus" class="control-label">会员稿件默认状态</label>
+                    <div class="controls">
+                      <input id="docstatus" type="hidden" name="docstatus" value="0" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="docstatus" value="0">未审核</button>
+                        <button type="button" class="btn btn-radi" data-id="docstatus" value="1">已审核(生成HTML)</button>
+                        <button type="button" class="btn btn-radio" data-id="docstatus" value="2">已审核(动态访问)</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="need_thumb" class="control-label">投稿是否使用缩图</label>
+                    <div class="controls">
+                      <input id="need_thumb" type="hidden" name="need_thumb" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="need_thumb" value="1">使用</button>
+                        <button type="button" class="btn btn-radio" data-id="need_thumb" value="0">不使用</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="need_diysort" class="control-label">投稿是否显示我的分类</label>
+                    <div class="controls">
+                      <input id="need_diysort" type="hidden" name="need_diysort" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="need_diysort" value="1">使用</button>
+                        <button type="button" class="btn btn-radio" data-id="need_diysort" value="0">不使用</button>
+                      </div>
+                    </div>
+                  </li>
+                  <!--{/if}-->
+                  <li class="control-group">
+                    <label for="titlename" class="control-label">标题使用名称</label>
+                    <div class="controls">
+                      <input id="titlename" class="span2" type="text" name="titlename" value="标题">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="unique" class="control-label">文档具有唯一性</label>
+                    <div class="controls">
+                      <input id="unique" type="hidden" name="unique" value="0" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio" data-id="unique" value="1">是</button>
+                        <button type="button" class="btn btn-radio active" data-id="unique" value="0">不是</button>
+                        <span class="help-block">如果设置具有唯一性，所发布的文档不能重复</span> </div>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="columnid" class="control-label"> <span class="required" style="color:red">*</span>默认栏目ID</label>
+                    <div class="controls">
+                      <input id="columnid" class="span2" type="text" name="columnid">
+                      <span class="help-block">会员所发布的文档将保存在此栏目下</span> </div>
+                  </li>
+                  <li class="control-group">
+                    <label class="control-label" for="intro">模型说明</label>
+                    <div class="controls">
+                      <textarea name="intro" id="intro" class="input-block-level" rows="3"></textarea>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="enable" class="control-label">状态</label>
+                    <div class="controls">
+                      <input id="enable" type="hidden" name="enable" value="1" />
+                      <div class="btn-group change" data-toggle="buttons-radio">
+                        <button type="button" class="btn btn-radio active" data-id="enable" value="1">开启</button>
+                        <button type="button" class="btn btn-radio" data-id="enable" value="0">关闭</button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                </fieldset>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-green"> 提 交 </button>
+                  <button class="btn cancel">取 消</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script>
+  <script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+$(function() {
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+	$(function (accForm) {
+		accForm('#$_M[mod]{$_M[ac]}').validate({
+			ignore: "",
+			rules: {
+				modelname: {
+					required: true,
+				},
+				columnid: {
+					required: true,
+				}
+				tablename: {
+					required: true,
+				},
+			},
+			messages: {
+				modelname: {
+					required: "{echo promptMsg(10301)}",
+				},
+				columnid: {
+					required: "{echo promptMsg(10302)}",
+				}
+				tablename: {
+					required: "{echo promptMsg(10305)}",
+				}
+			},
+			highlight: function (label) {
+				$(label).removeClass('valid').closest('.control-group').addClass('error').removeClass('success');
+				$(label).next().removeClass('fontello-icon-ok');
+			},
+			success: function (label) {
+				$(label).addClass('valid fontello-icon-ok').closest('.control-group').addClass('success');
+			},
+			errorPlacement: function (error, label) {
+				$(label).closest('.controls').append(error);
+			}
+		})
+	});
+});
+</script>
+</div>
+</body>
+</html>

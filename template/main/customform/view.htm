@@ -1,0 +1,48 @@
+<!--{template headhtml}-->
+<title>$row[formname]详细 - $_M[sys][webname]</title>
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+<link rel="stylesheet" href='$_M[sys][static_url]css/list_goods.css' />
+</head><body>
+<!--{template head}-->
+<div class="am-cf wrap">
+  <ol class="am-breadcrumb am-margin-0">
+    <span class="am-icon-home fc_grey"> 当前位置：</span>
+    <li style='list-style:none; display:inline;'><a href='{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}'>$row[formname]</a> > 详细</li>
+  </ol>
+</div>
+<DIV class="am-cf wrap">
+  <div class="navtab">
+    <ul>
+      <li class="active"><a href="#">详细</a></li>
+    </ul>
+    <div class="orderamount">
+    <a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}" class="btn btn-yellow">列表</a>
+    <a href="{echo pseudoUrl('main.php?mod=customform&ac=pub&formid='.$row[id])}" class="btn btn-green">发布</a>
+    </div>
+  </div>
+</div>
+<DIV class="am-cf wrap mtop15" style="border:1px solid #CCC">
+  <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light" >
+      <!--{loop $_data[fieldlist] $v}-->
+      <tr>
+      <td>$v[title]：</td>
+      <td>
+      <!--{if $v[datatype]=='img'}-->
+      <img src="{echo imageResize($_data[$v[fieldname]],200,200)}" width=200>
+      <!--{elseif $v[datatype]=='imgs'}-->
+      <!--{loop $_data['_'.$v[fieldname]] $val}-->
+      <img src="{echo imageResize($val[img],200,200)}" alt="$val[text]" width=200>&nbsp;
+      <!--{/loop}-->
+      <!--{else}-->
+      $_data['_'.$v[fieldname]]
+      <!--{/if}-->
+      </td>
+      </tr>
+      <!--{/loop}-->
+      <tr><td>创建时间：</td><td>$_data[_createtime]</td></tr>
+  </table>
+</div><br>
+<!--{template foot}-->
+</body>
+</html>

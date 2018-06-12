@@ -1,0 +1,63 @@
+<!--{template headhtml}-->
+<title>$_data[title] - $_M[sys][webname]</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<!--{template headstatic}-->
+<script src="$_M[sys][static_url]assets/js/lib/jquery.js"></script>
+<script src='$_M[sys][static_url]amazeui/js/amazeui.min.js'></script>
+<style>
+    .fade.out {
+        opacity: 1;
+    }
+    
+    .am-control-nav {
+        display: none;
+    }
+    
+    i {
+        display: inline-block;
+        font-style: normal;
+        height: 100%;
+        vertical-align: middle;
+    }
+    *, *::after, *::before {box-sizing:content-box}
+</style>
+</head>
+
+<body ontouchstart style="background-color: #000;">
+    <!--{template head}-->
+    <script>
+        $(document).ready(function() {
+            $("#slideBox").height($(window).height() - 44);
+            $("#slideBox li").height($(window).height() - 44);
+            $('#photoText').html($('.am-slides').find('img').first().attr('alt'));
+            $('.am-slider').flexslider({
+                directionNav: false,
+                //animationLoop:false,
+                slideshow: false,
+                start: function() {
+                    var src = $('#slideBox .am-active-slide img').attr('data-src');
+                    $('#slideBox .am-active-slide img').attr('src', src);
+                },
+                after: function() {
+                    $('#photoIndex').html($('.am-slider').find('li').index($(".am-active-slide")));
+                    $('#photoText').html($('.am-active-slide').children('img').attr('alt'));
+                    var src = $('#slideBox .am-active-slide img').attr('data-src');
+                    $('#slideBox .am-active-slide img').attr('src', src);
+                }
+            });
+        });
+    </script>
+    <div class="am-slider am-slider-c2">
+        <ul class="am-slides" id="slideBox">
+            <!--{loop $_data[attach][_pics] $k $v}-->
+            <li><i></i><img data-src="{echo imageResize($v[img],640,1000)}" alt="$v[text]" style="display:inline-block;" src="$_M[sys][static_url]images/logo.png"/></li>
+            <!--{/loop}-->
+        </ul>
+    </div>
+    <div class="slidebar am-padding-bottom-0">
+        <div class="f-white am-padding-right-sm am-text-right"><span id="photoIndex">1</span>/{echo count($_data[attach][_pics])}</div>
+        <div class="f-white" id='photoText'></div>
+    </div>
+    <!--{template foot}-->

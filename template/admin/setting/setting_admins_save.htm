@@ -1,0 +1,126 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background:none;
+}
+label, .label-field {
+    font-weight:normal;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tabbable tabbable-bordered tabs-top">
+          <ul class="nav nav-tabs">
+            <li><a href="$_M[cururl]&do=&id=">管理员列表</a></li>
+            <li class="active"><a href="#TabTop1" data-toggle="tab">{echo $row?'编辑':'添加'}</a></li>
+          </ul>
+          <div class="tab-content">
+            <form id="$_M[mod]" name="$_M[mod]" class="form-horizontal" action="$_M[cururl]" method="post" >
+              <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+              <div class="tab-pane active fade in">
+                <fieldset>
+                <ul class="form-list list-bordered dotted">
+                  <li class="control-group">
+                    <label for="title" class="control-label"> 用户登录ID</label>
+                    <div class="controls"> <input id="username" class="span6" type="text" value="{aval row username}" name="username" {echo !empty($row)?'disabled="disabled"':''}></div>
+                  </li>
+                  <li class="control-group">
+                    <label for="title" class="control-label"> <span class="required" style="color:red">*</span>密码</label>
+                    <div class="controls">
+                      <input id="pwd" class="span6" type="password" value="" name="pwd">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="nickname" class="control-label"> 昵称</label>
+                    <div class="controls">
+                      <input id="nickname" class="span6" type="text" value="{aval row nickname}" name="nickname">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="realname" class="control-label"> 真实姓名</label>
+                    <div class="controls">
+                      <input id="realname" class="span6" type="text" value="{aval row realname}" name="realname">
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="groupid" class="control-label"> <span class="required" style="color:red">*</span>所属用户组</label>
+                    <div class="controls controls-row">
+                      <select id="groupid" class="span6 selecttwo" data-style="btn-info" name="groupid">
+                        <!--{loop $groups $v}-->
+                        <option value="$v[id]" {echo $v[id]==aval($row,'groupid')?'selected':''}>$v[groupname]</option>
+                        <!--{/loop}-->
+                      </select>
+                    </div>
+                  </li>
+                  <li class="control-group">
+                    <label for="byname" class="control-label"> 负责栏目<br>(不选视为全部，勾选栏目的子栏目视为同样有权管理)</label>
+                    <div class="controls">
+                      <!--{loop $columns $v}-->
+                      <div class="columnbox">
+                        <input type="checkbox" value="$v[id]" class="checkbox topid" name='columnids[]' id="columnids[]" {echo !empty($row[_columnids]) && in_array($v[id],$row[_columnids])?'checked':''}>
+                        <b>$v[name]</b>
+                      <br>
+                          <!--{loop $v[subcolumn] $v1}-->
+                            &nbsp;&nbsp;<input type="checkbox" value="$v1[id]" class="checkbox" name='columnids[]' id="columnids[]" {echo !empty($v1[_columnids]) && in_array($v1[id],$v1[_columnids])?'checked':''}>$v1[name]<br>
+                            <!--{loop $v1[subcolumn] $v2}-->
+                             &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" value="$v2[id]" class="checkbox" name='columnids[]' id="columnids[]" {echo !empty($v2[_columnids]) && in_array($v2[id],$v2[_columnids])?'checked':''}>$v2[name]<br>
+                          <!--{/loop}-->
+                          <!--{/loop}-->
+                       </div>
+                      <!--{/loop}-->
+                    </div>
+                  </li>
+                </ul>
+                </fieldset>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-green"> 提 交 </button>
+                  <button class="btn cancel">取 消</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+  <script>
+$(function () {
+	$(".selecttwo").select2({
+		minimumResultsForSearch: 6,
+		width: "off"
+	});
+	$('.topid').click(function(){
+		$(this).parents('.columnbox').find('input').prop('checked',$(this).prop('checked'));
+	})
+});
+</script>
+</div>
+</body>
+</html>

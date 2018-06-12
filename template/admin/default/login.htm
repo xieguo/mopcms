@@ -1,0 +1,88 @@
+<!--{template headhtml}-->
+<link href="$_M[sys][static_url]assets/css/icon-fugue.min.css" rel="stylesheet">
+</head><style type="text/css">
+.signin-content {
+	max-width: 360px;
+	margin: 0 auto 20px;
+}
+</style>
+<body class="signin signin-vertical">
+<div class="page-container">
+  <div id="header-container">
+    <div id="header">
+      <div class="navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container"> </div>
+        </div>
+      </div>
+      <div class="header-drawer" style="height:3px"> </div>
+    </div>
+  </div>
+  <div id="main-container">
+    <div id="main-content" class="main-content container">
+      <div class="signin-content"><br />
+        <h1 class="text-center"><img src="$_M[sys][static_url]images/logo.png" width="200"></h1>
+        <div class="well well-nice form-dark">
+          <div class="tab-content overflow">
+            <div class="tab-pane fade in active" id="login">
+              <h3 class="no-margin-top"><i class="fontello-icon-user-4"></i>$_M[sys][webname]登陆</h3>
+              <form class="form-tied margin-00 validform" method="post" action="?mod=logining&ac=login" name="loginform">
+                <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                <input type="hidden" name="referer" value="$referer" />
+                <fieldset>
+                <ul>
+                  <li>
+                    <input id="username" class="input-block-level" type="text" name="username" datatype="*" placeholder="用户名">
+                  </li>
+                  <li>
+                    <input id="pwd" class="input-block-level" type="password" name="pwd" datatype="*" placeholder="密码">
+                  </li>
+                  <li>
+                    <div style="position:relative;"> <img id="vdimgck" align="absmiddle" onClick="this.src=this.src+'?'" alt="看不清？点击更换" src="{echo pseudoUrl('main.php?mod=seccode')}"  style="cursor: pointer; position:absolute; right:10px; top:10px; z-index:1000;"/>
+                      <input type="text" id="seccode" class="input-block-level" name="seccode" datatype="*" placeholder="验证码" style="text-transform: uppercase;"/>
+                    </div>
+                  </li>
+                </ul>
+                <button type="submit" class="btn btn-envato btn-block btn-large">登 陆</button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="web-description">
+          <h5>Copyright &copy; {echo date('Y')} <a href="http://www.mopcms.com" target="_blank">mopcms.com</a></h5>
+          <p>{$_M[sys][webname]} 版权所有</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script> 
+<script src="$_M[sys][static_url]assets/plugins/pl-system-info/notyfy/jquery.notyfy.js"></script>
+
+<script>
+$(function(){
+	$(".validform").Validform({
+		tiptype:function(msg,o,cssctl){},
+		showAllError:false,
+		ignoreHidden:true,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.code==100){
+				location = '$referer';
+			}else{
+				notyfy({
+					text: data.msg,
+					type: 'error',
+					dismissQueue: true,
+					layout:'topCenter',
+					timeout: 3000,
+				});
+			}
+		}
+	});	
+})
+</script>
+</body>
+</html>

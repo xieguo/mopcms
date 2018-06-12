@@ -1,0 +1,75 @@
+<!--{template headhtml}-->
+</head>
+<style type="text/css">
+    .btn:hover,
+    .btn:active,
+    .btn.active,
+    .btn.disabled,
+    .btn[disabled] {
+        background: #3b9b28 none repeat scroll 0 0;
+        color: #ffffff;
+        text-shadow: 0 0px 0px;
+    }
+    
+    .radio,
+    .checkbox {
+        padding-left: 0px;
+    }
+    
+    div.checker {
+        margin-left: 0px;
+    }
+    
+    .page-content {
+        padding-bottom: 0px;
+    }
+    
+    form {
+        margin: 0 0 0px;
+    }
+    
+    .form-actions {
+        background: none;
+    }
+    
+    label,
+    .label-field {
+        font-weight: normal;
+    }
+</style>
+
+<body class="sidebar-left ">
+    <div class="page-container">
+        <!--{template head}-->
+        <div id="main-container">
+            <div id="leftmenu">
+                <!--{template sidebar}-->
+            </div>
+            <div id="main-content" class="main-content container-fluid">
+                <div id="page-content" class="page-content tab-content">
+                    <div class="tabbable tabbable-bordered tabs-top">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#TabTop1" data-toggle="tab">功能搜索</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active fade in">
+                                <ul class="form-list list-bordered dotted">
+                                    <li class="control-group">
+                                        <div class="controls">
+                                            <iframe src="$_M[mopcmsurl]?token=$token" width="100%" height="700" frameborder="0" scrolling="yes"></iframe>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--{template foot}-->
+    </div>
+</body>
+
+</html>

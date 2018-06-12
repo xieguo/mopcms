@@ -1,0 +1,66 @@
+<!--{template headhtml}-->
+<title>{$_data[title]} - 评论</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href='$_M[sys][static_url]css/list.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+<link href="$_M[sys][static_url]/css/article.css" rel="stylesheet" />
+</head><body>
+<!--{template head}-->
+<div class="am-cf wrap">
+  <div class="am-breadcrumb am-margin-0" style="text-align:center;">
+    <span class="am-btn-xl">$_data[title]</span> <a href='$_data[htmllink]' style="font-size:12px;color:#5eb95e;">[查看原文]</a>
+  </div>
+</div>
+<DIV class="am-cf wrap_list">
+    <div>
+      <link rel="stylesheet" href='$_M[sys][static_url]css/comment.css' />
+      <ul class="am-comments-list">
+      <!--{loop $row[list] $v}-->
+      <li class="am-comment"><div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta"> <a href="#" target="_blank" class="am-comment-author">$v[username]</a> 评论于<time><span>$v[_createtime]</span></time></div><div class="am-fr"><div class="am-comment-actions"> <a class="dingcai" type="ding" cmtid="$v[id]"><i class="fontello-icon-thumbs-up-1"></i>顶<span>$v[ding]</span></a> <a class="dingcai" type="cai" cmtid="$v[id]"><i class="fontello-icon-thumbs-down"></i>踩<span>$v[cai]</span></a> <a class="reply" author="$v[username]" cmtid="$v[id]"><i class="fontello-icon-reply"></i>回复</a> </div></div></header><div class="am-comment-bd"> $v[_content] </div></div></li>
+      <!--{/loop}-->
+      </ul>
+    </div>
+    <div class="widget-footer">
+       <div class="btn-group paging_full_numbers">$row[pagehtml]</div>
+    </div>
+<form class="form-horizontal commentform" action="{echo pseudoUrl($_M[sys][cmspath].'main.php?mod=comments&aid='.$_data[id])}" method="post" >
+<input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+    <table class="table table-bordered boo-table comments">
+      <thead>
+        <tr>
+          <th scope="col" class="row-fluid"> <div class="span9"> 网友评论 </div>
+            <div class="span3"> </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><textarea class="input-block-level" rows="3" placeholder="说点什么呢？" name="content" id="content"></textarea></td>
+        </tr>
+        <tr>
+          <td><div class="span10" style="color:#F00;" id="errmsg"></div>
+            <div class="span2"> <button class="btn btn-green pull-right" type="submit">马上发表</button> </div></td>
+        </tr>
+      </tbody>
+    </table>
+</form>
+$replyform
+<script>
+function pubShow(data){
+    html = loopHtml(data);
+    if($(".am-comments-list li").length>0){
+        $($(".am-comments-list li").get(0)).before(html);
+    }else{
+        $(".am-comments-list").html(html);
+    }
+}
+function loopHtml(data){
+    return '<li class="am-comment"><div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta"> <a href="#" target="_blank" class="am-comment-author">'+data.username+'</a> 评论于<time><span>'+data._createtime+'</span></time></div><div class="am-fr"><div class="am-comment-actions"> <a class="dingcai" type="ding" cmtid="'+data.id+'"><i class="fontello-icon-thumbs-up-1"></i>顶<span>'+data.ding+'</span></a> <a class="dingcai" type="cai" cmtid="'+data.id+'"><i class="fontello-icon-thumbs-down"></i>踩<span>'+data.cai+'</span></a> <a class="reply" author="'+data.username+'" cmtid="'+data.id+'"><i class="fontello-icon-reply"></i>回复</a> </div></div></header><div class="am-comment-bd"> '+data._content+' </div></div></li>';
+}
+</script>
+</div>
+<!--{template foot}--> 
+</body>
+</html>

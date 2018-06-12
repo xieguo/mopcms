@@ -1,0 +1,59 @@
+<!--{template headhtml}-->
+<title>$row[formname]发布 - {$_M[sys][webname]}</title>
+<meta name="keywords" content="$row[formname]" />
+<meta name="description" content="$row[intro]" />
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]assets/css/coloring.css">
+<link rel="stylesheet" href='$_M[sys][static_url]css/list_goods.css' />
+</head>
+<style type="text/css">
+.form-actions {
+    background-color:inherit;
+    margin-top: 0px;
+}
+.form-dark select, .form-dark textarea, .form-dark input[type="text"], .form-dark input[type="password"], .form-dark input[type="datetime"], .form-dark input[type="datetime-local"], .form-dark input[type="date"], .form-dark input[type="month"], .form-dark input[type="time"], .form-dark input[type="week"], .form-dark input[type="number"], .form-dark input[type="email"], .form-dark input[type="url"], .form-dark input[type="search"], .form-dark input[type="tel"], .form-dark input[type="color"], .form-dark .uneditable-input {
+    background-color: rgba(0, 0, 0, 0.005);
+}
+*, *::after, *::before {
+    box-sizing: initial;
+}
+</style>
+<body>
+<!--{template head}-->
+<div class="wrap">
+  <ol class="am-breadcrumb am-margin-0">
+    <span class="am-icon-home fc_grey"> 当前位置：</span>
+    <li style='list-style:none; display:inline;'><a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}">$row[formname]</a> > 发布</li>
+  </ol>
+</div>
+<DIV class="wrap">
+<div class="navtab">
+    <ul>
+      <li class="active"><a href="#">$row[formname]表单</a></li>
+    </ul>
+    <div class="orderamount"><a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}" class="btn btn-green">$row[formname]列表</a></div>
+  </div>
+  <form action="{echo pseudoUrl($_M[cururl])}" method="post" name='form1' enctype="multipart/form-data" class="form-horizontal" >
+    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+    <div class="row-fluid">
+            <div class="span12 form-dark">
+              <fieldset>
+                <ul class="form-list label-left list-bordered dotted">
+                  <!--{list func=customformField formid=$formid}-->
+                  <li class="control-group">
+                    <label for="accountPrefix" class="control-label"><!--{if $v[required]}--><span class="must">*</span><!--{/if}--> $v[title]</label>
+                    <div class="controls"> $v[field] $v[units]<span class="help-block">$v[intro]</span> </div>
+                  </li>
+                  <!--{/list}-->
+                </ul>
+              </fieldset>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">提　交</button>
+              </div>
+            </div>
+          </div>
+  </form>
+</div>
+<!--{template foot}-->
+</body>
+</html>

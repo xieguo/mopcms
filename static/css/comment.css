@@ -1,0 +1,164 @@
+.am-comment-main {
+	margin-left: 0px;
+}
+.am-comment-main::after {
+    z-index:auto;
+}
+.comments .span3{font-weight:normal;}
+.comments .span3 b{ color:#F00;}
+.comments .span9{ font-size:14px;}
+.comments_line {
+	border-bottom: 1px solid #E1E1E1;
+	height: 5px;
+	padding-left: 15px;
+	position: relative;
+	vertical-align: baseline;
+	margin-top: 5px;
+}
+.comments_line .comments_d {
+	left: 10px;
+	top: 0;
+	border-top: 0px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #E1E1E1;
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	position: absolute;
+}
+.comments_line .comments_u {
+	left: 10px;
+	top: 1px;
+	border-top: 0px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #f6f6ff;
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	position: absolute;
+}
+.replay_form {
+	margin-bottom: 10px;
+	background: #F6F6F6;
+	color: #fff;
+	padding: 8px 8px 8px 8px;
+	line-height: 18px;
+	border-left: 1px solid #e1e1e1;
+	border-right: 1px solid #e1e1e1;
+	border-bottom: 1px solid #e1e1e1;
+	position: relative;
+	font-size: 1.2rem;
+}
+.replay_form textarea_group {
+}
+.replay_form textarea {
+	height: 60px;
+	font-size: 14px;
+	line-height: 18px;
+	margin-bottom: 5px;
+	width: 100%;
+	padding: 6px;
+	font-family: "Arial", "宋体";
+}
+.replay_form .btn_group {
+	display: inline-block;
+}
+.replay_form .btn_reply {
+	background: #ff7700;
+	padding: 5px 10px;
+	text-align: center;
+	border: 0px;
+	color: #FFFFFF;
+	font-size: 14px;
+	cursor: pointer;
+	height: auto;
+}
+.replay_form .wordtrip {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	margin-left: 5px;
+	color: #333;
+}
+.replay_form .userinfo {
+	color: #333333;
+	padding-bottom: 5px;
+}
+/*引用回帖跟帖*/
+.decmt-box {
+	border: 1px solid #999999;
+	background: #FFFFEE;
+	padding: 5px;
+	display: block;
+	word-wrap: break-word;
+	position: relative;
+	padding: 3px;
+	margin-bottom: 12px;
+	margin-bottom: 5px!important;
+}
+.decmt-box {
+}
+.decmt-box .decmt-title {
+	line-height: 19px;
+	color: #999;
+	font-family: Tahoma;
+}
+.decmt-box .decmt-title span {
+	margin-right: 2px;
+	vertical-align: middle;
+}
+.decmt-box .decmt-title .moodico {
+	height: 18px;
+	width: 18px;
+	display: inline-block;
+}
+.decmt-box .decmt-title .username {
+	color: #003399;
+	font-size: 12px;
+}
+.decmt-box .decmt-title .username a {
+	color: #669;
+}
+.decmt-box .decmt-title .username a:hover {
+	text-decoration: none;
+	color: #690;
+}
+.decmt-box .decmt-title .ip {
+	color: #669;
+	font-size: 11px;
+}
+.decmt-box .decmt-title .date {
+	color: #555;
+	font-size: 11px;
+}
+.decmt-box .decmt-act {
+	float: right;
+	margin-top: -18px;
+	padding-right: 10px;
+	position: relative;
+	clear: both;
+	color: #999;
+}
+.decmt-box .decmt-act span {
+	margin-right: 7px;
+}
+.decmt-box .decmt-act span a {
+	color: #888;
+}
+.decmt-box .decmt-content {
+	color: #333333;
+	line-height: 21px;
+	clear: both;
+	width: 100%;
+	margin: 2px auto 0px;
+}
+.decmt-box .decmt-content img {
+	vertical-align: middle;
+}
+.am-comment-actions a:hover {
+	color: #6cac46;
+}
+.dingcai,.replybtn{ cursor:Pointer;}
+#errInfo{ color:#F00;padding-right: 20px;}

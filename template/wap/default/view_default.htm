@@ -1,0 +1,57 @@
+<!--{template headhtml}-->
+<title>$_data[title] - $_M[sys][webname]</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<!--{template headstatic}-->
+</head>
+<style type="text/css">
+	.weui-weixin-read {
+		margin: 0px;
+	}
+	
+	.weui-weixin-page {
+		padding: 10px 15px 1px 15px;
+	}
+</style>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+	<!--{template head}-->
+	<div class="weui-form-preview">
+		<div class="weui-weixin-page">
+			<h2 class="weui-weixin-title">$_data[title]</h2>
+			<div class="weui-weixin-info">
+				<em class="weui-weixin-em"><span class="icon icon-49"></span>收藏</em>
+			</div>
+		</div>
+		<div class="weui-form-preview-bd">
+		    <table class="weui-table weui-border-tb">
+                <tbody>
+                <!--{list func=modelFields modelid=$_data[modelid]}--> 
+                <tr>
+                    <td>$v[title]</td>
+                    <td>
+                        <!--{if $v[datatype]=='img'}-->
+                        <img src="{echo imageResize(aval($_data,'attach/_'.$v[fieldname]),200,200)}">
+                        <!--{elseif $v[datatype]=='imgs'}-->
+                        <!--{loop $_data[attach]['_'.$v[fieldname]] $val}-->
+                        <img src="{echo imageResize($val[img],200,200)}">
+                        <!--{/loop}-->
+                        <!--{elseif $v[datatype]=='addon'}-->
+                        <a href="{echo aval($_data,'attach/_'.$v[fieldname])}" target="_blank">{echo aval($_data,'attach/_'.$v[fieldname])}</a>
+                        <!--{elseif $v[datatype]=='media'}-->
+                        <video width="320" height="240" controls="controls">
+                          <source src="{echo aval($_data,'attach/_'.$v[fieldname])}"/>
+                        </video>
+                        <!--{else}-->
+                        {echo aval($_data,'attach/_'.$v[fieldname])}
+                        <!--{/if}-->
+                    </td>
+                </tr>
+                <!--{/list}-->
+                </tbody>
+            </table>
+		</div>
+	</div>
+
+	</div>
+	<!--{template foot}-->

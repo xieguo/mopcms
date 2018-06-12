@@ -1,0 +1,188 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+    background:none;
+}
+.form-horizontal .control-label {
+    padding-top: 0px;
+	width: 200px;
+}
+.form-horizontal .controls {
+    margin-left: 220px;
+}
+label {
+    margin-bottom: 0px;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="tab-content">
+        <div class="tab-pane active" id="TabPage1">
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="tabbable tabbable-bordered tabs-top">
+                <ul class="nav nav-tabs">
+                  <li><a href="#TabTop0" data-toggle="tab" style="color:#009900;"><span class="fontello-icon-plus"></span>添加新设置</a></li>
+                  <!--{loop $tags $k $v}-->
+                  <li {echo $k==1?'class="active"':''}><a href="#TabTop$k" data-toggle="tab">$v[name]</a></li>
+                  <!--{/loop}-->
+                </ul>
+                
+                <div class="tab-content">
+                	<div id="TabTop0" class="tab-pane fade">
+                    <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" >
+                    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                      <div class="row-fluid">
+                        <div class="span10 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                              <ul class="form-list list-bordered">
+                                <li class="control-group">
+                                  <label for="name" class="control-label"> <span class="required" style="color:red">*</span>变量名称</label>
+                                  <div class="controls">
+                                    <input type='text' name='name' class="span10" id='name'>
+                                    <span class="help-block">变量名不能为空并且必须为[a-z_]组成!</span>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="value" class="control-label"> 变量值</label>
+                                  <div class="controls">
+                                    <input type='text' name='value' class="span10" id='value'>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="types" class="control-label"> <span class="required" style="color:red">*</span>变量类型</label>
+                                  <div class="controls">
+                                    <select id="types" class="span6 selecttwo" data-style="btn-info" name="types">
+                                      <option value="text">文本</option>
+                                      <option value="number">数字</option>
+                                      <option value="bool">布尔(1/0)</option>
+                                      <option value="multitext">多行文本</option>
+                                      <option value="serialize">序列化</option>
+                                    </select>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="intro" class="control-label"> <span class="required" style="color:red">*</span>参数说明</label>
+                                  <div class="controls">
+                                    <input type='text' name='intro' class="span10" id='intro'>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="groupid" class="control-label"> <span class="required" style="color:red">*</span>所属组</label>
+                                  <div class="controls">
+                                    <select id="groupid" class="span6 selecttwo" data-style="btn-info" name="groupid">
+                                    <!--{loop $tags $k $v}-->
+                                      <option value="$k">$v[name]</option>
+                                    <!--{/loop}-->
+                                    </select>
+                                  </div>
+                                </li>
+                              </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 添 加 </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </form>
+                    </div>
+                	<!--{loop $tags $k $v}-->
+                    <div id="TabTop$k" class="tab-pane fade {echo $k==1?'active in':''}">
+                    <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" >
+                    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                      <div class="row-fluid">
+                        <div class="span10 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                              <ul class="form-list list-bordered">
+                        		<!--{loop $v[list] $k $v}-->
+                                <li class="control-group">
+                                  <label for="$v[name]" class="control-label"> $v[intro]<span class="help-block">$v[name]</span></label>
+                                  <div class="controls">
+                                    <!--{if $v[types]=='bool'}-->
+                                    <input id="$v[name]" type="hidden" name="$v[name]" value="$v[value]" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio {echo $v[value]==1?'active':''}" data-id="$v[name]" value="1">是</button>
+                                      <button type="button" class="btn btn-radio {echo empty($v[value])?'active':''}" data-id="$v[name]" value="0">否</button>
+                                    </div>
+                                    <!--{elseif $v[types]=='multitext'}-->
+                                    	<textarea name='$v[name]' class="span10" id='$v[name]'>$v[value]</textarea>
+                                    <!--{elseif $v[types]=='serialize'}-->
+                                    	<textarea name='$v[name]' class="span10" id='$v[name]'>{echo unserializeData($v[value])}</textarea>
+                                    <!--{else}-->
+                                        <input type='text' name='$v[name]' class="span10" id='$v[name]' value='$v[value]'>
+                                	<!--{/if}-->
+                                  </div>
+                                </li>
+                                <!--{/loop}-->
+                              </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 保 存 </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </form>
+                    </div>
+                    <!--{/loop}-->
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script> 
+<script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+$(function() {
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+});
+</script>
+</div>
+</body>
+</html>

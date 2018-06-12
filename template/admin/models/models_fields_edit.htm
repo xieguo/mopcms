@@ -1,0 +1,269 @@
+<!--{template headhtml}-->
+</head>
+<style type="text/css">
+	.btn:hover,
+	.btn:active,
+	.btn.active,
+	.btn.disabled,
+	.btn[disabled] {
+		background: #3b9b28 none repeat scroll 0 0;
+		color: #ffffff;
+		text-shadow: 0 0px 0px;
+	}
+	
+	.radio,
+	.checkbox {
+		padding-left: 0px;
+	}
+	
+	div.checker {
+		margin-left: 0px;
+	}
+	
+	.page-content {
+		padding-bottom: 0px;
+	}
+	
+	form {
+		margin: 0 0 0px;
+	}
+	
+	.form-actions {
+		background: none;
+	}
+</style>
+
+<body class="sidebar-left ">
+	<div class="page-container">
+		<!--{template head}-->
+		<div id="main-container">
+			<div id="leftmenu">
+				<!--{template sidebar}-->
+			</div>
+			<div id="main-content" class="main-content container-fluid">
+			    <!--{template location}-->
+				<div id="page-content" class="page-content tab-content">
+					<div class="tabbable tabbable-bordered tabs-top">
+						<ul class="nav nav-tabs">
+							<li>
+								<a href="$_M[cururl]&ac=list&do=&id=">模型管理</a>
+							</li>
+							<li>
+								<a href="$_M[cururl]&ac=edit&do=&id=">{$model[modelname]}模型</a>
+							</li>
+							<li>
+								<a href="$_M[cururl]&ac=fields&do=list&id=">字段管理</a>
+							</li>
+							<li class="active">
+								<a>字段修改</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post">
+								<input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+								<div class="tab-pane active fade in">
+									<fieldset>
+										<ul class="form-list list-bordered dotted">
+											<li class="control-group">
+												<label for="title" class="control-label"> <span class="required" style="color:red">*</span>字段中文名称</label>
+												<div class="controls">
+													<input id="title" class="span6" type="text" value="$row[title]" name="title">
+													<span class="help-block">级联类型字段名称命名规则“字段名称#级联数据标识符”,例：“学历#education”</span>
+												</div>
+											</li>
+											<li class="control-group">
+												<label for="fieldname" class="control-label"> 字段名</label>
+												<div class="controls">
+													<input id="fieldname" class="span6" type="text" value="$row[fieldname]" name="fieldname" disabled>
+													<span class="help-block">只读不可修改</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="datatype" class="control-label"><span class="required" style="color:red">*</span>数据类型</label>
+												<div class="controls controls-row">
+													<select id="datatype" class="span6 selecttwo" name="datatype">
+														<!--{loop $_M[sys][datatype] $k $v}-->
+														<option value="$k" {echo $k==$row[datatype]? 'selected': ''}>$v</option>
+														<!--{/loop}-->
+													</select>
+												</div>
+											</li>
+											<li class="control-group">
+												<label for="displayorder" class="control-label">排序</label>
+												<div class="controls">
+													<input id="displayorder" class="span2" type="text" name="displayorder" value="$row[displayorder]">
+													<span class="help-block">值越大排序越靠前</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="units" class="control-label"> 单位</label>
+												<div class="controls">
+													<input id="units" class="span6" type="text" value="$row[units]" name="units">
+													<span class="help-block">如：件、年、元/天</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="maxlength" class="control-label"> 字符最大长度</label>
+												<div class="controls">
+													<input id="maxlength" class="span6" type="text" value="$row[maxlength]" name="maxlength">
+													<span class="help-block">指定字符长度，如限制20个汉字或字母就填20</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="css" class="control-label"> 样式名称css</label>
+												<div class="controls">
+													<input id="css" class="span6" type="text" value="$row[css]" name="css">
+													<span class="help-block">用来对单个表单元素定义，只能为字母、数字或下划线</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="default" class="control-label"> 默认值default</label>
+												<div class="controls">
+													<input id="default" class="span6" type="text" value="$row[default]" name="default">
+													<span class="help-block">select、checkbox、radio类型默认值填规则中前面的值（checkbox如果有多个默认值用","隔开，如：1,3）,datetime类型默认值填数字（如：30，代表当前时间加30天，可为负数）</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="tip" class="control-label"> 文本占位提示tip</label>
+												<div class="controls">
+													<input id="tip" class="span6" type="text" value="$row[tip]" name="tip">
+													<span class="help-block">只限用于文本，效果类同于placeholder</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="checkrule" class="control-label"> 验证规则checkrule</label>
+												<div class="controls">
+													<input id="checkrule" class="span6" type="text" value="$row[checkrule]" name="checkrule">
+													<span class="help-block">
+                      验证规则： *：检测是否有输入； *6-16：检测是否为6到16位任意字符； n：数字类型； n6-16：6到16位数字； s：不能输入特殊字符； s6-18：6到18位字符串； p：验证是否为邮政编码； m：手机号码校验规则； tel：固定电话校验规则； e：email检验规则； url：验证字符串是否为网址。 </span> </div>
+											</li>
+											<li class="control-group">
+												<label for="intro" class="control-label"> 验证初始提示说明intro</label>
+												<div class="controls">
+													<input id="intro" class="span6" type="text" value="$row[intro]" name="intro">
+												</div>
+											</li>
+											<li class="control-group">
+												<label for="nullmsg" class="control-label"> 验证为空提示nullmsg</label>
+												<div class="controls">
+													<input id="nullmsg" class="span6" type="text" value="$row[nullmsg]" name="nullmsg">
+													<span class="help-block">没填内容时的提示</span> </div>
+											</li>
+											<li class="control-group">
+												<label for="errormsg" class="control-label"> 验证错误提示errormsg</label>
+												<div class="controls">
+													<input id="errormsg" class="span6" type="text" value="$row[errormsg]" name="errormsg">
+													<span class="help-block">内容不符合验证规则时的提示</span> </div>
+											</li>
+											<li class="control-group">
+												<label class="control-label" for="rules">字段规则</label>
+												<div class="controls">
+													<textarea name="rules" id="rules" class="input-block-level" rows="3">{echo unserializeData($row[rules])}</textarea>
+													<span class="help-block">只在项目为可选时有效，每行一个选项，等号前面为选项索引(建议用数字)，后面为内容<br>
+                      例如: <br>
+                      1=猫扑CMS<br>
+                      2=猫扑文档<br>
+                      如果是价格区间等类似情况，写成如下形式：120,300=120-300元<br>
+                      注意: 选项确定后不建议修改索引和内容的对应关系(如果有数据会导致数据对应错乱)，但仍可以新增选项。如需调换显示顺序，可以通过移动整行的前后位置来实现 </span> </div>
+											</li>
+											<li class="control-group">
+												<label for="accesstype" class="control-label">其他属性</label>
+												<div class="controls">
+													<label for="available">
+                      <input type="checkbox" value="1" id="available" name="available" {if $row[available]==1}checked{/if} class="checkbox check-row">
+                      可用</label>
+													<label for="infront">
+                      <input type="checkbox" value="1" id="infront" name="infront" {if $row[infront]==1}checked{/if} class="checkbox check-row">
+                      是否在前端显示</label>
+													<label for="required">
+                      <input type="checkbox" value="1" id="required" name="required" {if $row[required]==1}checked{/if} class="checkbox check-row">
+                      必填</label>
+													<label for="unique">
+                      <input type="checkbox" value="1" id="unique" name="unique" {if $row[unique]==1}checked{/if} class="checkbox check-row">
+                      唯一</label>
+													<label for="search">
+                      <input type="checkbox" value="1" id="search" name="search" {if $row[search]==1}checked{/if} class="checkbox check-row">
+                      参与搜索</label>
+													<label for="orderby">
+                      <input type="checkbox" value="1" id="joinsorting"  name="joinsorting" {if $row[joinsorting]==1}checked{/if} class="checkbox check-row">
+                      参与排序</label>
+													<label for="inlist">
+                      <input type="checkbox" value="1" id="inlist" name="inlist" {if $row[inlist]==1}checked{/if} class="checkbox check-row">
+                      列表中显示</label>
+												</div>
+											</li>
+										</ul>
+									</fieldset>
+									<div class="form-actions">
+										<button type="submit" class="btn btn-green"> 提 交 </button>
+										<button class="btn cancel">取 消</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--{template foot}-->
+		<script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+		<script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+		<script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+		<script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script>
+		<script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script>
+		<script>
+			(function($, window, document, undefined) {
+				$(".selecttwo").select2({
+					minimumResultsForSearch: 6,
+					width: "off"
+				});
+				$("input.checkbox, input.radio, input:file.input-file").uniform({
+					radioClass: 'radios'
+				});
+			})(jQuery, this, document);
+			$(function() {
+				$('#datatype').change(function() {
+					val = $(this).val();
+					if(val == 'int') {
+						$('#checkrule').val('n');
+					} else if(val == 'tel') {
+						$('#checkrule').val('tel');
+					} else if(val == 'mobile') {
+						$('#checkrule').val('m');
+						$('#maxlength').val('11');
+					} else if(val == 'float') {
+						$('#checkrule').val('number_3');
+					} else if(val == 'price') {
+						$('#checkrule').val('money2');
+					}
+				})
+				$(function(accForm) {
+					accForm('#$_M[mod]{$_M[ac]}').validate({
+						ignore: "",
+						rules: {
+							title: {
+								required: true,
+							},
+							datatype: {
+								required: true,
+							}
+						},
+						messages: {
+							title: {
+								required: "{echo promptMsg(10002)}",
+							},
+							datatype: {
+								required: "{echo promptMsg(10002)}",
+							}
+						},
+						highlight: function(label) {
+							$(label).removeClass('valid').closest('.control-group').addClass('error').removeClass('success');
+							$(label).next().removeClass('fontello-icon-ok');
+						},
+						success: function(label) {
+							$(label).addClass('valid fontello-icon-ok').closest('.control-group').addClass('success');
+						},
+						errorPlacement: function(error, label) {
+							$(label).closest('.controls').append(error);
+						}
+					})
+				});
+			});
+		</script>
+	</div>
+</body>
+
+</html>

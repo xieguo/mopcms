@@ -1,0 +1,194 @@
+<!--{template headhtml}-->
+<title>$_M[sys][webname]</title>
+<meta name="keywords" content="$_M[sys][keywords]" />
+<meta name="description" content="$_M[sys][description]" />
+<!--{template headstatic}-->
+<script src="$_M[sys][static_url]wap/swipe.js"></script>
+<script>
+    $(function() {
+        $('#slide1').swipeSlide({
+            autoSwipe: true, //自动切换默认是
+            speed: 3000, //速度默认4000
+            continuousScroll: true, //默认否
+            transitionType: 'cubic-bezier(0.22, 0.69, 0.72, 0.88)', //过渡动画linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier
+            lazyLoad: true, //懒加载默认否
+            firstCallback: function(i, sum, me) {
+                me.find('.dot').children().first().addClass('cur');
+            },
+            callback: function(i, sum, me) {
+                me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    .grids-small .grid {
+        padding: 15px 8px 0;
+        width: 20%;
+    }
+    
+    .page-bd {
+        background-color: #FFFFFF;
+    }
+    
+    .page-bd .weui-flex {
+        padding: 0px;
+    }
+    
+    .page-bd img {
+        height: 100px;
+        width: 100%;
+    }
+    
+    .mgn10 {
+        margin: 10px 0;
+    }
+    
+    .weui_grids {
+        background-color: #FFFFFF;
+        padding-bottom: 15px;
+        margin-bottom: 10px;
+        border: 0px;
+    }
+    
+    .weui_grids::before {
+        border: 0px;
+    }
+    
+    .weui-flex .img {
+        padding: 0 2px;
+    }
+    
+    .item {
+        margin: 5px 0;
+        border-bottom: 1px solid #C7C7C7;
+    }
+    
+    .grid::before {
+        border: 0px;
+    }
+    
+    .onepic .title {
+        width: 13.5rem;
+    }
+    
+    .weui-header .weui-header-left {
+        top: 10px;
+    }
+</style>
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <!--{if !$_M[iswx]}-->
+    <div class="weui_btn_primary weui-header ">
+        <div class="weui-header-left">
+            <div class="login"></div>
+        </div>
+        <h1 class="weui-header-title">$_M[sys][webname]</h1>
+        <div class="weui-header-right">
+            <a class="icon icon-4 f-white f20" href="{echo pseudoUrl('main.php?mod=archives&ac=search')}"></a>
+        </div>
+    </div>
+    <script>
+        function str2asc(strstr) {
+            return("0" + strstr.charCodeAt(0).toString(16)).slice(-2);
+        }
+        function UrlEncode(str) {
+            var ret = "";
+            var strSpecial = "!\"#$%&'()*+,/:;<=>?[]^`{|}~%";
+            var tt = "";
+            for(var i = 0; i < str.length; i++) {
+                var chr = str.charAt(i);
+                var c = str2asc(chr);
+                tt += chr + ":" + c + "n";
+                if(parseInt("0x" + c) > 0x7f) {
+                    ret += "%" + c.slice(0, 2) + "%" + c.slice(-2);
+                } else {
+                    if(chr == " ")
+                        ret += "+";
+                    else if(strSpecial.indexOf(chr) != -1)
+                        ret += "%" + c.toString(16);
+                    else
+                        ret += chr;
+                }
+            }
+            return ret;
+        }
+        $(function() {
+            referer = UrlEncode(window.location.href);
+            $.get("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=ajax&ac=loginStatus')}{echo $_M[sys][pseudourl]?'?':'&'}referer=" + referer + "&rand=" + Math.random(), function(result) {
+                $('.login').html(result);
+            })
+        })
+    </script>
+    <!--{/if}-->
+    <div class="slide" id="slide1">
+        <ul>
+            <!--{list func=pointlist pointid=19}-->
+            <li>
+                $v[imglink]
+                <div class="slide-desc">$v[title]</div>
+            </li>
+            <!--{/list}-->
+        </ul>
+        <div class="dot">
+            <!--{list func=pointlist pointid=19}-->
+            <span></span>
+            <!--{/list}-->
+        </div>
+    </div>
+
+    <div class="weui_grids grids-small">
+        <!--{list func=pointlist pointid=20}-->
+        <a href="$v[link]" class="grid">
+            <div class="weui_grid_icon">
+                $v[img]
+            </div>
+            <p class="weui_grid_label">
+                $v[title]
+            </p>
+        </a>
+        <!--{/list}-->
+    </div>
+
+    <div class="page-bd">
+        <div style="padding: 2px;"></div>
+        <!--{list flag=c titlelen=45 imgs=3}-->
+        <div class="item">
+            <!--{if $imgscount = count($v[imgs])}-->
+            <!--{if $imgscount==1}-->
+            <div class="weui-flex onepic mgn10">
+                <div>
+                    <div class="title"><a href="$v[link]">$v[htmltitle]</a></div>
+                </div>
+                <div>
+                    <div class="img"><a href="$v[link]"><img src="{echo imageResize($v[imgs][0],200,200)}" alt=""></a></div>
+                </div>
+            </div>
+            <!--{else}-->
+            <div class="weui-flex mgn10">
+                <div class="weui-flex-item">
+                    <div><a href="$v[link]">$v[htmltitle]</a></div>
+                </div>
+            </div>
+            <div class="weui-flex mgn10">
+                <!--{loop $v[imgs] $val}-->
+                <div class="weui-flex-item">
+                    <div class="img"><a href="$v[link]"><img src="{echo imageResize($val,200,200)}" alt=""></a></div>
+                </div>
+                <!--{/loop}-->
+            </div>
+            <!--{/if}-->
+            <!--{else}-->
+            <div class="weui-flex mgn10">
+                <div class="weui-flex-item">
+                    <div>
+                        <a href="$v[link]">$v[htmltitle]</a>
+                    </div>
+                </div>
+            </div>
+            <!--{/if}-->
+        </div>
+        <!--{/list}-->
+    </div>
+    <!--{template foot}-->

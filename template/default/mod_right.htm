@@ -1,0 +1,36 @@
+<div class="wrap_list_r">
+  <table class="table boo-table table-bordered hotnews">
+    <thead>
+      <tr>
+        <th scope="col">热点新闻</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><ul>
+            <!--{list columnid=$_data[columnid] order=views modelid=1 limit=10 titlelen=22}-->
+            <li class="fontello-icon-right-open-mini"><a href="$v[link]" target="_blank">$v[htmltitle]</a></li>
+            <!--{/list}-->
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table boo-table table-bordered hotalbum">
+    <thead>
+      <tr>
+        <th scope="col">热点图集</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><ul>
+            <!--{list order=views modelid=2 limit=4 titlelen=18}-->
+            <li><em><a href='$v[link]' target="_blank"><i></i><img src="{echo imageResize($v[thumb],120,120)}" /></a></em>
+              <p><a href='$v[link]' target="_blank">$v[title]</a></p>
+            </li>
+            <!--{/list}-->
+          </ul></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

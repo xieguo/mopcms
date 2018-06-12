@@ -1,0 +1,78 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background:none;
+}
+label, .label-field {
+    font-weight:normal;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tabbable tabbable-bordered tabs-top">
+          <ul class="nav nav-tabs">
+            <li class="active"><a>$menuname</a></li>
+          </ul>
+          <div class="tab-content">
+            <form id="$_M[mod]" name="$_M[mod]" class="form-horizontal" action="$_M[cururl]" method="post" >
+              <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+              <div class="tab-pane active fade in">
+                <fieldset>
+                <ul class="form-list list-bordered dotted">
+                  <li class="control-group">
+                    <label class="checkbox inline"><div class="checker"><input name='item[0]' type="checkbox" class="checkbox" value="template" checked></div>
+                    模板缓存</label>
+                    <label class="checkbox inline"><input name='item[1]' type="checkbox" class="checkbox" value="datacache" checked>数据缓存</label>
+                  </li>
+                </ul>
+                </fieldset>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-green"> 清除缓存 </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+</div>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script> 
+<script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+</script>
+</body>
+</html>

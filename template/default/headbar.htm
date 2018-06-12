@@ -1,0 +1,52 @@
+<div class="header">
+    <div class="wrap">
+        <div class="login"></div>
+        <div class="topgg"></div>
+        <div class="quick-menu">
+            <ul>
+                <li>
+                    <a href="javascript:AddFavorite('$_M[sys][basehost]','$_M[sys][webname]')">收藏</a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://bbs.mopcms.com/">论坛</a>
+                </li>
+                <li class="end">
+                    <a target="_blank" href="http://www.mopcms.com/help/">帮助</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<script>
+    function str2asc(strstr) {
+        return("0" + strstr.charCodeAt(0).toString(16)).slice(-2);
+    }
+    function UrlEncode(str) {
+        var ret = "";
+        var strSpecial = "!\"#$%&'()*+,/:;<=>?[]^`{|}~%";
+        var tt = "";
+        for(var i = 0; i < str.length; i++) {
+            var chr = str.charAt(i);
+            var c = str2asc(chr);
+            tt += chr + ":" + c + "n";
+            if(parseInt("0x" + c) > 0x7f) {
+                ret += "%" + c.slice(0, 2) + "%" + c.slice(-2);
+            } else {
+                if(chr == " ")
+                    ret += "+";
+                else if(strSpecial.indexOf(chr) != -1)
+                    ret += "%" + c.toString(16);
+                else
+                    ret += chr;
+            }
+        }
+        return ret;
+    }
+    $(function() {
+        referer = UrlEncode(window.location.href);
+        $.get("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=ajax&ac=loginStatus')}{echo $_M[sys][pseudourl]?'?':'&'}referer=" + referer + "&rand=" + Math.random(), function(result) {
+            $('.login').html(result);
+        })
+    })
+</script>

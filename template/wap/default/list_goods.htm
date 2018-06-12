@@ -1,0 +1,239 @@
+<!--{template headhtml}-->
+<title>$_data[name] - $_M[sys][webname]</title>
+<meta name="keywords" content="$_M[sys][keywords]" />
+<meta name="description" content="$_M[sys][description]" />
+<!--{template headstatic}-->
+<script src="$_M[sys][static_url]wap/updown.js"></script>
+<script src="$_M[sys][static_url]wap/lazyimg.js"></script>
+<script>
+	$(function() {
+		//页数 
+		var page = 0;
+		$('.weui_panel').dropload({
+			scrollArea: window,
+			autoLoad: true, //自动加载
+			domDown: { //上拉
+				domClass: 'dropload-down',
+				domRefresh: '<div class="dropload-refresh f15 "><i class="icon icon-20"></i>上拉加载更多</div>',
+				domLoad: '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>',
+				domNoData: '<div class="dropload-noData">没有更多数据了</div>'
+			},
+			domUp: { //下拉
+				domClass: 'dropload-up',
+				domRefresh: '<div class="dropload-refresh"><i class="icon icon-114"></i>下拉加载更多</div>',
+				domUpdate: '<div class="dropload-load f15"><i class="icon icon-20"></i>释放更新...</div>',
+				domLoad: '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>'
+			},
+			loadUpFn: function(me) { //刷新
+				$.ajax({
+					type: 'GET',
+					url: '$_M[cururl]&mod=archives&ac=list&do=ajaxdata&page=1&time=' + $('#time').val(),
+					dataType: 'json',
+					success: function(result) {
+						$('#time').val(result.referer);
+						var arrLen = result.data.length;
+						res = '';
+						if(arrLen > 0) {
+							res = loopHtml(result.data);
+							if($(".weui_panel_bd a").length > 0) {
+								$($(".weui_panel_bd a").get(0)).before(res);
+							} else {
+								$('.weui_panel_bd').html(res);
+							}
+							var lazyloadImg = new LazyloadImg({
+								el: '.weui-updown [data-img]', //匹配元素
+								top: 50, //元素在顶部伸出长度触发加载机制
+								right: 50, //元素在右边伸出长度触发加载机制
+								bottom: 50, //元素在底部伸出长度触发加载机制
+								left: 50, //元素在左边伸出长度触发加载机制
+								qriginal: false, // true，自动将图片剪切成默认图片的宽高；false显示图片真实宽高
+								load: function(el) {
+									el.style.cssText += '-webkit-animation: fadeIn 01s ease 0.2s 1 both;animation: fadeIn 1s ease 0.2s 1 both;';
+								}
+							});
+							me.noData(false);
+						} else {
+							// 锁定
+							me.lock();
+							// 无数据
+							me.noData();
+						}
+						// 每次数据加载完，必须重置
+						me.resetload();
+						// 解锁
+						me.unlock();
+					},
+					error: function(xhr, type) {
+						alert('Ajax error!');
+						// 即使加载出错，也得重置
+						me.resetload();
+					}
+				});
+			},
+			loadDownFn: function(me) { //加载更多
+				page++;
+				window.history.pushState(null, document.title, window.location.href);
+				var result = '';
+				$.ajax({
+					type: 'GET',
+					url: '$_M[cururl]&mod=archives&ac=list&do=ajaxdata&page=' + page,
+					dataType: 'json',
+					success: function(result) {
+						var arrLen = result.data.length;
+						res = '';
+						if(arrLen > 0) {
+							res = loopHtml(result.data);
+							// 如果没有数据
+						} else {
+							// 锁定
+							me.lock();
+							// 无数据
+							me.noData();
+						}
+
+						$('.weui_panel_bd').append(res);
+						var lazyloadImg = new LazyloadImg({
+							el: '.weui-updown [data-img]', //匹配元素
+							top: 50, //元素在顶部伸出长度触发加载机制
+							right: 50, //元素在右边伸出长度触发加载机制
+							bottom: 50, //元素在底部伸出长度触发加载机制
+							left: 50, //元素在左边伸出长度触发加载机制
+							qriginal: false, // true，自动将图片剪切成默认图片的宽高；false显示图片真实宽高
+							load: function(el) {
+								el.style.cssText += '-webkit-animation: fadeIn 01s ease 0.2s 1 both;animation: fadeIn 1s ease 0.2s 1 both;';
+							}
+						});
+						// 
+						// 每次数据加载完，必须重置
+						me.resetload();
+					},
+					error: function(xhr, type) {
+						alert('Ajax error!');
+						// 即使加载出错，也得重置
+						me.resetload();
+					}
+				});
+			}
+		});
+
+		function loopHtml(data) {
+			html = '';
+			$.each(data, function(key, v) {
+				html += '  <a href="' + v.link + '" class="weui_media_box weui_media_appmsg">' +
+					'<div class="weui_media_hd weui-updown">' +
+					'<img class="weui_media_appmsg_thumb lazyload" src="$_M[sys][static_url]images/nopic_100x100.gif" data-img="' + v.thumb + '">' +
+					'</div><div class="weui_media_bd"><h4 class="weui_media_title">' + v.title + '</h4>' +
+					'<div class="weui_media_desc">' + v.attach._goodssort + ' / ' + v.attach.brand + '</div>' +
+					'<div class="weui_media_desc f-orange f16">' + v.attach._trueprice + v.attach.price_units + '</div></div></a>';
+			})
+			return html;
+		}
+	});
+</script>
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+	<!--{template head}-->
+	<link rel="stylesheet" href="$_M[sys][static_url]wap/style/amz_filter.css">
+	<script src="$_M[sys][static_url]wap/js/zepto.js"></script>
+	<script src="$_M[sys][static_url]wap/js/filter_bin.js"></script>
+	<script src="$_M[sys][static_url]wap/js/filter_search.js"></script>
+	<script>
+		$(function() {
+			$(".more_type").height($(window).height() - 100);
+			$("#filter-more").height($(window).height() - 49);
+		});
+	</script>
+	<style>
+		#filter-more .table-cell {
+			font-size: inherit;
+		}
+		
+		#filter-more select {
+			font-size: inherit;
+		}
+		
+		.weui_media_bd h4 {
+			margin: 0px;
+		}
+	</style>
+	<div style="display: none;" id="mask"></div>
+	<div class="filter_outer" id="filter">
+		<div class="con_filter">
+			<!--{list func=searchFields modelid=$_data[modelid]}-->
+			<!--{if $k<3}-->
+			<div class="f_box hide" id="filter-$v[fieldname]">
+				<div class="f_box_inner arrow">
+					<ul>
+					    <li class="{echo empty($_GET[$v[fieldname]])?'selected':''}">
+                            <a href="{echo pseudoUrl($_M[cururl].'&'.$v[fieldname].'=')}">全部</a>
+                        </li>
+						<!--{loop $v[rules] $val}-->
+						<li class="{echo $val[active]?'selected':''}">
+							<a href="$val[link]">$val[name]</a>
+						</li>
+						<!--{/loop}-->
+					</ul>
+				</div>
+				<div class="f_box_inner hide"></div>
+			</div>
+			<!--{/if}-->
+			<!--{/list}-->
+
+			<!--{if !count($_search_fields)}-->
+			<script>
+				$(function() {
+					$("#filter").hide();
+				});
+			</script>
+			<!--{/if}-->
+			<div style="left: 0px; height: 867px;" class="f_box f_box_more hide" id="filter-more">
+				<form action="$_M[cururl]" method="post" id="form_sx">
+					<div class="weui_cells weui_cells_form">
+							<!--{loop $_search_fields $k $v}-->
+							<!--{if $k>=3}-->
+							<div class="weui_cell weui_cell_select cell_$v[fieldname]">
+							    <div class="weui_cell_hd">
+								<label class="weui_label">$v[title]</label>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary">
+									<select class="weui_select" name="$v[fieldname]">
+										<!--{loop $v[rules] $val}-->
+										<option value="$val[value]" {echo $val[active]? 'selected': ''}>$val[name]</option>
+										<!--{/loop}-->
+									</select>
+								</div>
+							</div>
+							<!--{/if}-->
+							<!--{/loop}-->
+					</div>
+					<div class="btn_submit" style="position:fixed; bottom:0; left:0; width:100%; height:50px;">
+						<a href="javascript:$('#form_sx').submit();" style="width:100%; height:100%; line-height:50px;">筛 选</a>
+					</div>
+				</form>
+			</div>
+
+		</div>
+		<div class="list_filter">
+			<ul class="nav_filter">
+				<!--{loop $_search_fields $k $v}-->
+				<!--{if $k<3}-->
+				<li class="">
+					<a href="javascript:;" data-id="filter-$v[fieldname]">$v[title]</a>
+				</li>
+				<!--{elseif $k==3}-->
+				<li class="">
+					<a href="javascript:;" data-id="filter-more">更多</a>
+				</li>
+				<!--{/if}-->
+				<!--{/loop}-->
+			</ul>
+		</div>
+	</div>
+	<div class="weui_panel weui_panel_access">
+		<input type="hidden" id="time" value="{TIME}" />
+		<div class="weui_panel_bd">
+
+		</div>
+	</div>
+	<!--{template foot}-->

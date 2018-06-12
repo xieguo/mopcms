@@ -1,0 +1,129 @@
+<!--{template headhtml}-->
+</head>
+
+<body class="sidebar-left ">
+    <div class="page-container">
+        <!--{template head}-->
+        <div id="main-container">
+            <div id="leftmenu">
+                <!--{template sidebar}-->
+            </div>
+            <div id="main-content" class="main-content container-fluid">
+                <!--{template location}-->
+                <div class="main-contain">
+                    <div class="widget widget-simple widget-table">
+                        <div role="grid" class="datatable-wrapper form-inline">
+                            <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" width="50">ID</th>
+                                        <th scope="col">应用名称</th>
+                                        <th scope="col" class="hidden-tablet hidden-phone" width="100">标识符</th>
+                                        <th scope="col" class="hidden-tablet hidden-phone" width="50">类型</th>
+                                        <th scope="col" class="hidden-tablet hidden-phone" width="50">版本</th>
+                                        <th scope="col" class="hidden-tablet hidden-phone" width="130">创建时间</th>
+                                        <th scope="col" width="160">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--{loop $list $v}-->
+                                    <tr class="tr$v[id]">
+                                        <td>$v[id]</td>
+                                        <td><span style="font-size: 14px;">$v[name]</span>
+                                            <!--{if !empty($v[links])}-->
+                                            <br />
+                                            <!--{eval loadcache('plugin:'.$v['identifier']);}-->
+                                            <!--{eval $domain = !empty($_M['cache']['plugin:'.$v['identifier']]['bindDomain'])?$_M['cache']['plugin:'.$v['identifier']]['bindDomain']:'';}-->
+                                            <!--{loop $v[_links] $val}-->
+                                            <a href="{echo pseudoUrl($val[link],$domain)}" target="_blank" style="color:darkcyan;">$val[name]</a> 
+                                            <!--{/loop}-->
+                                            <!--{/if}-->
+                                            <br /><span style="color: gray;">$v[description]</span></td>
+                                        <td>$v[identifier]</td>
+                                        <td class="hidden-tablet hidden-phone">$v[_types]</td>
+                                        <td class="hidden-tablet hidden-phone">$v[version]</td>
+                                        <td class="hidden-tablet hidden-phone">$v[_createtime]</td>
+                                        <td class=" text-right">
+                                            <!--{if $v[isinstall]}-->
+                                            <!--{if $v[available]}-->
+                                            <a href="?mod=plugin&ac=setstatus&appid=$v[id]&status=0" class="btn btn-green no-wrap">关闭</a>
+                                            <!--{else}-->
+                                            <a href="?mod=plugin&ac=setstatus&appid=$v[id]&status=1" class="btn no-wrap">开启</a>
+                                            <!--{/if}-->
+                                            <a class="btn btn-green no-wrap btn-update" data-v="$v[version]" data-plugin="$v[identifier]">更新</a>
+                                            <a class='btn btn-green no-wrap uninstall' data-identifier="$v[identifier]">卸载</a>
+                                            <!--{else}-->
+                                            <a class="btn no-wrap" href="?mod=plugin&ac=install&plugin=$v[identifier]">安装</a>
+                                            <a class="btn no-wrap" href="?mod=plugin&ac=delete&plugin=$v[identifier]" onclick="return confirm('确定删除？')?true:false;">删除</a>
+                                            <!--{/if}-->
+                                        </td>
+                                    </tr>
+                                    <!--{/loop}-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="widget-footer">
+                                $pagehtml
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+        <script>
+            $(function() {
+                $(".btn-update").click(function() {
+                    var that = $(this);
+                    that.html('更新中').removeClass('btn-green').addClass('btn-warning');
+                    var v = that.data('v');
+                    var plugin = that.data('plugin');
+                    $.getJSON('$_M[mopcmsurl]main.php?mod=updatePlugin&token=$token&v='+v+'&plugin='+plugin+'&mcallback=?', function(result) {
+                        that.html('更新').removeClass('btn-warning').addClass('btn-green');
+                        type = 'error';
+                        if(result.code==100){
+                            type = 'success';
+                            setTimeout('location="$_M[cururl]"',2000);
+                        }
+                        notyfy({text: result.msg,type: type,dismissQueue: true,layout:"center",timeout: 3000,});
+                    })
+                })
+            });
+        </script>
+        <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+        <script src="$_M[sys][static_url]assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+        <script>
+            $(function() {
+                $(".uninstall").click(function() {
+                    identifier = $(this).data('identifier');
+                    $('#uninstallSubmit').prop('href', '?mod=plugin&ac=uninstall&plugin=' + identifier);
+                    $('#uninstall').modal('show');
+                })
+                $("#deldata").click(function() {
+                    deldata = $(this).is(':checked') == true ? 1 : 0;
+                    href = $('#uninstallSubmit').prop('href');
+                    $('#uninstallSubmit').prop('href', '?mod=plugin&ac=uninstall&plugin=' + identifier + '&deldata=' + deldata);
+                })
+            });
+        </script>
+        <div id="uninstall" class="modal hide fade" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fontello-icon-cancel-1"></i></button>
+                <h4 id="myModalLabel"><i class="fontello-icon-popup"></i> 卸载应用</h4>
+            </div>
+            <div class="modal-body">
+                <input type="checkbox" value="1" id="deldata"> 数据库中相关表或数据是否一并删除？
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-red" data-dismiss="modal">取消</button>
+                <a class="btn btn-green" id="uninstallSubmit">卸载</a>
+            </div>
+        </div>
+        <!--{template foot}-->
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!--{template headhtml}-->
+</head><style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+.page-content {
+	padding-bottom: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+    background:none;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="page-content tab-content">
+        <div class="tab-pane active" id="TabPage1">
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="tabbable tabbable-bordered tabs-top">
+                <ul class="nav nav-tabs">
+                  <li><a href="$_M[cururl]&ac=list&id=">栏目管理</a></li>
+                  <li class="active"><a href="#TabTop1" data-toggle="tab">修改栏目</a></li>
+                  <li><a href="#TabTop2" data-toggle="tab">高级选项</a></li>
+                </ul>
+                <form id="columnadd" class="form-horizontal" action="$_M[cururl]" method="post" >
+                    <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                <div class="tab-content">
+                    <div id="TabTop1" class="tab-pane active fade in">
+                      <div class="row-fluid">
+                        <div class="span8 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                              <ul class="form-list list-bordered dotted">
+                                <li class="control-group">
+                                  <label for="name" class="control-label"> <span class="required" style="color:red">*</span>栏目名称</label>
+                                  <div class="controls">
+                                    <input id="name" class="span6" type="text" value="$row[name]" name="name">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="byname" class="control-label"> 栏目别名</label>
+                                  <div class="controls">
+                                    <input id="byname" class="span6" type="text" value="$row[byname]" name="byname">
+                                    <span class="help-block">无特殊需求可忽略此项（此项暂无处调用，对于二次开发的根据实际情况自行使用）</span> 
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="modelid" class="control-label"> <span class="required" style="color:red">*</span>内容模型</label>
+                                  <div class="controls controls-row">
+                                    <select id="modelid" class="span6 selecttwo" data-style="btn-info" name="modelid">
+                                    <!--{loop $models $v}-->
+                                      <option value="$v[id]" {echo $v[id]==$row[modelid]?'selected':''} tablename="$v[tablename]">$v[modelname]</option>
+                                    <!--{/loop}-->
+                                    </select>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="displayorder" class="control-label">排列顺序</label>
+                                  <div class="controls">
+                                    <input id="displayorder" class="span2" type="text" name="displayorder" value="$row[displayorder]">
+                                    <span class="help-block">值越大排序越靠前</span>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="savedir" class="control-label">文件保存目录</label>
+                                  <div class="controls"><input id="savedir" class="span6" type="text" name="savedir" value="$row[savedir]"></div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="accesstype" class="control-label">栏目默认访问方式</label>
+                                  <div class="controls">
+                                    <input id="accesstype" type="hidden" name="accesstype" value="$row[accesstype]" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio {echo $row[accesstype]==1?'active':''}" data-id="accesstype" value="1">静态链接访问</button>
+                                      <button type="button" class="btn btn-radio {echo $row[accesstype]==2?'active':''}" data-id="accesstype" value="2">动态链接访问</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="filename" class="control-label">默认页文件名称</label>
+                                  <div class="controls">
+                                    <input id="filename" class="span6" type="text" name="filename" value="$row[filename]">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="ishidden" class="control-label">是否隐藏栏目</label>
+                                  <div class="controls">
+                                    <input id="ishidden" type="hidden" name="ishidden" value="" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio {echo empty($row[ishidden])?'active':''}" data-id="ishidden" value="0">显示</button>
+                                      <button type="button" class="btn btn-radio {echo $row[ishidden]==1?'active':''}" data-id="ishidden" value="1">隐藏</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="redirecturl" class="control-label">跳转URL</label>
+                                  <div class="controls">
+                                    <input id="redirecturl" class="span6" type="text" value="$row[redirecturl]" name="redirecturl">
+                                  </div>
+                                </li>
+                              </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green"> 提 交 </button>
+                                <button class="btn cancel">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="TabTop2" class="tab-pane fade">
+                      <div class="row-fluid">
+                        <div class="span8 grider">
+                          <div class="row-fluid">
+                            <div class="span12">
+                              <fieldset>
+                              <ul class="form-list list-bordered dotted">
+                                <li class="control-group">
+                                  <label for="binddomain" class="control-label">绑定域名</label>
+                                  <div class="controls">
+                                    <input id="binddomain" class="span6" type="text" value="$row[binddomain]" name="binddomain" placeholder="http://xxx.mopcms.com" {echo $parent_binddomain?'disabled':''}>
+                                    <span class="help-block"> <!--{echo $parent_binddomain?'因上级栏目已绑定域名，此处不可修改，可通过修改上级栏目绑定域名进行修改，':''}-->绑定域名后访问地址将变成“http://xxx.mopcms.com/”访问文件保存目录下的文件</span> </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="allowpub" class="control-label">是否支持投稿</label>
+                                  <div class="controls">
+                                    <input id="allowpub" type="hidden" name="allowpub" value="$row[allowpub]" />
+                                    <div id="accountGender" class="btn-group change" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio {echo empty($row[allowpub])?'active':''}" data-id="allowpub" value="0">不支持</button>
+                                      <button type="button" class="btn btn-radio {echo $row[allowpub]==1?'active':''}" data-id="allowpub" value="1">支持</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="tempindex" class="control-label">封面模板</label>
+                                  <div class="controls"> /template/
+                                    <input id="tempindex" class="span6" type="text" name="tempindex" value="$row[tempindex]">
+                                    <span class="help-block">如此项有设置，则视为此栏目设为封面栏目（封面栏目只会生成一个封面页面，不再有栏目列表分页），否则为空即可</span> 
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="templist" class="control-label">列表模板</label>
+                                  <div class="controls"> /template/
+                                    <input id="templist" class="span6" type="text" name="templist" value="$row[templist]">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="tempview" class="control-label">文档模板</label>
+                                  <div class="controls"> /template/
+                                    <input id="tempview" class="span6" type="text" name="tempview" value="$row[tempview]">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="ruleview" class="control-label">文档命名规则</label>
+                                  <div class="controls">
+                                    <input id="ruleview" class="span6" type="text" name="ruleview" value="$row[ruleview]">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="rulelist" class="control-label">列表命名规则</label>
+                                  <div class="controls">
+                                    <input id="rulelist" class="span6" type="text" name="rulelist" value="$row[rulelist]">
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="savedir" class="control-label">继承属性</label>
+                                  <div class="controls checkbox">
+                                      <input type="checkbox" value="1" class="checkbox" name="inherit">同步更新下级栏目内容类型、调用模板、命名规则属性 
+                                    </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="keywords" class="control-label">关键字</label>
+                                  <div class="controls">
+                                    <textarea rows="3" class="input-block-level" id="keywords" name="keywords">$row[keywords]</textarea>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label for="description" class="control-label">栏目描述</label>
+                                  <div class="controls">
+                                    <textarea rows="3" class="input-block-level" id="description" name="description">$row[description]</textarea>
+                                  </div>
+                                </li>
+                              </ul>
+                              </fieldset>
+                              <div class="form-actions">
+                                <button type="submit" class="btn btn-green">提 交</button>
+                                <button class="btn">取 消</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}-->
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script>
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script>
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/validate/js/jquery.validate.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script> 
+<script>
+(function ($, window, document, undefined) {
+		$(".selecttwo").select2({
+                minimumResultsForSearch: 6,
+				width: "off"
+        });
+        $("input.checkbox, input.radio, input:file.input-file").uniform({
+                radioClass: 'radios'
+        }); 
+})(jQuery, this, document);
+$(function() {
+	$('#modelid').change(function(){
+		tablename = $(this).find("option:selected").attr('tablename');
+		$('#templist').val('default/list_'+tablename+'.htm');
+		$('#tempview').val('default/view_'+tablename+'.htm');
+	})
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+	$(function (accForm) {
+		accForm("#modelid").select2();
+		accForm('#columnadd').validate({
+			ignore: "",
+			rules: {
+				name: {
+					required: true,
+				},
+				modelid: {
+					required: true,
+				},
+				savedir: {
+					required: true,								
+				}
+			},
+			messages: {
+				name: {
+					required: "{echo promptMsg(10207)}",
+				},
+				modelid: {
+					required: "{echo promptMsg(10208)}",
+				},
+				savedir: {
+					required: "{echo promptMsg(10209)}",
+				}
+			},
+			highlight: function (label) {
+				$(label).removeClass('valid').closest('.control-group').addClass('error').removeClass('success');
+				$(label).next().removeClass('fontello-icon-ok');
+			},
+			success: function (label) {
+				$(label).addClass('valid fontello-icon-ok').closest('.control-group').addClass('success');
+			},
+			errorPlacement: function (error, label) {
+				$(label).closest('.controls').append(error);
+			}
+		})
+	});
+});
+</script>
+</div>
+</body>
+</html>

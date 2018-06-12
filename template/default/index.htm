@@ -1,0 +1,345 @@
+<!--{template headhtml}-->
+<title>$_M[sys][webname]</title>
+<meta name="keywords" content="$_M[sys][keywords]" />
+<meta name="description" content="$_M[sys][description]" />
+<link rel="stylesheet" type="text/css" href="$_M[sys][static_url]css/index.css">
+<script src="$_M[sys][static_url]js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script>var res = navigator.userAgent.toLowerCase().match(/android|iphone/);if(res == 'android'||res == 'iphone'){location="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=index')}";}</script>
+</head>
+<style type="text/css">
+.search .fontello-icon-search-1 {
+    height: auto;
+}
+</style>
+<body>
+<!--{template head}-->
+<div class="wrap ca">
+  <div class="frame-1-2-l">
+    <div class="ca_z">
+      <div class="syjrgz block">
+        <div class="blocktitle title"><span class="titletext" style="float:;margin-left:px;font-size:;color: !important;">热门头条</span><span class="subtitle" style="float:;margin-left:px;font-size:;color: !important;">HOT</span></div>
+        <div id="portal_block_296_content" class="dxb_bc">
+          <div class="riqi"><span id="dtime" class="y">今天是{echo date('Y年m月d日')}  星期{echo getWeek()}</span></div>
+          <div class="cl xld">
+            <!--{list func=pointlist pointid=1 target=_blank}-->
+            <dl class="cl">
+              <dt>$v[textlink]</dt>
+              <dd>$v[summary]<span class="cankan"><a href="$v[link]" target="_blank">[查看全文]</a></span></dd>
+            </dl>
+            <!--{/list}-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-1-2-r">
+    <div class="focusBox">
+      <ul class="pic">
+        <!--{list func=pointlist pointid=2 target=_blank}-->
+        <li>$v[imglink]</li>
+        <!--{/list}-->
+      </ul>
+      <div class="txt-bg"></div>
+      <div class="txt">
+        <ul>
+        <!--{list func=pointlist pointid=2 target=_blank}-->
+          <li>$v[textlink]</li>
+        <!--{/list}-->
+        </ul>
+      </div>
+      <ul class="num">
+        <!--{list func=pointlist pointid=2}-->
+        <li><a>$v[i]</a><span></span></li>
+        <!--{/list}-->
+      </ul>
+      <script>
+            jQuery(".focusBox").slide({ 
+                titCell:".num li", 
+                mainCell:".pic", 
+                effect:"fold", 
+                autoPlay:true, 
+                trigger:"click", 
+                startFun:function(i){	
+                    jQuery(".focusBox .txt li").eq(i).animate({"bottom":0}).siblings().animate({"bottom":-24});			
+                }		
+            });	
+            </script> 
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="wrap cb">
+  <div class="frame-2-1-l">
+    <div class="twzx block ">
+      <div class="blocktitle title"><span class="titletext">图文资讯</span><span class="subtitle" style="float:right;margin-right:px;font-size:;color: !important;">MORE&gt;&gt;</span></div>
+      <div class="dxb_bc">
+        <div class="cl xld">
+          <!--{list func=pointlist pointid=3 target=_blank}-->
+          <dl class="cl">
+            <dd class="m">$v[imglink]</dd>
+            <dt>$v[textlink]</dt>
+            <dd>$v[summary]</dd>
+          </dl>
+          <!--{/list}-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-2-1-r">
+    <div class="yzrt block ">
+      <div class="blocktitle title"><span class="titletext" style="float:;margin-left:px;font-size:;color: !important;">推荐商品</span><span class="subtitle" style="float:right;margin-right:px;font-size:;color: !important;">MORE&gt;&gt;</span></div>
+      <div class="dxb_bc">
+        <div class="div_n cl xl xl1">
+          <ul>
+            <!--{list func=pointlist pointid=4 target=_blank}-->
+            <li id="rbg"><span class="number">$v[i]</span>$v[textlink]</li>
+            <!--{/list}-->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="clear"></div>
+<div class="wrap">
+  <div class="shdd cl">
+    <div class="title">
+    <!--{list func=column columnid=1 type=this}--><span class="titletext">$v[name]</span><!--{/list}-->
+    <!--{list func=column columnid=1 type=son}-->
+    <span class="subtitle"><a href="$v[link]">$v[name]</a></span>
+    <!--{/list}-->
+    </div>
+    <div class="frame-1-1-l">
+      <div class="sw cl">
+        <div class="title frame-title">
+        <!--{list func=column columnid=2 type=this}-->
+        <span class="titletext">$v[name]</span><span class="subtitle" style="float:right;"><a href="$v[link]">更多&gt;&gt;</a></span>
+        <!--{/list}-->
+        </div>
+        <div class="frame-1-1-l">
+          <div class="qzt block ">
+            <div class="dxb_bc">
+              <div class="cl ml">
+                <ul>
+                 <!--{list func=pointlist pointid=5 target=_blank}-->
+                  <li style="width: 178px;">$v[imglink]
+                    <p>$v[textlink]</p>
+                    </li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="frame-1-1-r">
+          <div class="sddbtzy block ">
+            <div class="dxb_bc">
+              <div class="cl xld">
+               <!--{list func=pointlist pointid=6 target=_blank}-->
+                <dl class="cl">
+                  <dt>$v[textlink]</dt>
+                  <dd>$v[summary]<a href="$v[link]" target="_blank" id="ck">[详细]</a></dd>
+                </dl>
+               <!--{/list}-->
+              </div>
+            </div>
+          </div>
+          <div class="qztz block ">
+            <div class="dxb_bc">
+              <div class="cl xl xl1">
+                <ul>
+                 <!--{list func=pointlist pointid=7 target=_blank}-->
+                  <li>$v[textlink]</li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="qz cl">
+        <div class="title frame-title">
+        <!--{list func=column columnid=3 type=this}-->
+        <span class="titletext">$v[name]</span><span class="subtitle" style="float:right;"><a href="$v[link]">更多&gt;&gt;</a></span>
+        <!--{/list}-->
+        </div>
+        <div class="frame-1-1-l">
+          <div class="qzt block ">
+            <div class="dxb_bc">
+              <div class="cl ml">
+                <ul>
+                 <!--{list func=pointlist pointid=8 target=_blank}-->
+                  <li style="width: 178px;">$v[imglink]
+                    <p>$v[textlink]</p>
+                    </li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="frame-1-1-r">
+          <div class="sddbtzy block ">
+            <div class="dxb_bc">
+              <div class="cl xld">
+                <!--{list func=pointlist pointid=9 target=_blank}-->
+                <dl class="cl">
+                  <dt>$v[textlink]</dt>
+                  <dd>$v[summary]<a href="$v[link]" target="_blank" id="ck">[详细]</a></dd>
+                </dl>
+               <!--{/list}-->
+              </div>
+            </div>
+          </div>
+          <div class="qztz block">
+            <div class="dxb_bc">
+              <div class="cl xl xl1">
+                <ul>
+                 <!--{list func=pointlist pointid=10 target=_blank}-->
+                  <li>$v[textlink]</li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-1-1-r">
+      <div class="jh cl">
+        <div class="title frame-title">
+        <!--{list func=column columnid=4 type=this}-->
+        <span class="titletext">$v[name]</span><span class="subtitle" style="float:right;"><a href="$v[link]">更多&gt;&gt;</a></span>
+        <!--{/list}-->
+        </div>
+        <div class="frame-1-1-l">
+          <div class="qzt block ">
+            <div class="dxb_bc">
+              <div class="cl ml">
+                <ul>
+                  <!--{list func=pointlist pointid=11 target=_blank}-->
+                  <li style="width: 178px;">$v[imglink]
+                    <p>$v[textlink]</p>
+                    </li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="frame-1-1-r">
+          <div class="sddbtzy block">
+            <div class="dxb_bc">
+              <div class="cl xld">
+                <!--{list func=pointlist pointid=12 target=_blank}-->
+                <dl class="cl">
+                  <dt>$v[textlink]</dt>
+                  <dd>$v[summary]<a href="$v[link]" target="_blank" id="ck">[详细]</a></dd>
+                </dl>
+               <!--{/list}-->
+              </div>
+            </div>
+          </div>
+          <div class="qztz block ">
+            <div class="dxb_bc">
+              <div class="cl xl xl1">
+                <ul>
+                 <!--{list func=pointlist pointid=13 target=_blank}-->
+                  <li>$v[textlink]</li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="qc cl">
+        <div class="title frame-title">
+        <!--{list func=column columnid=5 type=this}-->
+        <span class="titletext">$v[name]</span><span class="subtitle" style="float:right;"><a href="$v[link]">更多&gt;&gt;</a></span>
+        <!--{/list}-->
+        </div>
+        <div class="frame-1-1-l">
+          <div class="qzt block">
+            <div class="dxb_bc">
+              <div class="cl ml">
+                <ul>
+                  <!--{list func=pointlist pointid=14 target=_blank}-->
+                  <li style="width: 178px;">$v[imglink]
+                    <p>$v[textlink]</p>
+                    </li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="frame-1-1-r">
+          <div class="sddbtzy block ">
+            <div class="dxb_bc">
+              <div class="cl xld">
+                <!--{list func=pointlist pointid=15 target=_blank}-->
+                <dl class="cl">
+                  <dt>$v[textlink]</dt>
+                  <dd>$v[summary]<a href="$v[link]" target="_blank" id="ck">[详细]</a></dd>
+                </dl>
+               <!--{/list}-->
+              </div>
+            </div>
+          </div>
+          <div class="qztz block ">
+            <div class="dxb_bc">
+              <div class="cl xl xl1">
+                <ul>
+                  <!--{list func=pointlist pointid=16 target=_blank}-->
+                  <li>$v[textlink]</li>
+                 <!--{/list}-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="wrap sydiy">
+  <div class="frame-1-c">
+      <div class="bt1 block ">
+        <div class="dxb_bc">
+          <div class="portal_block_summary">
+          <!--{list func=column columnid=2 type=this}-->
+            <div class="title"><span class="titletext t1">$v[name]</span></div>
+            <ul>
+              <li><a href="$v[link]">更多…</a></li>
+            </ul>
+            <!--{/list}-->
+          </div>
+        </div>
+      </div>
+      <div class="sytpj block ">
+        <div class="dxb_bc">
+          <div class="cl ml">
+            <ul>
+              <!--{list func=pointlist pointid=17 target=_blank}-->
+              <li class="tz1" style="width: 352px;">$v[imglink]
+                <p>$v[textlink]<span>$v[summary]</span></p>
+              </li>
+              <!--{/list}-->
+              <!--{list func=pointlist pointid=18 target=_blank}-->
+              <li class="tz xh2" style="width: 200px;">$v[imglink]
+                <p>$v[textlink]<span>$v[summary]</span></p>
+              </li>
+              <!--{/list}-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="mtop10"></div>
+<!--{template foot}-->
+</body>
+</html>

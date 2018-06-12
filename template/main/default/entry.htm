@@ -1,0 +1,71 @@
+<!--{template headhtml}-->
+<title>$arc[title] - 活动报名</title>
+<meta name="keywords" content="$arc[keywords]" />
+<meta name="description" content="$arc[description]" />
+<link rel="stylesheet" href='$_M[sys][static_url]amazeui/css/amazeui.min.css' />
+<link rel="stylesheet" href="$_M[sys][static_url]css/specials_entry.css" />
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+</head>
+<body>
+<div class="misc">
+	<div class="misc_hd">
+	    <!--{if $count}-->
+    	<div class="num am-text-xs">已有<span>$count</span>人报名</div>
+    	<!--{/if}-->
+        <img style="z-index:-99" src="$_M[sys][static_url]images/entry_top.jpg" />
+    </div>
+    <div class="misc_bd">
+    	<div class="form_mod am-padding-bottom" style="padding-top:15px">
+ 		<form action="{echo pseudoUrl($_M[cururl])}" method="post" name='form1' enctype="multipart/form-data" class="am-form am-form-horizontal validform am-text-xs" >
+      		<input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />    
+	 		<!--{list func=entryField sid=$sid}-->
+            <div class="am-form-group dl_$v[datatype]">
+              <label class="am-u-sm-3 am-form-label"><!--{if $v[required]}--><span class="must">*</span><!--{/if}--> $v[title]</label>
+              <div class="am-u-sm-9 am-form-fields">
+                <!--{if $v[units]}-->
+              	<div class="am-input-group">
+                	$v[field]
+                    <span class="am-input-group-label">$v[units]</span>
+				</div>
+                <!--{else}-->
+                $v[field]
+                <!--{/if}-->
+                <!--{if $v[intro]}-->
+                <p class="am-form-help">$v[intro]</p>
+                <!--{/if}-->
+              </div>
+          </div>
+            <!--{/list}-->
+            <div class="am-form-group">
+            	<div class="am-u-sm-12">
+                	<span id="msgvalid" class="Validform_checktip"></span>
+                </div>
+            </div>
+	 		<div class="am-form-group">
+            	<div class="am-u-sm-12">
+                <!--{if $msg}-->
+                <button class="am-btn am-radius am-btn-block" style="color:gray">$msg</button>
+                <!--{else}-->
+                <button name="imageField" type="submit" class="am-btn am-btn-success am-radius am-btn-block">提　交</button>
+                <!--{/if}-->
+                </div>
+        	</div>
+    	</form>
+    	</div>
+ 	</div>
+	<div class="misc_ft"><img src="$_M[sys][static_url]images/entry_bottom.jpg" /></div>
+</div>
+<script>
+$(function(){
+	$(".validform").Validform({
+		tiptype:function(msg,o,cssctl){
+			var objtip=$("#msgvalid");
+			cssctl(objtip,o.type);
+			objtip.text(msg);
+		}
+	});
+});
+</script>
+</body>
+</html>

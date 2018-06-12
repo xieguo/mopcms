@@ -1,0 +1,225 @@
+<!--{template headhtml}-->
+</head>
+<style type="text/css">
+.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+	background: #3b9b28 none repeat scroll 0 0;
+	color: #ffffff;
+	text-shadow: 0 0px 0px;
+}
+.radio, .checkbox {
+	padding-left: 0px;
+}
+div.checker {
+	margin-left: 0px;
+}
+form {
+	margin: 0 0 0px;
+}
+.form-actions {
+	background:none;
+}
+.form-horizontal .control-label {
+	padding-top: 0px;
+	width: 200px;
+}
+.form-horizontal .controls {
+	margin-left: 220px;
+}
+label {
+	margin-bottom: 0px;
+}
+#DisColor, #HexColor {
+	width:auto;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+</style>
+<body class="sidebar-left ">
+<div class="page-container"> 
+  <!--{template head}-->
+  <div id="main-container"> 
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div id="page-content" class="tab-content">
+        <div class="tab-pane active" id="TabPage1">
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="tabbable tabbable-bordered tabs-top">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a>$menuname</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade active in">
+                    <form id="$_M[mod]{$_M[ac]}" class="form-horizontal" action="$_M[cururl]" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+                      <div class="row-fluid">
+                        <div class="span12 grider">
+                          <div class="row-fluid">
+                            <fieldset>
+                              <ul class="form-list list-bordered">
+                                <li class="control-group">
+                                  <label class="control-label">上传的图片是否使用水印</label>
+                                  <div class="controls">
+                                    <input id="enable" type="hidden" name="enable" value="$row[enable]" />
+                                    <div class="btn-group change" data-toggle="buttons-radio">$row[enable]
+                                      <button type="button" class="btn btn-radio {if $row[enable] == 1}active{/if}" data-id="enable" value="1">开启</button>
+                                      <button type="button" class="btn btn-radio {if empty($row[enable])}active{/if}" data-id="enable" value="0">关闭</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group">
+                                  <label class="control-label">选择水印的文件类型</label>
+                                  <div class="controls">
+                                    <input id="types" type="hidden" name="types" value="$row[types]" />
+                                    <div class="btn-group change btn-types" data-toggle="buttons-radio">
+                                      <button type="button" class="btn btn-radio {if $row[types]==1}active{/if}" data-id="types" value="1">图片</button>
+                                      <button type="button" class="btn btn-radio {if $row[types]==2}active{/if}" data-id="types" value="2">文字</button>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group li-img" {if $row[types]==2}style="display:none;"{/if}>
+                                  <label class="control-label">水印图片大小</label>
+                                  <div class="controls"> 宽：
+                                    <input id="width" class="span1" type="text" value="$row[width]" name="width">
+                                    高：
+                                    <input id="height" class="span1" type="text" value="$row[height]" name="height">
+                                    <span class="help-block">0为不限</span> </div>
+                                </li>
+                                <!--{if $row[markimg]}-->
+                                <li class="control-group li-img" {if $row[types]==2}style="display:none;"{/if}>
+                                  <label class="control-label">水印图片预览</label>
+                                  <div class="controls"> <img src="{echo imageResize($row[markimg])}" alt="水印"></div>
+                                </li>
+                                <!--{/if}-->
+                                <li class="control-group li-img" {if $row[types]==2}style="display:none;"{/if}>
+                                  <label class="control-label">水印图片上传</label>
+                                  <div class="controls">
+                                    <input type="file" name="markimg" id="doc-form-file">
+                                    <span class="help-block">系统支持的图片格式：PNG GIF，如果水印图片不存在，则使用文字水印</span> </div>
+                                </li>
+                                <li class="control-group li-text" {if $row[types]==1}style="display:none;"{/if}>
+                                  <label class="control-label">水印图片文字</label>
+                                  <div class="controls">
+                                    <input type='text' name='marktext' class="span5" id='marktext' value='$row[marktext]'>
+                                    </div>
+                                </li>
+                                <li class="control-group li-text" {if $row[types]==1}style="display:none;"{/if}>
+                                  <label class="control-label">水印图片文字字体大小</label>
+                                  <div class="controls">
+                                    <input type='text' name='fontsize' class="span2" id='fontsize' value='$row[fontsize]'>
+                                  </div>
+                                </li>
+                                <li class="control-group li-text" {if $row[types]==1}style="display:none;"{/if}>
+                                  <label class="control-label"> 水印图片文字颜色</label>
+                                  <div class="controls">
+                                    <div class="input-prepend"> <span class="add-on"><span class="fontello-icon-art-gallery"></span></span>
+                                      <input id="fontcolor" class="span6" type="text" value="$row[fontcolor]" name="fontcolor">
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="control-group li-img" {if $row[types]==2}style="display:none;"{/if}>
+                                  <label class="control-label">设置JPEG类型水印质量</label>
+                                  <div class="controls">
+                                    <select id="marktrans" class="span2 selecttwo" data-style="btn-info" name="marktrans">
+                                      <!--{for i 100 1}-->
+                                      <option value="$i" {echo $i==$row[marktrans]?'selected':''}>$i</option>
+                                      <!--{/for}-->
+                                    </select>
+                                    <span class="help-block">范围为 0～100 的整数，数值越大结果图片效果越好，但图片也越大。</span> </div>
+                                </li>
+                                <li class="control-group li-img" {if $row[types]==2}style="display:none;"{/if}>
+                                  <label class="control-label">设置GIF类型水印参数</label>
+                                  <div class="controls">
+                                    <select id="diaphaneity" class="span2 selecttwo" data-style="btn-info" name="diaphaneity">
+                                      <!--{for i 100 1}-->
+                                      <option value="$i" {echo $i==$row[diaphaneity]?'selected':''}>$i</option>
+                                      <!--{/for}-->
+                                    </select>
+                                    <span class="help-block">水印图片与原始图片的融合度,水印透明度（0—100，值越小越透明）</span> </div>
+                                </li>
+                                <li class="control-group li-img">
+                                  <label class="control-label">水印位置</label>
+                                  <div class="controls">
+                                    <label class="am-radio-inline" for="markpos">
+                                    <table style="width:300px;">
+                                      <tr>
+                                        <td width="33%"><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="1" {if $row[markpos]==1}checked="checked"{/if} />顶部居左</label></td>
+                                          <td width="33%">
+                                          <label class="am-radio-inline">
+                                        <input type="radio" name="markpos" value="2" {if $row[markpos]==2} checked="checked"{/if} />顶部居中</label>
+                                          </td>
+                                        <td width="33%"><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="3" {if $row[markpos]==3}checked="checked"{/if} />顶部居右</label></td>
+                                      </tr>
+                                      <tr>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="4" {if $row[markpos]==4}checked="checked"{/if} />左边居中</label></td>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="5" {if $row[markpos]==5}checked="checked"{/if} />图片中心</label></td>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="6" {if $row[markpos]==6}checked="checked"{/if} />右边居中</label></td>
+                                      </tr>
+                                      <tr>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="7" {if $row[markpos]==7} checked="checked" {/if} />底部居左</label></td>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="8" {if $row[markpos]==8} checked="checked" {/if} />底部居中</label></td>
+                                        <td><label class="am-radio-inline">
+                                            <input type="radio" name="markpos" value="9" {if $row[markpos]==9||empty($row[markpos])} checked="checked" {/if} />底部居右</label></td>
+                                      </tr>
+                                    </table>
+                                  </div>
+                                </li>
+                              </ul>
+                            </fieldset>
+                            <div class="form-actions">
+                              <button type="submit" class="btn btn-green"> 保 存 </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--{template foot}--> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/uniform/jquery.uniform.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/plugins/pl-form/select2/select2.min.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/jquery-ui.js"></script> 
+  <script src="$_M[sys][static_url]assets/js/lib/bootstrap/bootstrap.js"></script> 
+  <script src="$_M[sys][static_url]ColorPicker/jquery.colorpicker.js"></script> 
+  <script>
+$(function() {
+	$(".selecttwo").select2({
+			minimumResultsForSearch: 6,
+			width: "off"
+	});
+	$(".btn-types button").click(function(){
+		if($(this).val()==2){
+			$('.li-img').hide();
+			$('.li-text').show();
+		}else{
+			$('.li-img').show();
+			$('.li-text').hide();
+		}
+	})
+	$(".btn-radio").click(function(){
+		dataid = $(this).attr('data-id');
+		$('#'+dataid).val($(this).val());
+	})
+	$("#fontcolor").colorpicker({
+		fillcolor:true
+	});
+});
+</script> 
+</div>
+</body>
+</html>

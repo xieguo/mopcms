@@ -1,0 +1,50 @@
+<style type="text/css">
+.sidebar-left .sidebar, .sidebar-right .sidebar {
+    height: 100%;
+    overflow: auto;
+}
+</style>
+<div id="main-sidebar" class="sidebar sidebar-inverse">
+  <ul id="mainSideMenu" class="nav nav-list nav-side">
+    <!--{if $_M[mod]=='main'||$menuid==1}-->
+    <li class="accordion-group">
+      <div class="accordion-heading"> <a href="#menuidm1" data-parent="#mainSideMenu" data-toggle="collapse" class="accordion-toggle"> <span class="item-icon"></span> <i class="chevron fontello-icon-right-open-3"></i> 常用操作</a> </div>
+      <ul class="accordion-content nav nav-list collapse in" id="menuidm1">
+        <!--{loop $common_operate $v}-->
+        <li><a href="$v[url]"> <i class="fontello-icon-right-dir"></i> $v[name] </a> </li>
+        <!--{/loop}-->
+      </ul>
+    </li>
+    <li class="accordion-group">
+      <div class="accordion-heading"> <a href="#menuidm2" data-parent="#mainSideMenu" data-toggle="collapse" class="accordion-toggle"> <span class="item-icon"></span> <i class="chevron fontello-icon-right-open-3"></i> 最新操作</a> </div>
+      <ul class="accordion-content nav nav-list collapse in" id="menuidm2">
+        <!--{loop $lastest_operate $v}-->
+        <li><a href="$v[url]"> <i class="fontello-icon-right-dir"></i> $v[name] </a> </li>
+        <!--{/loop}-->
+      </ul>
+    </li>
+    <!--{else}--> 
+    <!--{loop $admin_menu[$topid][submenu] $v}-->
+    <li class="accordion-group">
+      <div class="accordion-heading {echo $v[id]==$menuparentid?'active':''}"> <a href="#menuid$v[id]" data-parent="#mainSideMenu" data-toggle="collapse" class="accordion-toggle"> <span class="item-icon $v[icon]"></span> <i class="chevron fontello-icon-right-open-3"></i> $v[name]</a> </div>
+      <ul class="accordion-content nav nav-list collapse {echo ($v[mod]==$_M[mod]||$v[id]==$menuparentid)?'in':''}" id="menuid$v[id]">
+        <!--{if $v[id]==9}--> 
+        <!--{loop $sidebar_models $val}-->
+        <li class="{echo $val[modelid]==_gp('modelid')?'active':''}"> <a href="?mod=$v[mod]&ac=$v[ac]&modelid=$val[modelid]&menuid=38"> <i class="fontello-icon-right-dir"></i> $val[modelname] </a> <span class="btn_add"><a href="?mod=$v[mod]&ac=add&modelid=$val[modelid]&menuid=48"><span class="fontello-icon-plus"></span></a></span> </li>
+        <!--{/loop}-->
+        <li class="{echo _gp('modelid')==-1?'active':''}"> <a href="?mod=$v[mod]&ac=$v[ac]&modelid=-1&menuid=38"> <i class="fontello-icon-right-dir"></i> 专题 </a> <span class="btn_add"><a href="?mod=$v[mod]&ac=add&modelid=-1&menuid=48"><span class="fontello-icon-plus"></span></a></span> </li>
+        <li class="{echo $_M[mod]=='singlepage'?'active':''}"> <a href="?mod=singlepage&ac=list&menuid=75"> <i class="fontello-icon-right-dir"></i> 单页文档 </a> <span class="btn_add"><a href="?mod=singlepage&ac=add&menuid=75"><span class="fontello-icon-plus"></span></a></span> </li>
+        <!--{else}--> 
+        <!--{loop $v[submenu] $val}--> 
+        <!--{if $val[isshow] && $val[islist]}-->
+        <li class="{echo $val[id]==$menuid?'active':''}"> <a href="$val[url]"> <i class="fontello-icon-right-dir"></i> $val[name] </a> </li>
+        <!--{/if}--> 
+        <!--{/loop}--> 
+        <!--{/if}-->
+      </ul>
+    </li>
+    <!--{/loop}--> 
+    <!--{/if}-->
+  </ul>
+  <div class="sidebar-item side-notyfy"><br /><br /></div>
+</div>

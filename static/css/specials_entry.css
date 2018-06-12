@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+/*am*/
+/*.am-form-horizontal .am-ucheck-icons{ top:10px;}*/
+.am-radio-inline + .am-radio-inline, .am-checkbox-inline + .am-checkbox-inline { margin-left:0px; }
+.am-radio-inline, .am-checkbox-inline{ margin-right:10px;}
+.must{ color:#c00; font-family:"Arial Black", Gadget, sans-serif; font-weight:normal;}
+.am-form-group{ margin-bottom:0.5rem;}
+.am-form-group .am-form-label{ font-size:1.2rem; padding-right:0px; padding-top:1em;}
+.am-form-group .am-form-fields{ }
+.am-form-help { font-size:1.2rem; }
+
+/*misc*/
+.misc								{ margin:0px auto; width:400px;}
+.misc_hd							{ position:relative; border:1px solid #5eb95e; border-bottom:none; }
+.misc_hd img						{ width:100%; z-index:-99;}
+.misc_hd .num						{ position:absolute; left:15px; bottom:0; color:#333; text-align:center; }
+.misc_hd .num span					{ padding:0 2px; color:#F00; font-size:16px; font-weight:bold;  }
+.misc_hd .qrcode					{ position:absolute; top:15px; right:25px; color:#fff; font-size:13px; text-align:center;}
+.misc_hd .qrcode img				{ display:block; width:85px; height:85px; margin:0 auto;}
+.misc_ft							{ position:relative; text-align:center;}
+.misc_ft img						{ width:100%; z-index:-99; }
+.misc_bd							{ padding:0px; border:1px solid #5eb95e; border-top:none; }
+.misc_title { padding:5px 10px; background-color:#dd7629; color:#fff; font-size:16px; line-height:30px;}
+.Validform_checktip					{ white-space:normal !important; }
+
+@media only screen and (min-width: 321px) and (max-width: 414px){
+.misc									{ width:340px; overflow:hidden;}
+.form_mod								{ padding:5px 0px 10px;}
+}
+@media screen and (max-width: 320px){ 
+.misc									{ width:300px;}
+.form_mod								{ padding:5px 0px 10px;}
+}
+.am-form-horizontal .am-radio-inline,.am-form-horizontal .am-checkbox-inline{ padding-top:0;}
+.am-form input[type="number"], .am-form input[type="search"], .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="tel"], .am-form input[type="color"], .am-form select, .am-form textarea, .am-form-field {
+    width: 90%;
+    border-radius: 4px;
+    color: #555555;
+    display: inline-block;
+    font-size: 14px;
+    height: auto;
+    line-height: auto;
+    margin-bottom: 10px;
+    padding: 9px 6px;
+    vertical-align: middle;
+}
+.input-append .add-on, .input-prepend .add-on {
+    height: auto;
+    padding: 7px 5px;
+}

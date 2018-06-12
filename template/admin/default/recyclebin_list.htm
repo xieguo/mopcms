@@ -1,0 +1,93 @@
+<!--{template headhtml}-->
+</head><body class="sidebar-left ">
+<div class="page-container">
+  <!--{template head}-->
+  <div id="main-container">
+    <div id="leftmenu"><!--{template sidebar}--></div>
+    <div id="main-content" class="main-content container-fluid">
+        <!--{template location}-->
+      <div class="main-contain">
+        <div class="widget widget-simple widget-table">
+          <div role="grid" class="datatable-wrapper form-inline">
+            <div class="row-fluid search">
+            <form name="form1" id="form1" action="$_M[cururl]" method="post" >
+              <div class="widget-header">
+                <div class="span12" style="margin-top:10px;">
+                  <ul class="btn-toolbar">
+                    <li><a class="btn btn-green " href="$_M[cururl]&ac=delall">全部删除</a></li>
+                    <li><input type="text" name="words" value="$words" placeholder="搜索关键词" class="width200"></li>
+                    <li><button type="submit" class="btn btn-green">搜索</button></li>
+                  </ul>
+                </div>
+              </div>
+              </form>
+            </div>
+              <table class="table table-striped table-content table-condensed boo-table table-hover bg-blue-light" >
+                <thead>
+                  <tr>
+                    <th scope="col" width="30"><input name="all" id="all" type="checkbox" class="checkbox check-row"></th>
+                    <th scope="col" width="50">ID</th>
+                    <th scope="col">文档标题</th>
+                    <th scope="col" width="140">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--{loop $list $v}-->
+                  <tr>
+                    <td><input name="aid" type="checkbox" class="checkbox check-row" value="$v[id]"></td>
+                    <td>$v[id]</td>
+                    <td><a href="?mod=archives&ac=edit&id=$v[id]&menuid=49" class="archives" id="$v[id]">$v[title]</a></td>
+                    <td class=" text-right">
+                      <a aid="$v[id]" ac="restore" class="btn btn-yellow btn-mini no-wrap btn-restore">还原<i class="fontello-icon-ccw"></i></a>
+                      <a aid="$v[id]" ac="del" class="btn btn-red btn-mini no-wrap btn-del">删除<i class="fontello-icon-cancel"></i></a>
+                      </td>
+                  </tr>
+                  <!--{/loop}-->
+                  <tr>
+                    <td colspan="4"><a ac="restore" class="btn batch-restore"><i class="fontello-icon-ccw"></i>还原</a> <a ac="del" class="btn batch-del"><i class="fontello-icon-cancel"></i>删除</a></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">$pagehtml</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div><br>
+<br>
+<br>
+<br>
+    </div>
+  </div>
+  <!--{template foot}-->
+<script>
+$(function() {
+	singleDo = function(){
+		aid = $(this).attr('aid');
+		ac = $(this).attr('ac');
+		$.get('$_M[cururl]&ac='+ac+'&id='+aid);
+		$(this).parents('tr').hide();
+	}
+	$('.btn-restore').click(singleDo);
+	$('.btn-del').click(singleDo);
+	batchDo = function(){
+		id = '';
+		$('input[name="aid"]:checked').each(function (i){
+			id += $(this).val()+',';
+		});
+		ac = $(this).attr('ac');
+		$.get('$_M[cururl]&ac='+ac+'&id='+id);
+		$('input[name="aid"]:checked').each(function (i){
+			$(this).parents('tr').hide();
+		});
+	}
+	$('.batch-restore').click(batchDo);
+	$('.batch-del').click(batchDo);
+	$('#all').click(function(){
+		$('input[name="aid"]').prop('checked',this.checked);
+	})
+});
+</script>
+</div>
+</body>
+</html>

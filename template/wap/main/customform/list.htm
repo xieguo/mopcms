@@ -1,0 +1,139 @@
+<!--{template headhtml}-->
+<!--{eval $_data['title']= $row['formname'].'列表';}-->
+<title>$_data[title]</title>
+<!--{template headstatic}-->
+<style>
+    #filter-more .table-cell {
+        font-size: inherit;
+    }
+    
+    #filter-more select {
+        font-size: inherit;
+    }
+    
+    .weui_media_bd h4 {
+        margin: 0px;
+    }
+    .weui_panel_access td{padding:5px;}
+</style>
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <!--{template head}-->
+    <link rel="stylesheet" href="$_M[sys][static_url]wap/style/amz_filter.css">
+    <script src="$_M[sys][static_url]wap/js/zepto.js"></script>
+    <script src="$_M[sys][static_url]wap/js/filter_bin.js"></script>
+    <script src="$_M[sys][static_url]wap/js/filter_search.js"></script>
+
+    <div style="display: none;" id="mask"></div>
+    <div class="filter_outer" id="filter">
+        <div class="con_filter">
+            <!--{loop $search_fields[fields] $k $v}-->
+            <!--{if $k<3}-->
+            <div class="f_box hide" id="filter-$v[fieldname]">
+                <div class="f_box_inner arrow">
+                    <ul>
+                        <li class="{echo empty($_GET[$v[fieldname]])?'selected':''}">
+                            <a href="{echo pseudoUrl($_M[cururl].'&'.$v[fieldname].'=')}">全部</a>
+                        </li>
+                        <!--{loop $v[rules] $val}-->
+                        <li class="{echo $val[active]?'selected':''}">
+                            <a href="$val[link]">$val[name]</a>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+                <div class="f_box_inner hide"></div>
+            </div>
+            <!--{/if}-->
+            <!--{/loop}-->
+            {if !count($search_fields[fields])}
+            <script>
+                $(function() {
+                    $("#filter").hide();
+                });
+            </script>
+            <!--{/if}-->
+            <div style="left: 0px; height: 867px;" class="f_box f_box_more hide" id="filter-more">
+                <form action="$_M[cururl]" method="post" id="form_sx">
+                    <div class="weui_cells weui_cells_form">
+                        <!--{loop $search_fields[fields] $k $v}-->
+                        <!--{if $k>=3}-->
+                        <div class="weui_cell weui_cell_select cell_$v[fieldname]">
+                            <div class="weui_cell_hd">
+                                <label class="weui_label">$v[title]</label>
+                                </div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <select class="weui_select" name="$v[fieldname]">
+                                    <!--{loop $v[rules] $val}-->
+                                    <option value="$val[value]" {echo $val[active]? 'selected': ''}>$val[name]</option>
+                                    <!--{/loop}-->
+                                </select>
+                            </div>
+                        </div>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </div>
+                    <div class="btn_submit" style="position:fixed; bottom:0; left:0; width:100%; height:50px;">
+                        <a href="javascript:$('#form_sx').submit();" style="width:100%; height:100%; line-height:50px;">筛 选</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="list_filter">
+            <ul class="nav_filter">
+                <!--{loop $search_fields[fields] $k $v}-->
+                <!--{if $k<3}-->
+                <li class="">
+                    <a href="javascript:;" data-id="filter-$v[fieldname]">$v[title]</a>
+                </li>
+                <!--{elseif $k==3}-->
+                <li class="">
+                    <a href="javascript:;" data-id="filter-more">更多</a>
+                </li>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </ul>
+        </div>
+    </div>
+    <div class="weui_panel weui_panel_access">
+        <div class="weui_panel_bd">
+            <table border="0" cellpadding="0" cellspacing="1" width="100%" bgcolor="#CCCCCC">
+                <thead>
+                    <tr>
+                        <th width="50" nowrap="" bgcolor="#FFFFFF" scope="col">ID</th>
+                        <!--{loop $fieldlist $k $v}-->
+                        <!--{if $k<4}-->
+                        <th nowrap="" bgcolor="#FFFFFF" scope="col">$v[title]</th>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                        <th width="60" bgcolor="#FFFFFF" scope="col">详细</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--{loop $result[list] $v}-->
+                    <tr>
+                        <td bgcolor="#FFFFFF">$v[id]</td>
+                        <!--{loop $fieldlist $k $val}-->
+                        <!--{if $k<4}-->
+                        <td bgcolor="#FFFFFF">
+                            <!--{if $val[datatype]=='img'}-->
+                            <img src="{echo imageResize($v[$val[fieldname]],'80','80')}" width=80>
+                            <!--{else}-->
+                            {echo $v['_'.$val[fieldname]]}
+                            <!--{/if}-->
+                        </td>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                        <td bgcolor="#FFFFFF" class=" text-right">
+                            <a href="{echo pseudoUrl('main.php?mod=customform&ac=view&formid='.$row[id].'&id='.$v[id])}" class="weui_btn weui_btn_mini weui_btn_primary">详细</a>
+                        </td>
+                    </tr>
+                    <!--{/loop}-->
+                </tbody>
+            </table>
+            <div class="pagelist">$result[pagehtml]</div>
+        </div>
+    </div>
+    <!--{template foot}-->

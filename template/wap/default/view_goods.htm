@@ -1,0 +1,135 @@
+<!--{template headhtml}-->
+<title>$_data[title] - $_M[sys][webname]</title>
+<meta name="keywords" content="$_data[keywords]" />
+<meta name="description" content="$_data[description]" />
+<!--{template headstatic}-->
+<script src="$_M[sys][static_url]wap/swipe.js"></script>
+<script>
+	$(function() {
+		$('#slide2').swipeSlide({
+			autoSwipe: true, //自动切换默认是
+			speed: 3000, //速度默认4000
+			continuousScroll: true, //默认否
+			transitionType: 'cubic-bezier(0.22, 0.69, 0.72, 0.88)', //过渡动画linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier
+			lazyLoad: true, //懒加载默认否
+			firstCallback: function(i, sum, me) {
+				me.find('.dot').children().first().addClass('cur');
+			},
+			callback: function(i, sum, me) {
+				me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+			}
+		});
+	});
+</script>
+</head>
+<style type="text/css">
+	.weui-weixin-read {
+		margin: 0px;
+	}
+	
+	.weui-weixin-page {
+		padding: 10px 15px 1px 15px;
+	}
+</style>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+	<!--{template head}-->
+	<div class="slide" id="slide2">
+		<ul>
+			<!--{if $imgs = filterImgs($_data[attach][content],5)}-->
+			<!--{loop $imgs $v}-->
+			<li><img src="{echo imageResize($v,720,450)}"></li>
+			<!--{/loop}-->
+			<!--{/if}-->
+		</ul>
+		<div class="dot">
+			<!--{loop $imgs $v}-->
+			<span></span>
+			<!--{/loop}-->
+		</div>
+	</div>
+	<div class="weui-form-preview">
+		<div class="weui-weixin-page">
+			<h2 class="weui-weixin-title">$_data[title]</h2>
+			<div class="weui-weixin-info">
+				<em class="weui-weixin-em"><span class="icon icon-49"></span>收藏</em>
+			</div>
+		</div>
+		<div class="weui-form-preview-hd">
+			<label class="weui-form-preview-label">售价</label>
+			<em class="weui-form-preview-value f-orange">¥$_data[attach][_trueprice]</em>
+		</div>
+		<div class="weui-form-preview-bd">
+			<p>
+				<label class="weui-form-preview-label">原价</label>
+				<span class="weui-form-preview-value">¥$_data[attach][_price]</span>
+			</p>
+			<p>
+				<label class="weui-form-preview-label">品牌</label>
+				<span class="weui-form-preview-value">$_data[attach][_brand]</span>
+			</p>
+			<p>
+				<label class="weui-form-preview-label">所属分类</label>
+				<span class="weui-form-preview-value">$_data[attach][_goodssort]</span>
+			</p>
+			<p>
+				<label class="weui-form-preview-label">有效期至</label>
+				<span class="weui-form-preview-value">$_data[attach][_validity]</span>
+			</p>
+			<p>
+				<label class="weui-form-preview-label">更新时间</label>
+				<span class="weui-form-preview-value">$_data[_updatetime]</span>
+			</p>
+		</div>
+	</div>
+
+	<div class="weui_cells_title">商品详细</div>
+	<div class="weui-weixin">
+		<div class="weui-weixin-ui">
+			<!--页面开始-->
+			<div class="weui-weixin-page">
+				<div class="weui-weixin-content">
+					$_data[attach][content]
+				</div>
+				<!--内容结束-->
+
+				<div class="weui-weixin-tools">
+					<!--工具条-->
+					<div class="weui-weixin-read">阅读<span id="readnum">$_data[views]</span> <span class="weui-weixin-read"><i class="weui-weixin-zan article-zan"></i><span class="weui-weixin-num">$_data[ding]</span></span>
+					</div>
+					<a href="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=comments&aid='.$_data[id])}" class="right">评论</a>
+				</div>
+				<!--工具条结束-->
+
+				<script src="{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=comments&ac=ajaxlist&aid='.$_data[id])}"></script>
+
+			</div>
+			<!--页面结束-->
+
+		</div>
+	</div>
+	<script>
+		$(function() {
+			$.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=dcviews&id='.$_data[id].'&mcallback=?')}");
+		});
+		$("img").addClass('weixin');
+		$('.article-zan').click(function() {
+			if($(this).hasClass('zaned')) {
+				$(this).removeClass('zaned');
+				var val = $(this).next().html();
+				if(parseInt(val) == 0) {
+					var i = 1;
+				} else {
+					var i = parseInt(val) - 1;
+				}
+				$(this).next().html(i);
+
+			} else {
+				$(this).addClass('zaned');
+				var val = $(this).next().html();
+				$(this).next().html(parseInt(val) + 1);
+				$.getJSON("{echo pseudoUrl($_M[sys][basehost].'/main.php?mod=archives&ac=dcviews&id='.$_data[id].'&type=ding&mcallback=?')}");
+			}
+		});
+	</script>
+	<!--{template foot}-->

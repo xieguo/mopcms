@@ -1,0 +1,91 @@
+<style>
+    .navbar .nav>li>a {
+        padding: 0 10px;
+    }
+    
+    .navbar .nav>li {
+        line-height: 42px;
+        height: 42px;
+    }
+    
+    .search-global .search,
+    .search-global input[type="search"] {
+        margin: 0;
+    }
+    
+    .search-global .search-button {
+        top: 4px;
+    }
+    
+    .logininfo {
+        float: right;
+        color: white;
+    }
+    
+    .logininfo li { font-weight: normal;}
+</style>
+<div id="header-container">
+    <div id="header">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <!--{if $_M[iswap]}-->
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <!--{/if}-->
+                    <a class="brand" href="javascript:void(0);"><img src="$_M[sys][static_url]images/logo1.png"></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="http://www.mopcms.com"></a>
+                            </li>
+                            <!--{loop $admin_menu $v}-->
+                            <li class="{echo $v[id]==$topid?'active':''}">
+                                <a menuid="$v[id]" class="topmenu"><span class="$v[icon]"></span>$v[name]</a>
+                            </li>
+                            <!--{/loop}-->
+                        </ul>
+                        <ul class="nav logininfo" style="float: right; color: white;">
+                            <li>您好,$_M[admin][nickname]</li>
+                        </ul>
+                        <!--{if !$_M[iswap]}-->
+                        <ul class="nav search-global" style="float: right;">
+                            <li>
+                                <form name="searchform" id="searchform" action="?mod=main&ac=search" method="post" style="margin:0">
+                                    <input class="search search-query input-medium" name="words" type="text">
+                                    <a class="search-button fontello-icon-search-5"></a>
+                                </form>
+                            </li>
+                        </ul>
+                        <!--{/if}-->
+                        <div class="nav-collapse collapse">
+                            <ul class="nav user-menu visible-desktop">
+                                <li><a class="btn-glyph fontello-icon-lifebuoy tip-bc" href="?mod=setting&ac=upgrade" title="系统升级"><span id="upgradeprompt"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $.getJSON('?mod=setting&ac=upgrade&do=check&rand=' + Math.random(), function(result) {
+            if(result.upgrade==1){
+                $('#upgradeprompt').html('<span class="badge badge-important">1</span>');
+            }
+        });
+        $('.topmenu').click(function() {
+            that = $(this);
+            menuid = that.attr('menuid');
+            $.getJSON('?mod=ajax&ac=leftmenu&menuid=' + menuid + '&rand=' + Math.random(), function(result) {
+                that.parents('ul').find('li').removeClass('active');
+                that.parent().addClass('active');
+                $('#leftmenu').html(result.data);
+                if(menuid==1){
+                    location='?';
+                }
+            });
+        })
+    })
+</script>

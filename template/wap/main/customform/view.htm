@@ -1,0 +1,55 @@
+<!--{template headhtml}-->
+<!--{eval $_data['title']= $row['formname'].'列表';}-->
+<title>$_data[title]</title>
+<!--{template headstatic}-->
+<style>
+    #filter-more .table-cell {
+        font-size: inherit;
+    }
+    
+    #filter-more select {
+        font-size: inherit;
+    }
+    
+    .weui_media_bd h4 {
+        margin: 0px;
+    }
+</style>
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <!--{template head}-->
+    <div class='page-hd'>
+        <div class="weui_tab">
+            <div class="weui_tab_nav">
+                <a href="{echo pseudoUrl('main.php?mod=customform&ac=pub&formid='.$row[id])}" class="weui_navbar_item weui_nav_green"> 发布 </a>
+                <a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}" class="weui_navbar_item weui_nav_green"> 列表 </a>
+            </div>
+        </div>
+    </div>
+    <div class="weui_panel weui_panel_access">
+        <div class="weui_panel_bd">
+            <table class="weui-table weui-border-tb">
+                <tbody>
+                    <!--{loop $_data[fieldlist] $v}-->
+                    <tr>
+                        <td>$v[title]：</td>
+                        <td>
+                            <!--{if $v[datatype]=='img'}-->
+                            <img src="{echo imageResize($_data[$v[fieldname]],200,200)}" width=200>
+                            <!--{elseif $v[datatype]=='imgs'}-->
+                            <!--{loop $_data['_'.$v[fieldname]] $val}-->
+                            <img src="{echo imageResize($val[img],200,200)}" alt="$val[text]" width=200>&nbsp;
+                            <!--{/loop}-->
+                            <!--{else}-->
+                            $_data['_'.$v[fieldname]]
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/loop}-->
+                    <tr><td>创建时间：</td><td>$_data[_createtime]</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--{template foot}-->

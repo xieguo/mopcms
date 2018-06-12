@@ -1,0 +1,147 @@
+.fc_grey, a.fc_grey {
+	color: #999 !important;
+	font-size: 12px;
+}
+.am-breadcrumb {
+	line-height: 40px;
+}
+.am-breadcrumb a {
+	color: #333;
+}
+.wrap_list_l {
+	display: block;
+	margin-bottom: 8px;
+}
+.detail_cont{
+	border: #e6e6e6 1px solid;
+}
+.sc-header {
+	border-bottom: 1px dashed #ccc;
+	padding-bottom: 15px;
+}
+.sc-title {
+	color: #333;
+	font: 24px/40px "FZY3JW--GB1-0", "android-font", "Microsoft YaHei";
+	text-align: center;
+	padding-top: 15px;
+}
+.sc-statistics {
+	color: #a7a7a7;
+	font-family: "FZY3JW--GB1-0", "android-font", SimSun, Verdana;
+	line-height: 20px;
+	margin: 10px auto 0;
+	overflow: hidden;
+	text-align: center;
+	width: 520px;
+}
+.sc-statistics span {
+	float: left;
+	height: 20px;
+	margin-right: 20px;
+}
+[class^="fontello-icon-"]::before, [class*=" fontello-icon-"]::before {
+	margin-right:auto;
+}
+.sc-share {
+	float: left;
+	margin-top: 2px;
+}
+.sc-article {
+	border-bottom: 1px dashed #ccc;
+	padding: 20px;
+}
+.sc-article .content p{ font: 14px/22px "microsoft yahei";}
+.sc-aside {
+	font: 14px/22px "microsoft yahei";
+	background-color: #f2f2f2;
+	color: #333;
+	
+	margin-bottom: 20px;
+	padding: 20px;
+}
+.df-buttons {
+	float: left;
+	height: 35px;
+	line-height: 35px;
+	padding-right:8px;
+	cursor:pointer;
+}
+.df-button {
+	background-position: -86px 5px;
+	border: 1px solid #6cac46;
+	border-radius: 4px;
+	float: left;
+	height: 33px;
+	padding: 0 10px 0 3px;
+}
+.df-button{
+	background-repeat: no-repeat;
+}
+.df-button span {
+	color: #6cac46;
+	padding: 0 5px;
+}
+.df-button span:nth-child(1){ font-size:16px;}
+.df-button span:nth-child(2){border-left: 1px solid #6cac46;}
+.df-button aside {
+	color: #a7a7a7;
+}
+.df-button span, .df-button aside {
+	float: left;
+	height: 21px;
+	line-height: 21px;
+	margin-top: 6px;
+}
+.df-button mark {
+	color: #a7a7a7;
+	font-weight: normal;
+}
+.detail-footer {
+	padding: 20px;
+	overflow: hidden;
+}
+.detail-footer .df-share {
+	display: block;
+	float: right;
+	height: 32px;
+	line-height: 32px;
+	overflow: hidden;
+	width: 220px;
+}
+.mtop{ margin-top:10px;}
+.relate_news td {
+	margin-bottom: 4px;
+	padding: 10px;
+	overflow: hidden;
+}
+.relate_news ul {
+	clear: both;
+}
+.relate_news li {
+	float: left;
+	width: 50%;
+	height: 24px;
+	font-size: 14px;
+	font-family: "宋体";
+	line-height: 24px;
+	display: inline;
+	overflow: hidden;
+}
+.relate_news li a {
+	color: #1166bb;
+}
+.relate_news li a:hover {
+	color: #ff6600;
+}
+.relate_news th{ font-size:14px;}
+.table{margin-bottom: 10px;}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.row-fluid [class*="span"] {
+    min-height: 22px;
+}

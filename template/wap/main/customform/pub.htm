@@ -1,0 +1,168 @@
+<!--{template headhtml}-->
+<!--{eval $_data['title']= $row['formname'].'发布';}-->
+<title>$_data[title] - {$_M[sys][webname]}</title>
+<meta name="keywords" content="$row[formname]" />
+<meta name="description" content="$row[intro]" />
+<script src="$_M[sys][static_url]assets/js/lib/jquery.js"></script>
+<!--{template headstatic}-->
+<link rel="stylesheet" href="$_M[sys][static_url]validform/css/validform.css" />
+<script src="$_M[sys][static_url]validform/js/validform_min.js"></script>
+
+</head>
+<style type="text/css">
+    .weui_cells_access .weui_cell_ft::after {
+        margin-left: 1.6em;
+    }
+    
+    .page-hd {
+        padding: 10px 15px;
+    }
+    
+    .weui_cells {
+        margin-top: 0;
+    }
+    
+    .weui_cells_form .weui_cell_ft {
+        font-size: 1em;
+    }
+    
+    .weui_cell_select {
+        padding: 0px 15px;
+    }
+    
+    a:hover {
+        color: #fff
+    }
+</style>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <!--{if !$__iframe}-->
+    <!--{template head}-->
+    <!--{/if}-->
+    <div class='page-hd'>
+        <div class="weui_tab">
+            <div class="weui_tab_nav">
+                <a href="#" class="weui_navbar_item weui_nav_green bg_green"> 发布 </a>
+                <a href="{echo pseudoUrl('main.php?mod=customform&ac=list&formid='.$row[id])}" class="weui_navbar_item weui_nav_green"> 列表 </a>
+            </div>
+        </div>
+    </div>
+    <form action="{echo pseudoUrl($_M[cururl])}" method="post" name='form1' enctype="multipart/form-data" class="am-form am-form-horizontal am-text-xs" id="entryform">
+        <input type="hidden" name="formsubmit" value="{FORMSUBMIT}" />
+        <div class="weui_cells weui_cells_access weui_cells_form">
+            <!--{eval $datatype = array('imgs','img','media','addon','multilevel','radio','checkbox','multitext');}-->
+            <!--{list func=customformField formid=$formid}-->
+            <div class="weui_cell {echo $v[datatype]=='select'?' weui_cell_select':''} cell_$v[fieldname]">
+                <!--{if in_array($v[datatype],$datatype)}-->
+                <a href="javascript:;" class="weui_cell_bd open-popup weui_cell_primary" data-target="#contain-$v[fieldname]">
+                    <p>$v[title]</p>
+                </a>
+                <a href="javascript:;" class="weui_cell_ft open-popup data-$v[fieldname]" data-target="#contain-$v[fieldname]"></a>
+                <!--{else}-->
+                <label class="weui_label">$v[title]</label>
+                <div class="weui_cell_bd weui_cell_primary">
+                    $v[field]
+                </div>
+                <div><i class="weui_icon_warn"></i></div>
+                <!--{if $v[units]}-->
+                <div class="f-gray">
+                    $v[units]
+                </div>
+                <!--{/if}-->
+                <!--{/if}-->
+            </div>
+            <!--{/list}-->
+        </div>
+
+        <!--{list func=customformField formid=$formid}-->
+        <!--{if in_array($v[datatype],$datatype)}-->
+        <!--{if !isset($submittype) && in_array($v['datatype'],array('media','addon'))}-->
+        <!--{eval $submittype = 1;}-->
+        <!--{/if}-->
+        <div id="contain-$v[fieldname]" class="weui-popup-container">
+            <div class="weui-popup-modal">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>$v[title]</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <a class="weui_btn weui_btn_mini weui_btn_primary close-popup close-$v[fieldname]">保存</a>
+                    </div>
+                </div>
+                $v[field]
+            </div>
+        </div>
+        <script>
+            $(function() {
+                <!--{if $v[datatype]=='imgs'}-->
+                $(document).on('click', '.cell_$v[fieldname]', function() {
+                    uploader.refresh();
+                });
+                <!--{/if}-->
+                $('.close-$v[fieldname]').click(function() {
+                    text = '';
+                    <!--{if $v[datatype]=='radio'}-->
+                    text = $('input[name="{$v[fieldname]}"]:checked').data('text');
+                    <!--{elseif $v[datatype]=='imgs'}-->
+                    $('#contain-{$v[fieldname]}').removeClass('weui-popup-container-visible');
+                    $('#contain-{$v[fieldname]} .weui-popup-modal').removeClass('weui-popup-modal-visible');
+                    <!--{elseif $v[datatype]=='multilevel'}-->
+                    text = new Array();
+                    $('#{$v[fieldname]}_span select').each(function(i) {
+                        text[i] = $(this).find(':selected').text();
+                    });
+                    text = text.join(' ');
+                    <!--{elseif $v[datatype]=='checkbox'}-->
+                    text = new Array();
+                    $('input[name="{$v[fieldname]}[]"]:checked').each(function(i) {
+                        text[i] = $(this).data('text');
+                    });
+                    text = text.join(',');
+                    <!--{elseif $v[datatype]=='multitext'}-->
+                    text = $('textarea[name="{$v[fieldname]}"]').val();
+                    <!--{elseif $v[datatype]=='img'}-->
+                    text = $('input[name="{$v[fieldname]}"]').val();
+                    <!--{/if}-->
+                    text = text.length > 8 ? text.substring(0, 8) + '...' : text;
+                    $('.data-{$v[fieldname]}').html(text);
+                });
+            });
+        </script>
+        <!--{/if}-->
+        <!--{/list}-->
+        <div class="weui_btn_area">
+            <!--{if !empty($submittype)}-->
+            <button type="submit" class="weui_btn weui_btn_primary">提交</button>
+            <!--{else}-->
+            <a id="formSubmitBtn" href="javascript:" class="weui_btn weui_btn_primary">提交</a>
+            <script>
+                var form = $("#entryform");
+                form.form();
+                $("#formSubmitBtn").on("click", function() {
+                    that = $(this);
+                    form.validate(function(error) {
+                        if(error) {} else {
+                            that.submit();
+                        }
+                    });
+
+                });
+                $("#entryform").Validform({
+                    tiptype: 'wap',
+                    ajaxPost: true,
+                    callback: function(result) {
+                        if(result.code != 100) {
+                            $.alert(result.msg, "提示信息");
+                        } else {
+                            $.toast(result.msg);
+                            $('#formSubmitBtn').hide().after('<a class="weui_btn weui_btn_disabled weui_btn_primary">' + result.msg + '</a>');
+                        }
+                    }
+                });
+            </script>
+            <!--{/if}-->
+        </div>
+    </form>
+    <!--{if !$__iframe}-->
+    <!--{template foot}-->
+    <!--{/if}-->

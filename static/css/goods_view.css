@@ -1,0 +1,190 @@
+.span5 {
+    margin-left: 0px;
+}
+.span7 {
+    width: 600px;
+}
+.goods_info {
+    font-size: 1.6rem;
+}
+.goods_info .bg_price {
+    background: #f7f7f7 none repeat scroll 0 0;
+    padding: 5px 1px;
+}
+.goods_info dl {
+    display: block;
+    line-height: 25px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+.goods_info dt {
+    color: #555555;
+    float: left;
+    font-weight: 400;
+    overflow: hidden;
+    text-align: right;
+    width: 100px;
+}
+.goods_info dd {
+    margin: 0 0 0 100px;
+}
+.goods_info dd.text_market_price {
+    color: #666;
+    font-size: 16px;
+    line-height: 32px;
+    margin-top: 8px;
+}
+.goods_info dl.goods_price {
+    line-height: 32px;
+}
+.goods_info dd.text_mall_price {
+    color: #f50;
+    line-height: 32px;
+}
+.goods_info .am-input-group-label {
+    cursor: pointer;
+}
+.goods_info ul {
+    clear: both;
+    margin: 0 0 0 1px;
+}
+.goods_info ul li {
+    float: left;
+    margin: 0 5px 5px 0;
+    position: relative;
+}
+.goods_info ul li.cur a {
+    border: 2px solid #ff9900;
+    padding: 0 10px;
+}
+.goods_info ul li a {
+    border: 1px solid #d6d6d6;
+    color: #333;
+    display: block;
+    padding: 1px 11px;
+}
+.goods_info ul li a:hover {
+    border: 2px solid #ff9900;
+    padding: 0 10px;
+    text-decoration: none;
+}
+.goods_info ul li.li_img a {
+    border: 1px solid #d6d6d6;
+    display: block;
+    height: 34px;
+    min-width: 32px;
+    padding: 1px;
+}
+.goods_info ul li.li_img a:hover {
+    border: 2px solid #ff9900;
+    height: 34px;
+    padding: 0;
+}
+.goods_info ul li.li_img.cur a {
+    border: 2px solid #ff9900;
+    padding: 0;
+}
+.goods_info ul li.li_txt a {
+    border: 1px solid #d6d6d6;
+    display: block;
+    height: 34px;
+    line-height: 32px;
+    padding: 1px 6px;
+}
+.goods_info ul li.li_txt a:hover {
+    border: 2px solid #ff9900;
+    height: 34px;
+    padding: 0 5px;
+}
+.goods_info ul li.li_txt.cur a {
+    border: 2px solid #ff9900;
+    padding: 0 5px;
+}
+.share_btn {
+    height: 25px;
+    margin-top: 5px;
+    position: relative;
+    z-index: 2;
+}
+.share_btn i {
+    font-size: 1.4rem;
+}
+.share_to {
+    color: #666666;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+}
+.share_box {
+    float: left;
+    height: 25px;
+    width: auto !important;
+}
+.act_btn {
+    float: right;
+    font-size: 12px;
+}
+.share_box a {
+    float: left;
+    margin: 0 2px 0 0 !important;
+}
+
+.fc_orange, a.fc_orange {
+    color: #f50 !important;
+}
+.fs_26 {
+    font-size: 26px;
+}
+.jiathis_style .button, .jiathis_style .jiathis_txt {
+    margin-top: 4px;
+}
+#navinfo {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#navinfo UL {
+    float: left;
+    width: 100%;
+	margin: 0;
+}
+#navinfo LI {
+    float: left;
+    text-align: center;
+}
+#navinfo LI .cur {
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    height: 35px;
+    line-height: 35px;
+    width: 100px;
+}
+#navinfo LI .other {
+    color: #666666;
+    cursor: pointer;
+    height: 30px;
+    line-height: 35px;
+    margin-left: 3px;
+    width: 100px;
+}
+#navinfo LI .other a {
+    color: #333333;
+    text-decoration: none;
+}
+#navinfo LI .other a:hover {
+    color: #333333;
+    text-decoration: none;
+}
+.navbgcolor {
+    background-color: #4c9a0d;
+}
+.navbdcolor {
+    border-color: #4c9a0d;
+}
+.row-fluid [class*="span"] {
+    min-height: 22px;
+}

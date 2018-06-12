@@ -1,0 +1,31 @@
+.fc_grey, a.fc_grey {
+  color: #999 !important;
+  font-size:12px;
+}
+.am-breadcrumb a {
+  color: #333;
+}
+.am-breadcrumb .breadcrumb_arrow {
+  color: #999;
+  font-family: verdana;
+  font-size: 1.2rem;
+}
+.wrap_list {
+  margin: 0 auto 10px;
+  overflow: hidden;
+  position: relative;
+  width: 1000px;
+  z-index: 0;
+}
+.wrap_list ul {
+	padding-left: 0px;
+}
+.thumbnails > li{margin-left: 40px;margin-bottom: 30px;}
+.thumbnails h6{
+	width:200px;
+white-space:nowrap;
+text-overflow:ellipsis;
+-o-text-overflow:ellipsis;
+overflow: hidden; 
+margin: 0.5em 0;
+}
