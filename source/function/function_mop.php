@@ -998,7 +998,7 @@ function loadc($classname = '', $method = '', $submitcheck = 0)
             if ($rs['code'] != 100) {
                 return $rs;
             }
-            if (!empty($rs['data']['template'])) {
+            if (is_array($rs['data']) && !empty($rs['data']['template'])) {
                 extract($rs['data'], EXTR_SKIP);
                 if (!empty($pluginid)) {
                     include_once(template($template, $pluginid, true));
@@ -1020,7 +1020,7 @@ function loadc($classname = '', $method = '', $submitcheck = 0)
         return $rs;
     }
 
-    if (!empty($rs['data']['template'])) {
+    if (is_array($rs['data']) && !empty($rs['data']['template'])) {
         //为了使用EXTR_SKIP，对$_data单独处理
         if (!empty($rs['data']['_data'])) {
             $_data = $rs['data']['_data'];
