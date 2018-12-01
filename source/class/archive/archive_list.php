@@ -54,7 +54,7 @@ class archive_list
     private function get_template($tmp = 'list')
     {
         $tmp = $tmp == 'list' ? $this->column['templist'] : $this->column['tempindex'];
-        if (!is_file(MOPTEMPLATE.$tmp)){
+        if (!strpos($tmp, ':') && !is_file(MOPTEMPLATE.$tmp)){
             $tmp = '/default/list_default.htm';
         }
         return preg_replace("/\/{1,}/", "/", $tmp);
